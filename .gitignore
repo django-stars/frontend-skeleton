@@ -1,0 +1,16 @@
+*.rdb
+*.pyc
+*.pyo
+*.swo
+*.sublime-*
+*.swp
+settings_local.py
+logs/*
+.idea/*
+.DS_Store
+
+.sass-cache/
+node_modules
+static
+.tmp
+npm-debug.log
