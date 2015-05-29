@@ -11,6 +11,8 @@ var _ = require('underscore'),
 
     // CommonJS
     browserify = require('browserify'),
+    // TODO live reload
+    //watchify = require('watchify'),
     // es6, jsx
     babelify = require('babelify'),
     // coffee
@@ -125,3 +127,5 @@ gulp.task('build', ['scripts', 'styles', 'images', 'fonts'])
 gulp.task('default', ['clean'], function() {
   gulp.start('build', 'watch')
 });
+
+// TODO minify task
