@@ -3,9 +3,9 @@
 
 1. git clone git@github.com:django-stars/frontend-skeleton.git
 2. TODO set origin
-3. npm install -g bower coffee grunt
+3. npm install -g gulp
 4. npm install
-5. bower install
+5. gulp
 
 ## Supports
 
@@ -16,6 +16,8 @@
 * sass
 * gulp watching
 * browserify
+* lodash
+* automatic sourcemaps
 
 ## TODO
 
@@ -26,8 +28,3 @@
 * re-usable components
 * live reload
 * tests, karma
-* lodash
-* es6
-* browserify
-* grunt -> gulp
-* automatic sourcemaps
