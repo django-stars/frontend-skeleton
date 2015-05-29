@@ -21,6 +21,7 @@
 
 ## TODO
 
+* bootstrap
 * sub-modules
 * jade features
 * sass sprites
