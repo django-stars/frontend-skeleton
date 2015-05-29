@@ -7,17 +7,15 @@
 4. npm install
 5. bower install
 
-## Some things
-
-* You can use es6 for gulpfile: npm install -g gulp gulpur
-
 ## Supports
 
+* es6 (babelify)
 * coffee
-* jade
+* jsx
+* jade (-)
 * sass
-* grunt watching
-* require-js
+* gulp watching
+* browserify
 
 ## TODO
 
