@@ -1,9 +1,8 @@
 'use strict';
-define([
-  'angular',
-  'angularRoute'
-], function(angular) {
-  angular.module('dsApp.module1', ['ngRoute'])
+
+var angular = require('angular');
+
+angular.module('dsApp.module1', ['ngRoute'])
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/module1', {
       // FIXME template url prefix
@@ -12,6 +11,5 @@ define([
     });
   }])
   .controller('Module1Ctrl', [function() {
-    
+    //
   }]);
-});

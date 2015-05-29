@@ -1,19 +1,21 @@
-'use strict';
+var angular = require('angular'),
+    lodash = require('lodash'),
+    angularRoute = require('angular-route'),
+    view1 = require('./module1/module1-ctrl'),
+    view2 = require('./module2/module2-ctrl');
 
-define([
-  'angular',
-  'angularRoute',
-  'module1/Module1Ctrl',
-  'module2/Module2Ctrl'
-], function(angular, angularRoute, view1, view2) {
-  // Declare app level module which depends on views, and components
-  return angular.module('dsApp', [
-    'ngRoute',
-    'dsApp.module1',
-    'dsApp.module2'
-  ]).
-  config(['$routeProvider', function($routeProvider) {
-    $routeProvider.otherwise({redirectTo: '/module1'});
-  }]);
-});
+// Declare app level module which depends on views, and components
+angular.module('dsApp', [
+  'ngRoute',
+  'dsApp.module1',
+  'dsApp.module2'
+]).config(['$routeProvider', function($routeProvider) {
+  $routeProvider.otherwise({redirectTo: '/module1'});
+}]);
 
+angular
+  .element(document.getElementsByTagName('html')[0])
+  .ready(function() {
+    // bootstrap the app manually
+    angular.bootstrap(document, ['dsApp']);
+  });

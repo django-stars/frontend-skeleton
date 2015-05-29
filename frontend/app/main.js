@@ -23,13 +23,17 @@ require.config({
     angular: '../bower_components/angular/angular',
     angularRoute: '../bower_components/angular-route/angular-route',
     angularMocks: '../bower_components/angular-mocks/angular-mocks',
+    lodash: '../bower_components/lodash/lodash'
   },
   shim: {
-    'angular' : {'exports' : 'angular'},
+    'angular': {'exports' : 'angular'},
     'angularRoute': ['angular'],
     'angularMocks': {
       deps:['angular'],
       'exports':'angular.mock'
+    }
+    'lodash': {
+      'exports': '_'
     }
   },
   priority: [
@@ -46,6 +50,7 @@ require.config({
 
 require([
   'angular',
+  'lodash'
   'app'
   ], function(angular, app) {
     var $html = angular.element(document.getElementsByTagName('html')[0]);

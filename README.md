@@ -1,20 +1,27 @@
 
 ## Install
 
-1. npm install -g bower coffee grunt
-2. npm install
-3. bower install
+1. git clone git@github.com:django-stars/frontend-skeleton.git
+2. TODO set origin
+3. npm install -g gulp
+4. npm install
+5. gulp
 
 ## Supports
 
+* es6 (babelify)
 * coffee
-* jade
+* jsx
+* jade (-)
 * sass
-* grunt watching
-* require-js
+* gulp watching
+* browserify
+* lodash
+* automatic sourcemaps
 
 ## TODO
 
+* bootstrap
 * sub-modules
 * jade features
 * sass sprites
