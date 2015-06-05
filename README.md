@@ -1,11 +1,14 @@
 
 ## Install
 
+> this repository requires the compass ruby gem in order to compile compass.
+
 1. git clone git@github.com:django-stars/frontend-skeleton.git
-2. TODO set origin
-3. npm install -g gulp
-4. npm install
-5. gulp
+2. git remote set upstream git@github.com:[user-name]/[project-repo].git
+3. git remote add origin git@github.com:[user-name]/[your-fork-repo].git
+4. npm install -g gulp
+5. npm install
+6. gulp
 
 ## Details
 

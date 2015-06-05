@@ -2,7 +2,7 @@ var _ = require('underscore'),
     gulp = require('gulp'),
     source = require('vinyl-source-stream'),
 
-    sass = require('gulp-sass'),
+    compass = require('gulp-compass'),
     rename = require('gulp-rename'),
     del =  require('del'),
 
@@ -63,28 +63,26 @@ gulp.task('scripts', ['scripts-clean'], function() {
 gulp.task('styles-clean', function (cb) {
   del([path('dest/styles.css')], cb)
 })
-gulp.task('styles', ['styles-clean'], function () {
+gulp.task('styles', ['styles-clean', 'fonts'], function () {
   return gulp.src(path('base/styles/app.sass'))
     .pipe(
-      sass({
-        //outputStyle: 'compressed',
-        outputStyle: 'expanded',
-        // FIXME
-        //sourceMap: true,
-        //sourceMapEmbed: true,
-        fontsDir: path('dest/fonts'),
-        fontsPath: path('dest/fonts'),
-        imagesDir: path('base/images'),
-        imagesPath: path('base/images'),
-        generatedImagesDir: path('dest/images'),
-        generatedImagesPath: path('dest/images'),
-        httpGeneratedImagesPath: path('dest/images'),
-        specify: path('base/styles/app.sass'),
-        //outFile: path('dest/styles.css'),
-        sassDir: path('base/styles'),
-        cssDir: path('dest') + '/styles'
-      }).on('error', sass.logError)
+      compass({
+        // TODO for production use compressed and disable sourcemaps
+        //style: 'compressed',
+        style: 'expanded',
+        sourcemap: true,
+        font: path('dest/fonts', true),
+        image: path('images'),
+        generated_images_path: path('dest/images', true),
+        sass: path('styles'),
+        css: path('dest', true),
+        relative: false,
+        project: path('base', true),
+        debug: true,
+        http_path: '/' + path('dest'),
+      })
     )
+    .on('error', error)
     .pipe(rename(function(p) {
       p.basename = 'styles'
     }))
