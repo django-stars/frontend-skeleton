@@ -21,7 +21,7 @@ styleguide: https://github.com/johnpapa/angular-styleguide
 * coffee
 * jsx
 * jade (-)
-* sass
+* sass (compass sprites)
 * gulp watching
 * browserify
 * lodash
@@ -32,7 +32,6 @@ styleguide: https://github.com/johnpapa/angular-styleguide
 * bootstrap or polymer?
 * sub-modules
 * jade features
-* sass sprites
 * re-usable components
 * live reload
 * tests, karma
