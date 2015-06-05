@@ -7,6 +7,10 @@
 4. npm install
 5. gulp
 
+## Details
+
+styleguide: https://github.com/johnpapa/angular-styleguide
+
 ## Supports
 
 * es6 (babelify)
@@ -21,7 +25,7 @@
 
 ## TODO
 
-* bootstrap
+* bootstrap or polymer?
 * sub-modules
 * jade features
 * sass sprites

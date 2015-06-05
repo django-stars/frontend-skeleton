@@ -12,11 +12,9 @@ var _ = require('underscore'),
     // CommonJS
     browserify = require('browserify'),
     // TODO live reload
-    //watchify = require('watchify'),
+    watchify = require('watchify'),
     // es6, jsx
-    babelify = require('babelify'),
-    // coffee
-    coffeeify = require('coffee-reactify');
+    babelify = require('babelify');
 
 var paths = {
   base: 'frontend', // source base directory
@@ -29,28 +27,36 @@ var paths = {
   fonts: 'fonts'
 }
 
-var path = function(p) {
-  return p.split('/').map(function(i) {
+var path = function(p, full) {
+  p = p.split('/').map(function(i) {
     return paths[i] || i;
   }).join('/')
+  return full? __dirname + '/' + p : p;
 }
 
 // SCRIPTS
 gulp.task('scripts-clean', function (cb) {
   del([path('dest/entry')], cb)
 })
-gulp.task('scripts', ['scripts-clean'], function () {
-  return browserify({
-    basedir: path('base/scripts'),
-    entries: path('entry'),
-    extensions: ['.jsx', '.coffee', '.cjsx'],
-    debug: true
-  })
-  .transform(coffeeify)
-  .transform(babelify)
-  .bundle()
-  .pipe(source(path('entry')))
-  .pipe(gulp.dest(path('dest')));
+gulp.task('scripts-watch', ['scripts-clean'], function() {
+  bundler = watchify(
+    makeBrowserifyBundler(
+      _.assign({}, watchify.args, {
+        debug: true //source maps
+      })
+    )
+  )
+  bundler
+    .on('update', bundle.bind(null, bundler))
+    .on('log', console.log)
+    .transform(babelify)
+
+  return bundle(bundler)
+});
+gulp.task('scripts', ['scripts-clean'], function() {
+  var bundler = makeBrowserifyBundler()
+  bundler.transform(babelify)
+  return bundle(bundler);
 });
 
 // STYLES
@@ -111,21 +117,39 @@ gulp.task('clean', function(cb) {
 // TODO jade templates?
 
 gulp.task('watch', function() {
-  gulp.watch(
-    ['.js', '.json', '.jsx', '.coffee', '.cjsx'].map(function(ext) {
-      return path('base/scripts') + '/**/*' + ext;
-    }), ['scripts']
-  );
   gulp.watch(path('base/images') + '/**', ['images']);
   gulp.watch(path('base/fonts') + '/**', ['fonts']);
   gulp.watch(path('base/styles') + '/**', ['styles']);
   gulp.watch(path('base/images/sprites') + '/**', ['styles']);
 });
 
-gulp.task('build', ['scripts', 'styles', 'images', 'fonts'])
+gulp.task('build-assets', ['styles', 'images', 'fonts'])
+gulp.task('build', ['scripts', 'build-assets'])
+gulp.task('build-watch', ['scripts-watch', 'build-assets'])
 
 gulp.task('default', ['clean'], function() {
-  gulp.start('build', 'watch')
+  gulp.start('build-watch', 'watch')
 });
 
 // TODO minify task
+function makeBrowserifyBundler(options) {
+  options = _.assign({}, options || {}, {
+    basedir: path('base/scripts'),
+    paths: [path('base/scripts', true)],
+    entries: path('entry'),
+    extensions: ['.jsx'],
+  })
+  return browserify(options)
+}
+
+function bundle(bundler) {
+  return bundler.bundle()
+          .on('error', error)
+          .pipe(source(path('entry')))
+          .pipe(gulp.dest(path('dest')));
+}
+
+function error (error) {
+  console.log(error.toString());
+  this.emit('end');
+}
