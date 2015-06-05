@@ -15,6 +15,7 @@
   "dependencies": {
     "angular": "^1.4.0",
     "angular-route": "^1.4.0",
+    "live-reload": "^1.1.0",
     "lodash": "^3.9.3"
   }
 }

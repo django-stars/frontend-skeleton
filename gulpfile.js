@@ -4,6 +4,7 @@ var _ = require('underscore'),
 
     compass = require('gulp-compass'),
     rename = require('gulp-rename'),
+    livereload = require('gulp-livereload'),
     del =  require('del'),
 
     // TODO for relase
@@ -47,7 +48,9 @@ gulp.task('scripts-watch', ['scripts-clean'], function() {
     )
   )
   bundler
-    .on('update', bundle.bind(null, bundler))
+    .on('update', function() {
+      return bundle(bundler).pipe(livereload())
+    })
     .on('log', console.log)
     .transform(babelify)
 
@@ -78,7 +81,6 @@ gulp.task('styles', ['styles-clean', 'fonts'], function () {
         css: path('dest', true),
         relative: false,
         project: path('base', true),
-        debug: true,
         http_path: '/' + path('dest'),
       })
     )
@@ -86,7 +88,8 @@ gulp.task('styles', ['styles-clean', 'fonts'], function () {
     .pipe(rename(function(p) {
       p.basename = 'styles'
     }))
-    .pipe(gulp.dest(path('dest')));
+    .pipe(gulp.dest(path('dest')))
+    .pipe(livereload());
 });
 
 // FONTS
@@ -115,6 +118,7 @@ gulp.task('clean', function(cb) {
 // TODO jade templates?
 
 gulp.task('watch', function() {
+  livereload.listen()
   gulp.watch(path('base/images') + '/**', ['images']);
   gulp.watch(path('base/fonts') + '/**', ['fonts']);
   gulp.watch(path('base/styles') + '/**', ['styles']);

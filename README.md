@@ -26,6 +26,7 @@ styleguide: https://github.com/johnpapa/angular-styleguide
 * browserify
 * lodash
 * automatic sourcemaps
+* livereload
 
 ## TODO
 
@@ -33,5 +34,4 @@ styleguide: https://github.com/johnpapa/angular-styleguide
 * sub-modules
 * jade features
 * re-usable components
-* live reload
 * tests, karma
