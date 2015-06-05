@@ -6,9 +6,10 @@
 1. git clone git@github.com:django-stars/frontend-skeleton.git
 2. git remote set upstream git@github.com:[user-name]/[project-repo].git
 3. git remote add origin git@github.com:[user-name]/[your-fork-repo].git
-4. npm install -g gulp
-5. npm install
-6. gulp
+4. git branch -u origin/master master
+5. npm install -g gulp
+6. npm install
+7. gulp
 
 ## Details
 
