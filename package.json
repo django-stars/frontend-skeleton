@@ -8,6 +8,7 @@
     "gulp": "^3.8.11",
     "gulp-compass": "^2.1.0",
     "gulp-rename": "^1.2.2",
+    "live-reload": "^1.1.0",
     "underscore": "^1.8.3",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.1"
@@ -15,7 +16,6 @@
   "dependencies": {
     "angular": "^1.4.0",
     "angular-route": "^1.4.0",
-    "live-reload": "^1.1.0",
     "lodash": "^3.9.3"
   }
 }
