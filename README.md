@@ -31,6 +31,8 @@ Angular styleguide: https://github.com/johnpapa/angular-styleguide
 * jade features
 * re-usable components
 * tests, karma
+* templates.js
+* separate vendor.js and app.js
 
 ## Are we need this?
 

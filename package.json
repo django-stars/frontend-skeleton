@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "angular": "^1.4.0",
-    "angular-route": "^1.4.0",
+    "angular-ui-router": "^0.2.15",
+    "gulp-ng-annotate": "^1.0.0",
     "lodash": "^3.9.3"
   }
 }
