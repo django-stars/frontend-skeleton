@@ -1,8 +1,41 @@
 @import compass
 @import compass/reset
 @import "sprite/*.png"
-@include all-sprite-sprites
+// following line will include auto-generated sprite classes
+      e.g. for some-icon.png:
+      .sprite-some-icon {
+          background-image: ...
+          background-position: ...
+          width: ...
+          height: ...
+        }
+        FYI: width/height only include when you pass true as argument
+//@include all-sprite-sprites(true)
+
+html, body
+  width: 100%
+  height: 100%
 
 body
   margin: 0
   padding: 0
+  background: url(/static/img/example.png)
+  background-position: center
+  height: 100%
+
+.sprites-example
+  border-bottom: 1px solid #DDD
+  padding: 5px
+  &:before
+    content: 'sprites example:'
+    color: #696969
+    font-size: 0.8em
+    display: block
+    margin: 5px 0
+  span
+    color: red
+    display: inline-block
+  .btn-add
+    @include sprite-sprite(add, true)
+  .btn-remove
+    @include sprite-sprite(remove, true)

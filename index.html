@@ -2,19 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!--<link rel="stylesheet" href="/static/bower_components/html5-boilerplate/css/normalize.css">-->
-  <!--<link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">-->
   <!--<script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>-->
   <title>DS AngularJS App</title>
   <link rel="stylesheet" href="/static/app.css">
 </head>
 <body ng-cloak>
+  <div class="sprites-example">
+    <span class="btn-add"></span>
+    <span class="btn-remove"></span>
+  </div>
   <ul class="menu">
-    <li><a href="#/view1">view1</a></li>
-    <li><a href="#/view2">view2</a></li>
+    <li><a href="#/state1">module 1</a></li>
+    <li><a href="#/state2">module 2</a></li>
+    <li><a href="#/does/not/exists">otherwise</a></li>
   </ul>
 
-  <div ng-view></div>
+  <div ui-view></div>
 
   <div>Angular seed app: v<span app-version></span></div>
   <script src="/static/app.js"></script>

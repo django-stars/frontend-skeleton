@@ -11,22 +11,18 @@
 6. npm install
 7. gulp
 
-## Details
-
-styleguide: https://github.com/johnpapa/angular-styleguide
-
 ## Supports
 
-* es6 (babelify)
-* coffee
-* jsx
-* jade (-)
-* sass (compass sprites)
-* gulp watching
-* browserify
-* lodash
-* automatic sourcemaps
-* livereload
+* Gulp (build, watching, livereload, sourcemaps)
+* CommonJS (browserify)
+* EcmaScript 2015 (ES6, babelify, jsx)
+* Jade (-)
+* Compass, sass
+* Lodash
+
+## Details
+
+Angular styleguide: https://github.com/johnpapa/angular-styleguide
 
 ## TODO
 
@@ -35,3 +31,10 @@ styleguide: https://github.com/johnpapa/angular-styleguide
 * jade features
 * re-usable components
 * tests, karma
+* templates.js
+* separate vendor.js and app.js
+
+## Are we need this?
+
+* coffee
+* modernizer

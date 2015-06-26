@@ -1,16 +1,16 @@
 var angular = require('angular'),
     lodash = require('lodash'),
-    angularRoute = require('angular-route'),
-    view1 = require('./module1/module1-ctrl'),
-    view2 = require('./module2/module2-ctrl');
+    uiRouter = require('angular-ui-router'),
+    module1 = require('module1'),
+    module2 = require('module2');
 
 // Declare app level module which depends on views, and components
 angular.module('dsApp', [
-  'ngRoute',
-  'dsApp.module1',
-  'dsApp.module2'
-]).config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/module1'});
+  uiRouter,
+  module1, // or 'dsApp.module1'
+  module2, // or 'dsApp.module2'
+]).config(['$urlRouterProvider', function($urlRouterProvider) {
+  //$urlRouterProvider.otherwise({redirectTo: '/module1'});
 }]);
 
 angular

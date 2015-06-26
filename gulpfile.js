@@ -7,7 +7,10 @@ var _ = require('underscore'),
     livereload = require('gulp-livereload'),
     del =  require('del'),
 
-    // TODO for relase
+    // automatically .$inject
+    ngAnnotate = require('gulp-ng-annotate');
+
+    // TODO for release
     //uglify = require('gulp-uglify'),
 
     // CommonJS
@@ -25,7 +28,8 @@ var paths = {
   scripts: 'app',     // -> 'dest/app.js'
   styles: 'sass',  // -> 'dest/styles.css'
   images: 'img',
-  fonts: 'fonts'
+  fonts: 'fonts',
+  templates: 'templates'
 }
 
 var path = function(p, full) {
@@ -110,6 +114,15 @@ gulp.task('images', ['images-clean'], function () {
     .pipe(gulp.dest(path('dest/images')));
 });
 
+// TEMPLATES
+gulp.task('templates-clean', function (cb) {
+  del([path('dest/templates')], cb)
+})
+gulp.task('templates', ['templates-clean'], function () {
+  return gulp.src(path('base/**/templates') + '/**')
+    .pipe(gulp.dest(path('dest/templates')));
+});
+
 // BASE TASKS
 gulp.task('clean', function(cb) {
   del([path('dest')], cb);
@@ -119,13 +132,14 @@ gulp.task('clean', function(cb) {
 
 gulp.task('watch', function() {
   livereload.listen()
+  gulp.watch(path('base/**/templates') + '/**', ['templates']);
   gulp.watch(path('base/images') + '/**', ['images']);
   gulp.watch(path('base/fonts') + '/**', ['fonts']);
   gulp.watch(path('base/styles') + '/**', ['styles']);
   gulp.watch(path('base/images/sprites') + '/**', ['styles']);
 });
 
-gulp.task('build-assets', ['styles', 'images', 'fonts'])
+gulp.task('build-assets', ['styles', 'images', 'fonts', 'templates'])
 gulp.task('build', ['scripts', 'build-assets'])
 gulp.task('build-watch', ['scripts-watch', 'build-assets'])
 
@@ -148,6 +162,7 @@ function bundle(bundler) {
   return bundler.bundle()
           .on('error', error)
           .pipe(source(path('entry')))
+          .pipe(ngAnnotate())
           .pipe(gulp.dest(path('dest')));
 }
 
