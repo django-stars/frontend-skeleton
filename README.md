@@ -13,11 +13,14 @@
 
 ## Supports
 
-* Gulp (build, watching, livereload, sourcemaps)
-* CommonJS (browserify)
+* Gulp (build, watching)
+* Simple static node server (express)
+* Livereload
+* Images compression (imagemin)
+* CommonJS (browserify, sourcemaps, uglify)
 * EcmaScript 2015 (ES6, babelify, jsx)
-* Jade (-)
-* Compass, sass
+* Jade
+* Compass, sass (sprites, sourcemaps)
 * Lodash
 
 ## Details
@@ -28,12 +31,8 @@ Angular styleguide: https://github.com/johnpapa/angular-styleguide
 
 * bootstrap or polymer?
 * sub-modules
-* jade features
 * re-usable components
 * tests, karma
-* templates.js
-* separate vendor.js and app.js
-* images compression (e.g. gulp-imagemin)
 
 ## Are we need this?
 

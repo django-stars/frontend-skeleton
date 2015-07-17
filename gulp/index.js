@@ -26,6 +26,3 @@ gulp.task('prod', ['clean'], function() {
   global.isProduction = true;
   runSequence('build-assets', 'scripts')
 });
-
-// TODO minify/prod task
-
