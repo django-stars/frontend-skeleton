@@ -33,6 +33,7 @@ Angular styleguide: https://github.com/johnpapa/angular-styleguide
 * tests, karma
 * templates.js
 * separate vendor.js and app.js
+* images compression (e.g. gulp-imagemin)
 
 ## Are we need this?
 
