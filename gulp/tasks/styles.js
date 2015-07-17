@@ -16,10 +16,8 @@ gulp.task('styles', ['styles-clean', 'fonts'], function() {
   return gulp.src(path('base/styles/app.sass'))
     .pipe(
       compass({
-        // TODO for production use compressed and disable sourcemaps
-        //style: 'compressed',
-        style: 'expanded',
-        sourcemap: true,
+        style: global.isProduction ? 'compressed' : 'expanded',
+        sourcemap: !global.isProduction,
         font: path('dest/fonts', true),
         image: path('images'),
         generated_images_path: path('dest/images', true),
