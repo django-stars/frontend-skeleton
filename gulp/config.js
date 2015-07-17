@@ -10,3 +10,8 @@ exports.paths = {
   fonts: 'fonts',
   templates: 'templates'
 }
+
+exports.ports = {
+  server: 3000,
+  livereload: 35729
+}

@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     fs = require('fs'),
     path = require('path');
+    runSequence = require('run-sequence');
 
 fs.readdirSync(__dirname + '/tasks/')
   // tasks scripts
@@ -14,10 +15,9 @@ fs.readdirSync(__dirname + '/tasks/')
 
 gulp.task('build-assets', ['styles', 'images', 'fonts', 'templates'])
 gulp.task('build', ['scripts', 'build-assets'])
-gulp.task('build-watch', ['scripts-watch', 'build-assets'])
 
 gulp.task('default', ['clean'], function() {
-  gulp.start('build-watch', 'watch')
+  runSequence('build-assets', 'scripts-watch', 'watch', 'server')
 });
 
 // TODO minify/prod task

@@ -1,9 +1,10 @@
 var gulp = require('gulp'),
     path = require('../utils').path,
-    livereload = require('gulp-livereload');
+    livereload = require('gulp-livereload'),
+    ports = require('../config').ports;
 
 gulp.task('watch', function() {
-  livereload.listen(/* TODO port */)
+  livereload.listen(ports.livereload)
   gulp.watch(path('base/**/templates') + '/**', ['templates']);
   gulp.watch(path('base/images') + '/**', ['images']);
   gulp.watch(path('base/fonts') + '/**', ['fonts']);
