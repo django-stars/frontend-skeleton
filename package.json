@@ -13,8 +13,11 @@
     "gulp-if": "^1.2.5",
     "gulp-imagemin": "^2.3.0",
     "gulp-jade": "^1.0.1",
+    "gulp-karma": "0.0.4",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.2.0",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.3",
     "live-reload": "^1.1.0",
     "morgan": "^1.6.1",
     "run-sequence": "^1.1.1",
@@ -28,5 +31,12 @@
     "angular-ui-router": "^0.2.15",
     "gulp-ng-annotate": "^1.0.0",
     "lodash": "^3.9.3"
+  },
+  "scripts": {
+    "prestart": "npm install",
+    "start": "gulp",
+    "pretest": "npm install",
+    "test": "node_modules/karma/bin/karma start karma.conf.js --single-run",
+    "test-watch": "node_modules/karma/bin/karma start karma.conf.js"
   }
 }
