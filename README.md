@@ -22,6 +22,7 @@
 * Jade
 * Compass, sass (sprites, sourcemaps)
 * Lodash
+* re-usable components
 
 ## Details
 
@@ -30,8 +31,6 @@ Angular styleguide: https://github.com/johnpapa/angular-styleguide
 ## TODO
 
 * bootstrap or polymer?
-* sub-modules
-* re-usable components
 * tests, karma
 
 ## Are we need this?
