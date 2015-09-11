@@ -24,6 +24,15 @@
 * Lodash
 * re-usable components
 
+## Running unit tests
+
+We use [Jasmine][jasmine] and [Karma][karma] for unit tests/specs.
+
+- Start Karma with `gulp tests`
+  - A browser will start and connect to the Karma server. PhantomJS is the default browser.
+- Karma will sit and watch your application and test JavaScript files. To run or re-run tests just
+  change any of your these files.
+
 ## Details
 
 Angular styleguide: https://github.com/johnpapa/angular-styleguide

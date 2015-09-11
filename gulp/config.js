@@ -8,7 +8,8 @@ exports.paths = {
   styles: 'sass',  // -> 'dest/styles.css'
   images: 'img',
   fonts: 'fonts',
-  templates: 'templates'
+  templates: 'templates',
+  root: '.'
 }
 
 exports.ports = {

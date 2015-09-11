@@ -26,3 +26,7 @@ gulp.task('prod', ['clean'], function() {
   global.isProduction = true;
   runSequence('build-assets', 'scripts')
 });
+
+gulp.task('tests', function () {
+    runSequence('unit-test');
+});

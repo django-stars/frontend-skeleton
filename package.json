@@ -13,6 +13,8 @@
     "gulp-if": "^1.2.5",
     "gulp-imagemin": "^2.3.0",
     "gulp-jade": "^1.0.1",
+    "gulp-karma": "^0.0.4",
+    "gulp-livereload": "^3.8.0",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.2.0",
     "live-reload": "^1.1.0",
@@ -21,7 +23,11 @@
     "underscore": "^1.8.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.2.1"
+    "watchify": "^3.2.1",
+    "karma": "^0.13.9",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "0.2.1",
+    "karma-browserify": "^4.3.0"
   },
   "dependencies": {
     "angular": "^1.4.0",
