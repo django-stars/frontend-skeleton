@@ -27,6 +27,10 @@ gulp.task('prod', ['clean'], function() {
   runSequence('build-assets', 'scripts')
 });
 
-gulp.task('tests', function () {
-    runSequence('unit-test');
+gulp.task('spec', function () {
+    runSequence('unit');
+});
+
+gulp.task('e2e', function () {
+    runSequence('endtoend');
 });

@@ -28,10 +28,19 @@
 
 We use [Jasmine][jasmine] and [Karma][karma] for unit tests/specs.
 
-- Start Karma with `gulp tests`
+- Start Karma with `gulp spec`
   - A browser will start and connect to the Karma server. PhantomJS is the default browser.
 - Karma will sit and watch your application and test JavaScript files. To run or re-run tests just
   change any of your these files.
+  
+## Running end to end tests
+
+We use [Jasmine][jasmine] and [Protractor][protractor] for end-to-end testing.
+
+Requires a webserver that serves the application. 
+
+- In a separate console run `webdriver-manager start --standalone`.
+- In a separate console run the end2end tests: `gulp e2e`.
 
 ## Details
 

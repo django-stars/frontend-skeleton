@@ -13,7 +13,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      './frontend/app/**/*.js'
+      './frontend/app/**/*.js',
+      './test/spec/*.js'
     ],
 
     // list of files to exclude
@@ -24,7 +25,8 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      './frontend/app/**/*.js' : ['browserify']
+      './frontend/app/**/*.js' : ['browserify'],
+      './test/spec/*.js': ['browserify']
     },
 
     // test results reporter to use
@@ -61,7 +63,7 @@ module.exports = function(config) {
 
     browserify: {
       debug: true,
-      paths: [__dirname + '/./frontend/app'],
+      paths: [__dirname + '/./frontend/app', __dirname + '/./spec/unit'],
       configure: function(bundle) {
         bundle.on('prebundle', function() {
           bundle.transform('babelify');
