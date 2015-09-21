@@ -63,7 +63,7 @@ module.exports = function(config) {
 
     browserify: {
       debug: true,
-      paths: [__dirname + '/./frontend/app', __dirname + '/./spec/unit'],
+      paths: [__dirname + '/frontend/app', __dirname + '/spec/unit'],
       configure: function(bundle) {
         bundle.on('prebundle', function() {
           bundle.transform('babelify');
