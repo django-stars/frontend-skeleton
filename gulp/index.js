@@ -26,3 +26,11 @@ gulp.task('prod', ['clean'], function() {
   global.isProduction = true;
   runSequence('build-assets', 'scripts')
 });
+
+gulp.task('spec', function () {
+    runSequence('unit');
+});
+
+gulp.task('e2e', function () {
+    runSequence('endtoend');
+});
