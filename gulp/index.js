@@ -15,7 +15,7 @@ fs.readdirSync(__dirname + '/tasks/')
     require('./tasks/' + task);
   });
 
-gulp.task('build-assets', ['styles', 'images', 'fonts', 'templates'])
+gulp.task('build-assets', ['styles', 'images', 'fonts', 'templates', 'scripts-vendor'])
 gulp.task('build', ['scripts', 'build-assets'])
 
 gulp.task('default', ['clean'], function() {
@@ -25,12 +25,4 @@ gulp.task('default', ['clean'], function() {
 gulp.task('prod', ['clean'], function() {
   global.isProduction = true;
   runSequence('build-assets', 'scripts')
-});
-
-gulp.task('spec', function () {
-    runSequence('unit');
-});
-
-gulp.task('e2e', function () {
-    runSequence('endtoend');
 });

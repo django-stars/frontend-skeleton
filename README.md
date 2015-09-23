@@ -50,6 +50,10 @@ Angular styleguide: https://github.com/johnpapa/angular-styleguide
 
 * bootstrap or polymer?
 * tests, karma
+* modules directory
+* globally reusable-components ?
+* <div>Angular seed app: v<span app-version></span></div>
+* pagetitle
 
 ## Are we need this?
 

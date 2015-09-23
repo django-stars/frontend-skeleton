@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>DS AngularJS App</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body ng-cloak data-api-base-url="<%=API_BASE_URL%>">
+  <div class="sprites-example">
+    <span class="btn-add"></span>
+    <span class="btn-remove"></span>
+  </div>
+  <ul class="menu">
+    <li><a href="#/state1">module 1</a></li>
+    <li><a href="#/state2">module 2</a></li>
+    <li><a href="#/state3">module 3</a></li>
+    <li><a href="#/does/not/exists">otherwise</a></li>
+  </ul>
+
+  <div ui-view></div>
+
+  <script src="/static/vendor.js?<%=VERSION%>"></script>
+  <script src="/static/templates.js?<%=VERSION%>"></script>
+  <script src="/static/app.js?<%=VERSION%>"></script>
+</body>
+</html>
