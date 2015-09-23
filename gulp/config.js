@@ -1,6 +1,7 @@
+var local = require('../local.json');
 
 exports.paths = {
-  base: 'frontend', // source base directory
+  base: 'src', // source base directory
   dest: 'static',   // destination base directory
   entry: 'app.js',    // entry script point
 
@@ -16,3 +17,5 @@ exports.ports = {
   server: 3000,
   livereload: 35729
 }
+
+exports.API_BASE_URL = local.API_BASE_URL;

@@ -44,19 +44,37 @@ gulp.task('scripts-watch', ['scripts-clean'], function() {
 
 gulp.task('scripts', ['scripts-clean'], function() {
   var bundler = makeBrowserifyBundler()
-  bundler.transform(babelify)
+  bundler.transform(babelify);
   return bundle(bundler);
 });
 
+var packageJson = require('../../package.json');
+var dependencies = Object.keys(packageJson && packageJson.dependencies || {});
+var browserShims = Object.keys(packageJson && packageJson.browser || {});
+var vendors = _.uniq(dependencies.concat(browserShims))
+
+gulp.task('scripts-vendor', function() {
+  return browserify()
+    .require(vendors)
+    .transform({global: true}, 'browserify-shim')
+    .bundle()
+    .on('error', error)
+    .pipe(source('vendor.js'))
+    .pipe(gulpif(global.isProduction, buffer()))
+    .pipe(gulpif(global.isProduction, uglify()))
+    .pipe(gulp.dest(path('dest')));
+})
 
 function makeBrowserifyBundler(options) {
   options = _.assign({}, options || {}, {
     basedir: path('base/scripts'),
     paths: [path('base/scripts', true)],
     entries: path('entry'),
-    extensions: ['.jsx'],
+    //extensions: ['.jsx'],
   })
-  return browserify(options)
+  var bundler = browserify(options)
+  bundler.external(vendors);
+  return bundler;
 }
 
 function bundle(bundler) {

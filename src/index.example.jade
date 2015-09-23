@@ -1,0 +1,27 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    title DS AngularJS App
+    link(rel="stylesheet", href="/static/app.css")
+  body(ng-cloak, data-api-base-url="#{API_BASE_URL}")
+
+    div(class="sprites-example")
+      span(class="btn-add")
+      span(class="btn-remove")
+
+    ul(class="menu")
+      li
+        a(href="#/state1") module 1
+      li
+        a(href="#/state2") module 3
+      li
+        a(href="#/state3") module 2
+      li
+        a(href="#/does/not/exists") otherwise
+
+    div(ui-view)
+
+    script(src="/static/vendor.js?#{VERSION}")
+    script(src="/static/templates.js?#{VERSION}")
+    script(src="/static/app.js?#{VERSION}")

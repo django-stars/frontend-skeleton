@@ -28,7 +28,7 @@ gulp.task('server', function() {
 
   // serve index.html for all routes to leave routing up to Angular
   app.all('/*', function(req, res) {
-    res.sendFile('index.html', { root: '.' });
+    res.sendFile(path('dest/index.html'), { root: '.' });
   });
 
   app.listen(ports.server, function() {
