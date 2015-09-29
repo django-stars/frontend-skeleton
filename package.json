@@ -3,7 +3,8 @@
   "license": "MIT",
   "devDependencies": {
     "angular-mocks": "^1.4.5",
-    "babelify": "^6.1.2",
+    "babel-plugin-ng-annotate": "^0.1.1",
+    "babelify": "^6.3.0",
     "browserify": "^10.2.3",
     "browserify-shim": "^3.8.10",
     "connect-inject": "^0.3.2",
@@ -19,7 +20,6 @@
     "gulp-jade": "^1.0.1",
     "gulp-karma": "^0.0.4",
     "gulp-livereload": "^3.8.0",
-    "gulp-ng-annotate": "^1.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-template": "^3.0.0",
     "gulp-uglify": "^1.2.0",

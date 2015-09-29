@@ -1,11 +1,14 @@
 'use strict';
 
-export default class Module1Controller {
+@Inject('greeting', '$http')
+export default class Module1Controller {// extends Injectable {
   constructor() {
-    this.greeting = 'module 1 loaded';
+    // 'greeting' value is automatically injected into this.greeting
+    // this.$http is angular $http service
   }
 
   any() {
     this.text = 5;
   }
+
 }

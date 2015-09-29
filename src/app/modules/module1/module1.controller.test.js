@@ -8,7 +8,7 @@ describe('module1 controller', function() {
   beforeEach(
     inject(function($rootScope, $controller) {
       scope = $rootScope.$new();
-      ctrl = $controller(Module1Controller, {$scope: scope});
+      ctrl = $controller(Module1Controller, {$scope: scope, greeting: 'module 1 loaded'});
     })
   );
 

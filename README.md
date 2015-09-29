@@ -54,6 +54,8 @@ Angular styleguide: https://github.com/johnpapa/angular-styleguide
 * globally reusable-components ?
 * <div>Angular seed app: v<span app-version></span></div>
 * pagetitle
+* Auth
+* Resource fake datas
 
 ## Are we need this?
 

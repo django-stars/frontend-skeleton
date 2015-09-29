@@ -64,7 +64,10 @@ module.exports = function(config) {
       paths: [__dirname + '/src/app'],
       configure: function(bundle) {
         bundle.on('prebundle', function() {
-          bundle.transform('babelify');
+          bundle.transform(require('babelify').configure({
+            stage: 0,
+            plugins: ["ng-annotate"]
+          }));
         });
       }
     }
