@@ -5,6 +5,8 @@ var gulp = require('gulp'),
     buffer = require('vinyl-buffer'),
     del  = require('del'),
     livereload = require('gulp-livereload'),
+    // automatically .$inject
+    ngAnnotate = require('gulp-ng-annotate'),
     // CommonJS
     browserify = require('browserify'),
     // watch file changes
@@ -83,6 +85,7 @@ function bundle(bundler) {
   return bundler.bundle()
           .on('error', error)
           .pipe(source(path('entry')))
+          .pipe(ngAnnotate())
           .pipe(gulpif(global.isProduction, buffer()))
           .pipe(gulpif(global.isProduction, uglify()))
           .pipe(gulp.dest(path('dest')));
