@@ -6,11 +6,18 @@ var gulp = require('gulp'),
     del = require('del'),
     error = require('../utils').error,
     Server = require('karma').Server,
-    //protractor = require('gulp-protractor').protractor;
-    angularProtractor = require('gulp-angular-protractor');
+    angularProtractor = require('gulp-angular-protractor'),
+    runSequence = require('run-sequence');
 
 
 gulp.task('test', ['test-unit', 'test-e2e']);
+
+gulp.task('test-single', function(cb) {
+  runSequence('test-unit-single', 'test-e2e-single', cb)
+});
+
+// TODO
+gulp.task('test-e2e-single', function (cb) { cb() });
 
 gulp.task('test-e2e', function () {
   return gulp
@@ -29,6 +36,16 @@ gulp.task('test-e2e', function () {
  */
 gulp.task('test-unit', function (done) {
   new Server({
-    configFile: path('root/karma.conf.js', true)
+    configFile: path('root/karma.conf.js', true),
+    singleRun: false,
+    autoWatch: true
+  }, done).start();
+});
+
+gulp.task('test-unit-single', function (done) {
+  new Server({
+    configFile: path('root/karma.conf.js', true),
+    singleRun: true,
+    autoWatch: false
   }, done).start();
 });

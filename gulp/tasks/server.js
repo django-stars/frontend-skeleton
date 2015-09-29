@@ -7,7 +7,7 @@ var gulp    = require('gulp'),
     morgan  = require('morgan'),
     inject = require('connect-inject');
 
-var livereloadPath = 'node_modules/gulp-livereload/node_modules/tiny-lr/node_modules/livereload-js/dist/livereload.js',
+var livereloadPath = 'node_modules/livereload-js/dist/livereload.js',
     livereloadURI = '/livereload.js?port=' + ports.livereload;
 
 gulp.task('server', function() {
