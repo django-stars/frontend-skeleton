@@ -5,8 +5,6 @@ var gulp = require('gulp'),
     buffer = require('vinyl-buffer'),
     del  = require('del'),
     livereload = require('gulp-livereload'),
-    // automatically .$inject
-    ngAnnotate = require('gulp-ng-annotate'),
     // CommonJS
     browserify = require('browserify'),
     // watch file changes
@@ -18,7 +16,9 @@ var gulp = require('gulp'),
     gulpif = require('gulp-if');
 
     path = utils.path,
-    error = utils.error;
+    error = utils.error,
+
+    babelifyOptions = {stage: 0, plugins: ['ng-annotate']};
 
 gulp.task('scripts-clean', function (cb) {
   del([path('dest/entry')], cb)
@@ -37,21 +37,23 @@ gulp.task('scripts-watch', ['scripts-clean'], function() {
       return bundle(bundler).pipe(livereload())
     })
     .on('log', console.log)
-    .transform(babelify)
+    .transform(babelify.configure(babelifyOptions))
 
   return bundle(bundler)
 });
 
 gulp.task('scripts', ['scripts-clean'], function() {
   var bundler = makeBrowserifyBundler()
-  bundler.transform(babelify);
+  bundler.transform(babelify.configure(babelifyOptions))
   return bundle(bundler);
 });
 
 var packageJson = require('../../package.json');
 var dependencies = Object.keys(packageJson && packageJson.dependencies || {});
 var browserShims = Object.keys(packageJson && packageJson.browser || {});
-var vendors = _.uniq(dependencies.concat(browserShims))
+var vendors = _.uniq(dependencies.concat(browserShims)
+    // TODO check that polyfill working
+    .concat(['babelify/polyfill', 'babel-plugin-ng-annotate/lib/inject']))
 
 gulp.task('scripts-vendor', function() {
   return browserify()
@@ -81,7 +83,6 @@ function bundle(bundler) {
   return bundler.bundle()
           .on('error', error)
           .pipe(source(path('entry')))
-          .pipe(ngAnnotate())
           .pipe(gulpif(global.isProduction, buffer()))
           .pipe(gulpif(global.isProduction, uglify()))
           .pipe(gulp.dest(path('dest')));
