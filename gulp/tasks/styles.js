@@ -16,6 +16,9 @@ gulp.task('styles', ['styles-clean', 'fonts'], function() {
   return gulp.src(path('base/styles/app.sass'))
     .pipe(
       compass({
+        import_path: [path('node_modules', true)],
+        require: [path('sass-inline-import.rb', true)],
+        //debug: true,
         style: global.isProduction ? 'compressed' : 'expanded',
         sourcemap: !global.isProduction,
         font: path('dest/fonts', true),
