@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     ports = require('../config').ports;
 
 gulp.task('watch', function() {
+  global.isWatch = true;
   livereload.listen(ports.livereload)
   gulp.watch(path('base/**/templates') + '/**', ['templates']);
   gulp.watch(path('base/images') + '/**', ['images']);

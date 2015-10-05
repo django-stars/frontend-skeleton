@@ -56,3 +56,4 @@ Angular styleguide: https://github.com/johnpapa/angular-styleguide
 * Service that allow provide fake data for resources (for test)
 * more examples
 * tests directory
+* auto-watch new files

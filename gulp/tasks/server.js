@@ -3,12 +3,13 @@
 var gulp    = require('gulp'),
     express = require('express'),
     path    = require('../utils').path,
-    ports   = require('../config').ports,
+    config  = require('../config'),
     morgan  = require('morgan'),
-    inject = require('connect-inject');
+    inject  = require('connect-inject'),
+    proxy   = require('http-proxy-middleware'),
+    url     = require('url');
 
-var livereloadPath = 'node_modules/livereload-js/dist/livereload.js',
-    livereloadURI = '/livereload.js?port=' + ports.livereload;
+var livereloadURI = 'http://127.0.0.1:' + config.ports.livereload + '/livereload.js?port=' + config.ports.livereload;
 
 gulp.task('server', function() {
 
@@ -20,19 +21,27 @@ gulp.task('server', function() {
   // serve static files
   app.use('/static', express.static(path('dest')));
 
-  // inject livereload
-  app.use(inject({
-    snippet: '<script src="' + livereloadURI + '"></script>'
-  }))
-  app.use('/livereload.js', express.static(livereloadPath));
+  // Proxy API requests to backend
+  var urlData = url.parse(config.API_BASE_URL);
+  var backendBaseURL = urlData.protocol + '//' + urlData.host;
+  app.use(urlData.pathname, proxy(config.API_BASE_URL));
+  // Django's static
+  app.use('/s/', proxy(backendBaseURL + '/s/'));
+
+  if(global.isWatch) {
+    // inject livereload
+    app.use(inject({
+      snippet: '<script src="' + livereloadURI + '"></script>'
+    }))
+  }
 
   // serve index.html for all routes to leave routing up to Angular
   app.all('/*', function(req, res) {
     res.sendFile(path('dest/index.html'), { root: '.' });
   });
 
-  app.listen(ports.server, function() {
-    console.log('Development server started at http://localhost:%s', ports.server);
+  app.listen(config.ports.server, function() {
+    console.log('Development server started at http://localhost:%s', config.ports.server);
   });
 
 });

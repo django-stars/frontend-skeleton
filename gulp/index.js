@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence');
 
 global.isProduction = false;
+global.isWatch = false;
 
 fs.readdirSync(__dirname + '/tasks/')
   // tasks scripts
