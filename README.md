@@ -1,6 +1,7 @@
 
 ## Yet another boilerplate
-AngularJS, Browserify, Gulp, EcmaScript 2015 (Babelify)
+AngularJS, Browserify, Gulp, EcmaScript 2015 (Babelify).
+Created for using in conjunction with Django.
 
 ## Install
 
