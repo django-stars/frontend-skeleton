@@ -1,15 +1,16 @@
 
+## Yet another boilerplate
+AngularJS, Browserify, Gulp, EcmaScript 2015 (Babelify).
+Created for using in conjunction with Django.
+
 ## Install
 
-> this repository requires the compass ruby gem in order to compile compass.
+> this repository requires the [Compass ruby gem](http://compass-style.org/install/) in order to compile sass files
 
 1. git clone git@github.com:django-stars/frontend-skeleton.git
-2. git remote add upstream git@github.com:[user-name]/[project-repo].git
-3. git remote set-url origin git@github.com:[user-name]/[your-fork-repo].git
-4. git branch -u origin/master master
-5. npm install -g gulp
-6. npm install
-7. gulp
+2. npm install -g gulp
+3. npm install
+4. gulp
 
 ## Supports
 
@@ -18,7 +19,8 @@
 * Livereload
 * Images compression (imagemin)
 * CommonJS (browserify, sourcemaps, uglify)
-* EcmaScript 2015 (ES6, babelify, jsx)
+* EcmaScript 2015 (ES6, babelify)
+* ng-annotate (including [annotation for classes](https://github.com/mchmielarski/babel-plugin-ng-annotate))
 * Jade
 * Compass, sass (sprites, sourcemaps)
 * Lodash
@@ -26,7 +28,7 @@
 
 ## Running unit tests
 
-We use [Jasmine][jasmine] and [Karma][karma] for unit tests/specs.
+We use [Jasmine](http://jasmine.github.io/) and [Karma](http://karma-runner.github.io/) for unit tests/specs.
 
 - Start Karma with `gulp test-unit`
   - A browser will start and connect to the Karma server. PhantomJS is the default browser.
@@ -35,7 +37,7 @@ We use [Jasmine][jasmine] and [Karma][karma] for unit tests/specs.
 
 ## Running end to end tests
 
-We use [Jasmine][jasmine] and [Protractor][protractor] for end-to-end testing.
+We use [Jasmine](http://jasmine.github.io/) and [Protractor](https://angular.github.io/protractor/) for end-to-end testing.
 
 Requires a webserver that serves the application.
 
@@ -48,16 +50,11 @@ Angular styleguide: https://github.com/johnpapa/angular-styleguide
 
 ## TODO
 
-* bootstrap or polymer?
-* tests, karma
-* modules directory
-* globally reusable-components ?
-* <div>Angular seed app: v<span app-version></span></div>
-* pagetitle
-* Auth
-* Resource fake datas
-
-## Are we need this?
-
-* coffee
-* modernizer
+* Bootstrap or Polymer?
+* PageTitle service
+* built-in Auth Service/Module
+* include RestAngular ?
+* Service that allow provide fake data for resources (for test)
+* more examples
+* tests directory
+* auto-watch new files
