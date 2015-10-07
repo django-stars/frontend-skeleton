@@ -31,7 +31,8 @@ gulp.task('templates-index', function () {
           .pipe(gulpif('*.html',
             template(templateLocals)
           ))
-          .pipe(gulp.dest(path('dest')));
+          .pipe(gulp.dest(path('dest')))
+          .pipe(livereload());
 });
 
 gulp.task('templates-ng', function () {
