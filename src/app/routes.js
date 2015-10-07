@@ -1,6 +1,9 @@
 'use strict';
 
-export default function routes($stateProvider, $urlRouterProvider) {
+export default routes;
+
+// @ngInject
+function routes($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/module1');
 
   $stateProvider
