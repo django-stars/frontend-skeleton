@@ -1,4 +1,9 @@
-var local = require('../local.json');
+try {
+  var local = require('../local.json');
+} catch(e) {
+  // for prod we don't need local config
+  var local = require('../local.default.json')
+}
 
 exports.paths = {
   base: 'src', // source base directory
