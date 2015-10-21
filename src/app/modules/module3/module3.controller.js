@@ -1,21 +1,21 @@
 'use strict';
 
-// @ngInject
+@Inject('$scope', '$interval')
 export default class Module3Controller {
-  constructor($scope, $interval) {
+  constructor() {
     this.greeting = 'module 3 loaded'
 
     this.today = today()
 
-    var interval = $interval(
+    var interval = this.$interval(
       ()=> this.today = today(),
       1000
     )
 
-    $scope.$on('$destroy', function() {
+    this.$scope.$on('$destroy', ()=> {
       console.log('destroyed!');
       // Make sure that the interval is destroyed too
-      $interval.cancel(interval);
+      this.$interval.cancel(interval);
       interval = undefined;
     });
   }

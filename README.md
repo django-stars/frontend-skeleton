@@ -10,7 +10,8 @@ Created for using in conjunction with Django.
 1. git clone git@github.com:django-stars/frontend-skeleton.git
 2. npm install -g gulp
 3. npm install
-4. gulp
+4. cp local.default.json local.json
+5. gulp
 
 ## Supports
 

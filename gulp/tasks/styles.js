@@ -1,10 +1,15 @@
+'use strict';
+
 var gulp = require('gulp'),
     utils = require('../utils'),
     del  = require('del'),
     compass = require('gulp-compass'),
     rename = require('gulp-rename'),
     livereload = require('gulp-livereload'),
+    gulpif = require('gulp-if'),
+    minifyCss = require('gulp-minify-css'),
 
+    config = require('../config'),
     path = utils.path,
     error = utils.error;
 
@@ -16,7 +21,9 @@ gulp.task('styles', ['styles-clean', 'fonts'], function() {
   return gulp.src(path('base/styles/app.sass'))
     .pipe(
       compass({
-        import_path: [path('node_modules', true)],
+        import_path: [
+          path('node_modules', true), path('base/scripts', true)
+        ],
         require: [path('sass-inline-import.rb', true)],
         //debug: true,
         style: global.isProduction ? 'compressed' : 'expanded',
@@ -35,6 +42,7 @@ gulp.task('styles', ['styles-clean', 'fonts'], function() {
     .pipe(rename(function(p) {
       p.basename = 'styles'
     }))
+    .pipe(gulpif(global.isProduction && config.minification.styles, minifyCss()))
     .pipe(gulp.dest(path('dest')))
     .pipe(livereload());
 });

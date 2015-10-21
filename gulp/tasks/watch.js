@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp = require('gulp'),
     path = require('../utils').path,
     livereload = require('gulp-livereload'),
@@ -10,7 +12,10 @@ gulp.task('watch', function() {
   gulp.watch(path('base/index.+(html|jade)'), ['templates-index']);
   gulp.watch(path('base/images') + '/**', ['images']);
   gulp.watch(path('base/fonts') + '/**', ['fonts']);
-  gulp.watch(path('base/styles') + '/**', ['styles']);
-  gulp.watch(path('base/images/sprites') + '/**', ['styles']);
+  gulp.watch([
+    path('base/styles') + '/**',
+    path('base/scripts') + '/**',
+    path('base/images/sprites') + '/**'
+  ], ['styles']);
 });
 
