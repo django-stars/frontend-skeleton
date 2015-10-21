@@ -15,10 +15,11 @@ var gulp = require('gulp'),
     babelify = require('babelify'),
     // uglify for production
     uglify = require('gulp-uglify'),
-    gulpif = require('gulp-if');
+    gulpif = require('gulp-if'),
 
     path = utils.path,
     error = utils.error,
+    config = require('../config'),
 
     babelifyOptions = {stage: 0, plugins: ['ng-annotate']};
 
@@ -64,8 +65,8 @@ gulp.task('scripts-vendor', function() {
     .bundle()
     .on('error', error)
     .pipe(source('vendor.js'))
-    .pipe(gulpif(global.isProduction, buffer()))
-    .pipe(gulpif(global.isProduction, uglify()))
+    .pipe(gulpif(global.isProduction && config.minification.vendors, buffer()))
+    .pipe(gulpif(global.isProduction && config.minification.vendors, uglify()))
     .pipe(gulp.dest(path('dest')));
 })
 
@@ -86,8 +87,8 @@ function bundle(bundler) {
           .on('error', error)
           .pipe(source(path('entry')))
           .pipe(ngAnnotate())
-          .pipe(gulpif(global.isProduction, buffer()))
-          .pipe(gulpif(global.isProduction, uglify()))
+          .pipe(gulpif(global.isProduction && config.minification.scripts, buffer()))
+          .pipe(gulpif(global.isProduction && config.minification.scripts, uglify()))
           .pipe(gulp.dest(path('dest')));
 }
 

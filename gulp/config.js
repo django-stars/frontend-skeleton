@@ -23,4 +23,11 @@ exports.ports = {
   livereload: 35729
 }
 
+exports.minification = {
+  images: true,
+  vendors: true,
+  scripts: true,
+  styles: true
+}
+
 exports.API_BASE_URL = local.API_BASE_URL;
