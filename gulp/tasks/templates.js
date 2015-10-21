@@ -9,7 +9,9 @@ var gulp = require('gulp'),
     template = require('gulp-template'),
     livereload = require('gulp-livereload'),
     runSequence = require('run-sequence'),
-    TEMPLATE_HEADER = 'require("angular");angular.module("<%= module %>"<%= standalone %>).run(["$templateCache", function($templateCache) {';
+    plumber = require('gulp-plumber');
+
+var TEMPLATE_HEADER = 'require("angular");angular.module("<%= module %>"<%= standalone %>).run(["$templateCache", function($templateCache) {';
 
 gulp.task('templates-clean', function (cb) {
   del([
@@ -25,6 +27,7 @@ gulp.task('templates-index', function () {
   };
   return gulp
           .src(path('base/index.+(html|jade)'))
+          .pipe(plumber())
           .pipe(gulpif('*.jade',
             jade({locals: templateLocals, pretty: true})
           ))
@@ -38,7 +41,10 @@ gulp.task('templates-index', function () {
 gulp.task('templates-ng', function () {
   return gulp
           .src(path('base/**/templates') + '/**/*.*')
-          .pipe(gulpif('*.jade', jade()))
+          .pipe(plumber())
+          .pipe(gulpif('*.jade',
+            jade()
+          ))
           .pipe(templateCache({
             filename: 'templates.js',
             //moduleSystem: 'Browserify', // TODO
