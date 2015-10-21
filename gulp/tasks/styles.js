@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp = require('gulp'),
     utils = require('../utils'),
     del  = require('del'),

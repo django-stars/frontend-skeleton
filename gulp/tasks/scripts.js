@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp = require('gulp'),
     _ = require('underscore'),
     utils = require('../utils'),
@@ -28,7 +30,7 @@ gulp.task('scripts-clean', function (cb) {
 })
 
 gulp.task('scripts-watch', ['scripts-clean'], function() {
-  bundler = watchify(
+  var bundler = watchify(
     makeBrowserifyBundler(
       _.assign({}, watchify.args, {
         debug: true //source maps

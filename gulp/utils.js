@@ -1,3 +1,4 @@
+'use strict';
 
 var paths = require('./config').paths,
     pathUtil = require('path');

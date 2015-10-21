@@ -1,3 +1,5 @@
+'use strict';
+
 try {
   var local = require('../local.json');
 } catch(e) {

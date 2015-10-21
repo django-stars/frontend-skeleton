@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp = require('gulp'),
     path = require('../utils').path,
     config = require('../config'),

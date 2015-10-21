@@ -1,6 +1,8 @@
+'use strict';
+
 var gulp = require('gulp'),
     fs = require('fs'),
-    path = require('path');
+    path = require('path'),
     runSequence = require('run-sequence');
 
 global.isProduction = false;
