@@ -4,7 +4,7 @@ export default routes;
 
 // @ngInject
 function routes($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/module1');
+  $urlRouterProvider.otherwise('/state1');
 
   $stateProvider
 

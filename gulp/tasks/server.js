@@ -21,7 +21,7 @@ gulp.task('server', function() {
   app.use(morgan('dev'));
 
   // serve static files
-  app.use('/static', express.static(path('dest')));
+  app.use('/static', express.static(path('{dest}')));
 
   // Proxy API requests to backend
   var urlData = url.parse(config.API_BASE_URL);
@@ -39,7 +39,7 @@ gulp.task('server', function() {
 
   // serve index.html for all routes to leave routing up to Angular
   app.all('/*', function(req, res) {
-    res.sendFile(path('dest/index.html'), { root: '.' });
+    res.sendFile(path('{dest}/index.html'), { root: '.' });
   });
 
   var server = http.createServer(app);

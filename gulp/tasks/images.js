@@ -8,9 +8,13 @@ var gulp = require('gulp'),
     config = require('../config');
 
 gulp.task('images', function () {
+  var shouldMinify = global.isProduction && config.minification.images;
+
   return gulp
-          .src(path('base/images') + '/**')
-          .pipe(changed(path('dest/images')))
-          .pipe(gulpif(global.isProduction && config.minification.images, imagemin()))
-          .pipe(gulp.dest(path('dest/images')));
+          .src(path('{base}/{images}/**'))
+          .pipe(gulpif(shouldMinify, changed(path('.imagemin/{images}'))))
+          .pipe(gulpif(shouldMinify, imagemin()))
+          .pipe(gulpif(shouldMinify, gulp.dest(path('.imagemin/{images}'))))
+          .pipe(gulpif(shouldMinify, gulp.src(path('.imagemin/{images}/**'))))
+          .pipe(gulp.dest(path('{dest}/{images}')));
 });

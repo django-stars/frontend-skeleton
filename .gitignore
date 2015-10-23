@@ -12,7 +12,9 @@ logs/*
 .sass-cache/
 node_modules
 static
+static*
 .tmp
+.imagemin
 npm-debug.log
 
 local.json

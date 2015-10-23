@@ -1,5 +1,17 @@
 'use strict';
 
+var config = require('./config');
+if(config.writeFilesSimultaneously) {
+  var isProduction = process.argv.length >= 3 && process.argv[2] == 'prod';
+  if(isProduction) {
+    config.paths.destEndpoint = config.paths.dest;
+    config.paths.dest +=  '_' + (+new Date());
+  }
+}
+if(!config.paths.destEndpoint) {
+  config.paths.destEndpoint = config.paths.dest;
+}
+
 var gulp = require('gulp'),
     fs = require('fs'),
     path = require('path'),
@@ -18,14 +30,11 @@ fs.readdirSync(__dirname + '/tasks/')
     require('./tasks/' + task);
   });
 
-gulp.task('build-assets', ['styles', 'images', 'fonts', 'templates', 'scripts-vendor'])
-gulp.task('build', ['scripts', 'build-assets'])
+gulp.task('build-assets', function(cb) {
+  runSequence(['images', 'fonts'], ['styles', 'templates', 'scripts-vendor'], cb)
+})
 
-gulp.task('default', ['clean'], function() {
-  runSequence('build-assets', 'scripts-watch', 'watch', 'server')
+gulp.task('default', ['clean-all'], function(cb) {
+  runSequence('build-assets', 'scripts-watch', 'watch', 'server', cb)
 });
 
-gulp.task('prod', ['clean'], function() {
-  global.isProduction = true;
-  runSequence('build-assets', 'scripts')
-});

@@ -10,13 +10,13 @@ try {
 exports.paths = {
   base: 'src', // source base directory
   dest: 'static',   // destination base directory
-  entry: 'app.js',    // entry script point
 
   scripts: 'app',     // -> 'dest/app.js'
   styles: 'sass',  // -> 'dest/styles.css'
   images: 'img',
   fonts: 'fonts',
   templates: 'templates',
+
   root: '.'
 }
 
@@ -33,3 +33,6 @@ exports.minification = {
 }
 
 exports.API_BASE_URL = local.API_BASE_URL;
+
+// ALARM! DANGEROUS! don't change if not sure what are you doing
+exports.writeFilesSimultaneously = true
