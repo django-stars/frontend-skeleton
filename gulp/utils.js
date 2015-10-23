@@ -7,9 +7,13 @@ exports.path = path;
 exports.error = error;
 
 function path(p, full) {
-  p = p.split('/').map(function(i) {
-    return paths[i] || i;
-  }).join('/')
+  p = p.replace(/\{([^\}]+)\}/g, function(chunk, key){
+    if(!(key in paths)) {
+      console.warn('Warning: ' + key + ' does not exists in config.paths');
+    }
+    return paths[key] || key;
+  })
+
   return full? pathUtil.normalize(__dirname + '/../' + p) : p;
 }
 

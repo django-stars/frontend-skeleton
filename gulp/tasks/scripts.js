@@ -25,11 +25,7 @@ var gulp = require('gulp'),
 
     babelifyOptions = {stage: 0, plugins: ['ng-annotate']};
 
-gulp.task('scripts-clean', function (cb) {
-  del([path('dest/entry')], cb)
-})
-
-gulp.task('scripts-watch', ['scripts-clean'], function() {
+gulp.task('scripts-watch', function() {
   var bundler = watchify(
     makeBrowserifyBundler(
       _.assign({}, watchify.args, {
@@ -47,7 +43,7 @@ gulp.task('scripts-watch', ['scripts-clean'], function() {
   return bundle(bundler)
 });
 
-gulp.task('scripts', ['scripts-clean'], function() {
+gulp.task('scripts', function() {
   var bundler = makeBrowserifyBundler()
   bundler.transform(babelify.configure(babelifyOptions))
   return bundle(bundler);
@@ -69,14 +65,14 @@ gulp.task('scripts-vendor', function() {
     .pipe(source('vendor.js'))
     .pipe(gulpif(global.isProduction && config.minification.vendors, buffer()))
     .pipe(gulpif(global.isProduction && config.minification.vendors, uglify()))
-    .pipe(gulp.dest(path('dest')));
+    .pipe(gulp.dest(path('{dest}')));
 })
 
 function makeBrowserifyBundler(options) {
   options = _.assign({}, options || {}, {
-    basedir: path('base/scripts'),
-    paths: [path('base/scripts', true)],
-    entries: path('entry'),
+    basedir: path('{base}/{scripts}'),
+    paths: [path('{base}/{scripts}', true)],
+    entries: 'app.js',
     //extensions: ['.jsx'],
   })
   var bundler = browserify(options)
@@ -87,10 +83,10 @@ function makeBrowserifyBundler(options) {
 function bundle(bundler) {
   return bundler.bundle()
           .on('error', error)
-          .pipe(source(path('entry')))
+          .pipe(source('app.js'))
           .pipe(ngAnnotate())
           .pipe(gulpif(global.isProduction && config.minification.scripts, buffer()))
           .pipe(gulpif(global.isProduction && config.minification.scripts, uglify()))
-          .pipe(gulp.dest(path('dest')));
+          .pipe(gulp.dest(path('{dest}')));
 }
 

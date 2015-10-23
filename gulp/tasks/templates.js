@@ -15,20 +15,13 @@ var gulp = require('gulp'),
 
 var TEMPLATE_HEADER = 'require("angular");angular.module("<%= module %>"<%= standalone %>).run(["$templateCache", function($templateCache) {';
 
-gulp.task('templates-clean', function (cb) {
-  del([
-    path('dest/templates.js'),
-    path('dest/index.html')
-  ], cb)
-});
-
 gulp.task('templates-index', function () {
   var templateLocals = {
     VERSION: Math.floor(Date.now() / 1000),
     API_BASE_URL: config.API_BASE_URL
   };
   return gulp
-          .src(path('base/index.+(html|jade)'))
+          .src(path('{base}/index.+(html|jade)'))
           .pipe(plumber())
           .pipe(gulpif('*.jade',
             jade({locals: templateLocals, pretty: true})
@@ -36,13 +29,13 @@ gulp.task('templates-index', function () {
           .pipe(gulpif('*.html',
             template(templateLocals)
           ))
-          .pipe(gulp.dest(path('dest')))
+          .pipe(gulp.dest(path('{dest}')))
           .pipe(livereload());
 });
 
 gulp.task('templates-ng', function () {
   return gulp
-          .src(path('base/**/templates') + '/**/*.*')
+          .src(path('{base}/**/{templates}/**/*.*'))
           .pipe(plumber())
           .pipe(gulpif('*.jade',
             jade()
@@ -56,10 +49,8 @@ gulp.task('templates-ng', function () {
               return url.replace(/^app\//, '').replace(/\/templates\//, '/');
             }
           }))
-          .pipe(gulp.dest(path('dest')))
+          .pipe(gulp.dest(path('{dest}')))
           .pipe(livereload());
 });
 
-gulp.task('templates', ['templates-clean'], function (cb) {
-  runSequence(['templates-index', 'templates-ng'], cb)
-});
+gulp.task('templates', ['templates-index', 'templates-ng'])
