@@ -1,7 +1,9 @@
 'use strict';
 
 var gulp = require('gulp'),
-    path = require('../utils').path,
+    utils = require('../utils'),
+    path = utils.path,
+    error = utils.error,
     config = require('../config'),
     jade = require('gulp-jade'),
     gulpif = require('gulp-if'),
@@ -10,8 +12,7 @@ var gulp = require('gulp'),
     templateCache = require('gulp-angular-templatecache'),
     template = require('gulp-template'),
     livereload = require('gulp-livereload'),
-    runSequence = require('run-sequence'),
-    plumber = require('gulp-plumber');
+    runSequence = require('run-sequence');
 
 var TEMPLATE_HEADER = 'require("angular");angular.module("<%= module %>"<%= standalone %>).run(["$templateCache", function($templateCache) {';
 
@@ -22,10 +23,9 @@ gulp.task('templates-index', function () {
   };
   return gulp
           .src(path('{base}/index.+(html|jade)'))
-          .pipe(plumber())
           .pipe(gulpif('*.jade',
             jade({locals: templateLocals, pretty: true})
-          ))
+          ).on('error', error))
           .pipe(gulpif('*.html',
             template(templateLocals)
           ))
@@ -36,10 +36,10 @@ gulp.task('templates-index', function () {
 gulp.task('templates-ng', function () {
   return gulp
           .src(path('{base}/**/{templates}/**/*.*'))
-          .pipe(plumber())
-          .pipe(gulpif('*.jade',
-            jade()
-          ))
+          .pipe(
+            gulpif('*.jade', jade())
+              .on('error', error)
+          )
           .pipe(templateCache({
             filename: 'templates.js',
             //moduleSystem: 'Browserify', // TODO
