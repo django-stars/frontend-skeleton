@@ -29,6 +29,8 @@ gulp.task('server', function() {
   app.use(urlData.pathname, proxy(config.API_BASE_URL));
   // Django's static
   app.use('/s/', proxy(backendBaseURL + '/s/'));
+  // Django's media files
+  app.use('/m/', proxy(backendBaseURL + '/m/'));
 
   if(global.isWatch) {
     // inject livereload

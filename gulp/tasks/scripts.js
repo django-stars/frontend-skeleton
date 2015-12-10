@@ -6,6 +6,7 @@ var gulp = require('gulp'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
     del  = require('del'),
+    fs = require('fs'),
     livereload = require('gulp-livereload'),
     // automatically .$inject
     ngAnnotate = require('gulp-ng-annotate'),
@@ -57,15 +58,27 @@ var vendors = _.uniq(dependencies.concat(browserShims)
     .concat(['babelify/polyfill', 'babel-plugin-ng-annotate/lib/inject']))
 
 gulp.task('scripts-vendor', function() {
-  return browserify()
-    .require(vendors)
-    .transform({global: true}, 'browserify-shim')
-    .bundle()
-    .on('error', error)
-    .pipe(source('vendor.js'))
-    .pipe(gulpif(global.isProduction && config.minification.vendors, buffer()))
-    .pipe(gulpif(global.isProduction && config.minification.vendors, uglify()))
-    .pipe(gulp.dest(path('{dest}')));
+  var isExists = fs.existsSync(path('{destEndpoint}/vendor.js')),
+      currentStat = fs.statSync(path('package.json')),
+      lastStat = isExists ? fs.statSync(path('{destEndpoint}/vendor.js')) : {mtime: -99999};
+
+  if(currentStat.mtime > lastStat.mtime) {
+    // build vendors.js
+    return browserify()
+      .require(vendors)
+      .transform({global: true}, 'browserify-shim')
+      .bundle()
+      .on('error', error)
+      .pipe(source('vendor.js'))
+      .pipe(gulpif(global.isProduction && config.minification.vendors, buffer()))
+      .pipe(gulpif(global.isProduction && config.minification.vendors, uglify()))
+      .pipe(gulp.dest(path('{dest}')));
+  } else {
+    // simple copy already builded file
+    return gulp
+      .src(path('{destEndpoint}/vendor.js'))
+      .pipe(gulp.dest(path('{dest}')))
+  }
 })
 
 function makeBrowserifyBundler(options) {

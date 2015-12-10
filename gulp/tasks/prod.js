@@ -6,7 +6,7 @@ var gulp = require('gulp'),
 
 gulp.task('prod', ['clean'], function(cb) {
   global.isProduction = true;
-  runSequence(['build-assets', 'scripts'], 'prod-clean', 'prod-dest', 'clean', cb)
+  runSequence('build-assets', 'scripts', 'prod-clean', 'prod-dest', 'clean', cb)
 });
 
 gulp.task('prod-clean', function(cb) {

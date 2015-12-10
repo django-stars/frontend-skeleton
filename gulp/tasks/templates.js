@@ -24,7 +24,7 @@ gulp.task('templates-index', function () {
   return gulp
           .src(path('{base}/index.+(html|jade)'))
           .pipe(gulpif('*.jade',
-            jade({locals: templateLocals, pretty: true})
+            jade({locals: templateLocals, pretty: true, basedir: path('{base}/{scripts}', true)})
           ).on('error', error))
           .pipe(gulpif('*.html',
             template(templateLocals)
@@ -36,10 +36,9 @@ gulp.task('templates-index', function () {
 gulp.task('templates-ng', function () {
   return gulp
           .src(path('{base}/**/{templates}/**/*.*'))
-          .pipe(
-            gulpif('*.jade', jade())
-              .on('error', error)
-          )
+          .pipe(gulpif('*.jade',
+            jade({basedir: path('{base}/{scripts}', true)})
+          ).on('error', error))
           .pipe(templateCache({
             filename: 'templates.js',
             //moduleSystem: 'Browserify', // TODO
