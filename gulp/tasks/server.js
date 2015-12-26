@@ -26,9 +26,19 @@ gulp.task('server', function() {
   // Proxy API requests to backend
   var urlData = url.parse(config.API_BASE_URL);
   var backendBaseURL = urlData.protocol + '//' + urlData.host;
-  app.use(urlData.pathname, proxy(config.API_BASE_URL));
+
+  var options = {
+      changeOrigin: true,
+      target: backendBaseURL
+  };
+
+  app.use(urlData.pathname, proxy(config.API_BASE_URL, options));
+
   // Django's static
-  app.use('/s/', proxy(backendBaseURL + '/s/'));
+  app.use('/s/', proxy(backendBaseURL + '/s/', options));
+
+  // Django's media
+  app.use('/media/', proxy(backendBaseURL + '/media/', options));
 
   if(global.isWatch) {
     // inject livereload
