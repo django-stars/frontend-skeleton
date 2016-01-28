@@ -34,10 +34,11 @@ gulp.task('server', function() {
 
   app.use(urlData.pathname, proxy(config.API_BASE_URL, options));
 
+  // TODO make this paths configurable
   // Django's static
   app.use('/s/', proxy(backendBaseURL + '/s/', options));
-
-  // Django's media
+  // Django's media files
+  app.use('/m/', proxy(backendBaseURL + '/m/', options));
   app.use('/media/', proxy(backendBaseURL + '/media/', options));
 
   if(global.isWatch) {
