@@ -5,8 +5,6 @@ Created for using in conjunction with Django.
 
 ## Install
 
-> this repository requires the [Compass ruby gem](http://compass-style.org/install/) in order to compile sass files
-
 1. git clone git@github.com:django-stars/frontend-skeleton.git
 2. npm install -g gulp
 3. npm install

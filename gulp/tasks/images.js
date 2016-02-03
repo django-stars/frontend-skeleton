@@ -11,7 +11,10 @@ gulp.task('images', function () {
   var shouldMinify = global.isProduction && config.minification.images;
 
   return gulp
-          .src(path('{base}/{images}/**'))
+          .src([
+            path('{base}/{images}/**'),
+            path('!{base}/{sprites}/**')
+          ])
           .pipe(gulpif(shouldMinify, changed(path('.imagemin/{images}'))))
           .pipe(gulpif(shouldMinify, imagemin()))
           .pipe(gulpif(shouldMinify, gulp.dest(path('.imagemin/{images}'))))

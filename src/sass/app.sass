@@ -1,16 +1,6 @@
 @import compass
 @import compass/reset
-@import "sprite/*.png"
-// following line will include auto-generated sprite classes
-      e.g. for some-icon.png:
-      .sprite-some-icon {
-          background-image: ...
-          background-position: ...
-          width: ...
-          height: ...
-        }
-        FYI: width/height only include when you pass true as argument
-//@include all-sprite-sprites(true)
+@import sprites
 
 html, body
   width: 100%
@@ -36,9 +26,9 @@ body
     color: red
     display: inline-block
   .btn-add
-    @include sprite-sprite(add, true)
+    +icons-sprite(add, true)
   .btn-remove
-    @include sprite-sprite(remove, true)
+    +icons-sprite(remove, true)
 
 .ds-logo
   width: 320px
