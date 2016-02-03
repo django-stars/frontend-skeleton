@@ -4,7 +4,7 @@ ${{cssesc ../name}}-{{cssesc meta.name}}: -{{baseDim x}}px -{{baseDim y}}px {{ba
   {{/each}}
 {{/each}}
 
-$all-sprites: ({{#each layouts}}{{#each layout.items}}{{cssesc ../name}}-{{cssesc meta.name}}: -{{baseDim x}}px -{{baseDim y}}px {{baseDim width}}px {{baseDim height}}px,{{/each}}{{/each}})
+$all-sprites: ({{#each layouts}}{{#each layout.items}}{{cssesc ../name}}-{{cssesc meta.name}}: -{{baseDim x}}px -{{baseDim y}}px {{baseDim meta.width}}px {{baseDim meta.height}}px {{baseDim width}}px {{baseDim height}}px,{{/each}}{{/each}})
 
 =sprite-width($sprite)
   width: nth($sprite, 3)
@@ -15,6 +15,11 @@ $all-sprites: ({{#each layouts}}{{#each layout.items}}{{cssesc ../name}}-{{csses
 =sprite-position($sprite)
   $sprite-offset-x: nth($sprite, 1)
   $sprite-offset-y: nth($sprite, 2)
+  background-position: $sprite-offset-x  $sprite-offset-y
+
+=sprite-position-old($sprite)
+  $sprite-offset-x: nth($sprite, 1) - (nth($sprite, 5) - nth($sprite, 3)) / 2
+  $sprite-offset-y: nth($sprite, 2) - (nth($sprite, 6) - nth($sprite, 4)) / 2
   background-position: $sprite-offset-x  $sprite-offset-y
 
 =sprite($sprite, $display: block)
@@ -43,14 +48,19 @@ $all-sprites: ({{#each layouts}}{{#each layout.items}}{{cssesc ../name}}-{{csses
 
 {{#each layouts}}
 // support SASS syntax
-={{name}}-sprite($sprite, $size: false)
-  @extend .sprite-{{name}}
-  $sprite: map-get($all-sprites, {{name}}-#{$sprite})
-  +sprite-position($sprite)
+={{cssesc name}}-sprite($sprite, $size: false)
+  @extend .sprite-{{cssesc name}}
+  $sprite: map-get($all-sprites, {{cssesc name}}-#{$sprite})
+  +sprite-position-old($sprite)
   background-repeat: no-repeat
   //overflow: hidden
   @if $size
     +sprite-width($sprite)
     +sprite-height($sprite)
+=all-{{cssesc name}}-sprites($size: false)
+  {{#each layout.items}}
+  .{{cssesc ../name}}-{{cssesc meta.name}}
+    +{{cssesc ../name}}-sprite({{cssesc meta.name}}, $size)
+  {{/each}}
 {{/each}}
 
