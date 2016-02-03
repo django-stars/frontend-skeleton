@@ -31,7 +31,7 @@ fs.readdirSync(__dirname + '/tasks/')
   });
 
 gulp.task('build-assets', function(cb) {
-  runSequence(['images', 'fonts'], 'styles', ['templates', 'scripts-vendor'], cb)
+  runSequence(['images', 'fonts', 'sprites'], 'styles', ['templates', 'scripts-vendor'], cb)
 })
 
 gulp.task('default', ['clean-all'], function(cb) {
