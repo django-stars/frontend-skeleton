@@ -15,13 +15,15 @@ var gulp = require('gulp'),
     path = utils.path,
     error = utils.error;
 
-gulp.task('styles', ['fonts'], function() {
+gulp.task('styles', ['sprites'], function() {
   return gulp.src(path('{base}/{styles}/app.sass'))
     .pipe(sourcemaps.init())
     .pipe(
       sass({
         includePaths: [
-          path('node_modules', true), path('{base}/{scripts}', true)
+          path('node_modules', true),
+          path('{base}/{scripts}', true),
+          path('{dest}', true), // need to include sprites.sass
         ],
         outputStyle: global.isProduction ? 'compressed' : 'expanded',
         sourcemap: !global.isProduction,

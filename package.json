@@ -61,6 +61,8 @@
     "livereload-js": "^2.2.2",
     "morgan": "^1.6.1",
     "run-sequence": "^1.1.1",
+    "sprity": "1.0.8",
+    "sprity-sass": "1.0.4",
     "underscore": "^1.8.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",

@@ -14,6 +14,7 @@ exports.paths = {
   scripts: 'app',     // -> 'dest/app.js'
   styles: 'sass',  // -> 'dest/styles.css'
   images: 'img',
+  sprites: 'img/sprites',
   fonts: 'fonts',
   templates: 'templates',
 

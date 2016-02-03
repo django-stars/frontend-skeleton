@@ -1,17 +1,7 @@
 @import compass
 @import compass/reset
 @import angular/angular-csp
-//@import "sprite/*.png"
-// following line will include auto-generated sprite classes
-      e.g. for some-icon.png:
-      .sprite-some-icon {
-          background-image: ...
-          background-position: ...
-          width: ...
-          height: ...
-        }
-        FYI: width/height only include when you pass true as argument
-//@include all-sprite-sprites(true)
+@import sprites
 
 html, body
   width: 100%
@@ -37,9 +27,11 @@ body
     color: red
     display: inline-block
   .btn-add
-    //@include sprite-sprite(add, true)
+    @extend .sprite-icons
+    +sprite($icons-add, inline-block)
   .btn-remove
-    //@include sprite-sprite(remove, true)
+    @extend .sprite-icons
+    +sprite($icons-remove, inline-block)
 
 .ds-logo
   width: 320px
