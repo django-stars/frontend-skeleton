@@ -42,7 +42,8 @@ $all-sprites: ({{#each layouts}}{{#each layout.items}}{{cssesc ../name}}-{{csses
 {{/each}}
 
 {{#each layouts}}
-=sprite-{{name}}($sprite, $size: false)
+// support SASS syntax
+={{name}}-sprite($sprite, $size: false)
   @extend .sprite-{{name}}
   $sprite: map-get($all-sprites, {{name}}-#{$sprite})
   +sprite-position($sprite)
