@@ -8,11 +8,12 @@ gulp.task('sprites', function () {
   return sprity.src({
     src: path('{base}/{sprites}/**/*.') + '{png,jpg}',
     cssPath: path('/{destEndpoint}/{images}'),
-    processor: 'sass',
+    //processor: 'sass',
     style: 'sprites.sass',
-    'style-type': 'sass',
+    //'style-type': 'sass',
     split: true,
     prefix: 'sprite',
+    template: path('{base}/sprity.sass.hbs'),
     dimensions: [
       {"ratio": 1, "dpi": 72},
       {"ratio": 2, "dpi": 192}

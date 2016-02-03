@@ -27,11 +27,9 @@ body
     color: red
     display: inline-block
   .btn-add
-    @extend .sprite-icons
-    +sprite($icons-add, inline-block)
+    +sprite-icons(add, true)
   .btn-remove
-    @extend .sprite-icons
-    +sprite($icons-remove, inline-block)
+    +sprite-icons(remove, true)
 
 .ds-logo
   width: 320px

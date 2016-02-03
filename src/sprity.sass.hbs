@@ -1,0 +1,55 @@
+{{#each layouts}}
+  {{#each layout.items}}
+${{cssesc ../name}}-{{cssesc meta.name}}: -{{baseDim x}}px -{{baseDim y}}px {{baseDim width}}px {{baseDim height}}px
+  {{/each}}
+{{/each}}
+
+$all-sprites: ({{#each layouts}}{{#each layout.items}}{{cssesc ../name}}-{{cssesc meta.name}}: -{{baseDim x}}px -{{baseDim y}}px {{baseDim width}}px {{baseDim height}}px,{{/each}}{{/each}})
+
+=sprite-width($sprite)
+  width: nth($sprite, 3)
+
+=sprite-height($sprite)
+  height: nth($sprite, 4)
+
+=sprite-position($sprite)
+  $sprite-offset-x: nth($sprite, 1)
+  $sprite-offset-y: nth($sprite, 2)
+  background-position: $sprite-offset-x  $sprite-offset-y
+
+=sprite($sprite, $display: block)
+  +sprite-position($sprite)
+  background-repeat: no-repeat
+  overflow: hidden
+  display: $display
+  +sprite-width($sprite)
+  +sprite-height($sprite)
+
+{{#each layouts}}
+{{#each sprites}}
+{{#unless dpi}}
+.{{cssesc ../../classname}}
+  background-image: url('{{escimage url}}')
+{{/unless}}
+{{#if dpi}}
+
+@media (-webkit-min-device-pixel-ratio: {{ratio}}), (min-resolution: {{dpi}}dpi)
+  .{{cssesc ../../classname}}
+    background-image: url('{{escimage url}}')
+    background-size: {{baseWidth}}px {{baseHeight}}px
+{{/if}}
+{{/each}}
+{{/each}}
+
+{{#each layouts}}
+=sprite-{{name}}($sprite, $size: false)
+  @extend .sprite-{{name}}
+  $sprite: map-get($all-sprites, {{name}}-#{$sprite})
+  +sprite-position($sprite)
+  background-repeat: no-repeat
+  //overflow: hidden
+  @if $size
+    +sprite-width($sprite)
+    +sprite-height($sprite)
+{{/each}}
+
