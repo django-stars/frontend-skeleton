@@ -64,3 +64,19 @@ $all-sprites: ({{#each layouts}}{{#each layout.items}}{{cssesc ../name}}-{{csses
   {{/each}}
 {{/each}}
 
+$FONT_TYPES: (woff: 'woff', woff2: 'woff2', otf: 'opentype', opentype: 'opentype', ttf: 'truetype', truetype: 'truetype', svg: 'svg', eot: 'embedded-opentype')
+@function font-format-prepare($file)
+  @if $file
+    @return format(map-get($FONT_TYPES, str-slice($file, str-index($file, '.') + 1)))
+  @return null
+@function font-file-prepare($file)
+  @if $file
+    @return url('/static/fonts/' + $file)
+  @return null
+@function font-files($fonts...)
+  $files: ()
+  $formats: ()
+  @each $f in $fonts
+    $files: append($files, font-file-prepare($f))
+    $formats: append($formats, font-format-prepare($f))
+  @return zip($files, $formats)
