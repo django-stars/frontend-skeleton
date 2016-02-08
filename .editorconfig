@@ -1,0 +1,17 @@
+root = true
+
+[**]
+end_of_line = lf
+insert_final_newline = true
+
+[**.js]
+indent_style = space
+indent_size = 2
+charset = utf-8
+trim_trailing_whitespace = true
+
+[**.min.*,node_modules/**]
+indent_style = ignore
+trim_trailing_whitespace = false
+insert_final_newline = ignore
+
