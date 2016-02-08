@@ -32,6 +32,10 @@ gulp.task('server', function() {
       target: backendBaseURL
   };
 
+  if (urlData.auth) {
+    options.auth = urlData.auth
+  }
+
   app.use(urlData.pathname, proxy(config.API_BASE_URL, options));
 
   // TODO make this paths configurable
