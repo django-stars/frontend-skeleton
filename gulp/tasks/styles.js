@@ -17,7 +17,7 @@ var gulp = require('gulp'),
 
 gulp.task('styles', ['sprites'], function() {
   return gulp.src(path('{base}/{styles}/app.sass'))
-    .pipe(sourcemaps.init())
+    .pipe(gulpif(!global.isProduction, sourcemaps.init()))
     .pipe(
       sass({
         includePaths: [
@@ -26,7 +26,6 @@ gulp.task('styles', ['sprites'], function() {
           path('{dest}', true), // need to include sprites.sass
         ],
         outputStyle: global.isProduction ? 'compressed' : 'expanded',
-        sourcemap: !global.isProduction,
         importer: compass,
         // FIXME sprites
         //image: path('{images}'),
@@ -38,9 +37,9 @@ gulp.task('styles', ['sprites'], function() {
       })
       .on('error', error)
     )
-    .pipe(sourcemaps.write())
+    .pipe(gulpif(!global.isProduction, sourcemaps.write()))
     .on('error', error)
-    .pipe(gulpif(global.isProduction && config.minification.styles, minifyCss()))
+    .pipe(gulpif(global.isProduction && config.minification.styles, minifyCss({skipImport: true})))
     .pipe(gulp.dest(path('{dest}')))
     .pipe(livereload());
 });
