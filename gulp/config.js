@@ -8,6 +8,7 @@ try {
 }
 
 exports.paths = {
+  imagemin: '.imagemin',
   base: 'src', // source base directory
   dest: 'static',   // destination base directory
 
