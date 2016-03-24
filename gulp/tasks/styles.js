@@ -27,11 +27,6 @@ gulp.task('styles', ['sprites'], function() {
         ],
         outputStyle: global.isProduction ? 'compressed' : 'expanded',
         importer: compass,
-        // FIXME sprites
-        //image: path('{images}'),
-        //generated_images_path: path('{dest}/{images}', true),
-        //http_path: path('/{destEndpoint}'),
-
         // debug info
         //sourceComments: true
       })
