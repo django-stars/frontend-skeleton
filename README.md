@@ -1,15 +1,30 @@
-
-## Yet another boilerplate
+## Yet another yeoman generator
 AngularJS, Browserify, Gulp, EcmaScript 2015 (Babelify).
 Created for using in conjunction with Django.
 
-## Install
+## Usage
 
-1. git clone git@github.com:django-stars/frontend-skeleton.git
-2. npm install -g gulp
-3. npm install
-4. cp local.default.json local.json
-5. gulp
+Install `yo`, `generator-telega-frontend`:
+```
+npm install -g yo generator-telega-frontend
+```
+
+For using Sass, you will need to install Ruby and Compass:
+- Install Ruby by downloading from [here](http://rubyinstaller.org/downloads/) or use Homebrew
+- Install the compass gem:
+```
+gem install compass
+```
+
+Make a new directory, and `cd` into it:
+```
+mkdir my-new-project && cd $_
+```
+
+Run `yo telega-frontend`
+
+Run `gulp` for preview
+
 
 ## Supports
 
@@ -20,28 +35,10 @@ Created for using in conjunction with Django.
 * CommonJS (browserify, sourcemaps, uglify)
 * EcmaScript 2015 (ES6, babelify)
 * ng-annotate (including [annotation for classes](https://github.com/mchmielarski/babel-plugin-ng-annotate))
-* Jade
+* Pug (Jade)
 * Compass, sass (sprites, sourcemaps)
 * Lodash
 * re-usable components
-
-## Running unit tests
-
-We use [Jasmine](http://jasmine.github.io/) and [Karma](http://karma-runner.github.io/) for unit tests/specs.
-
-- Start Karma with `gulp test-unit`
-  - A browser will start and connect to the Karma server. PhantomJS is the default browser.
-- Karma will sit and watch your application and test JavaScript files. To run or re-run tests just
-  change any of your these files.
-
-## Running end to end tests
-
-We use [Jasmine](http://jasmine.github.io/) and [Protractor](https://angular.github.io/protractor/) for end-to-end testing.
-
-Requires a webserver that serves the application.
-
-- Run application via `gulp`
-- In a separate console run the end2end tests: `gulp test-e2e`.
 
 ## Details
 
