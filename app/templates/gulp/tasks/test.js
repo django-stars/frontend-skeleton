@@ -2,7 +2,7 @@
 
 var gulp = require('gulp'),
     path = require('../utils').path,
-    jade = require('gulp-jade'),
+    pug = require('gulp-pug'),
     gulpif = require('gulp-if'),
     rename = require('gulp-rename'),
     del = require('del'),
