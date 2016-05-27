@@ -5,7 +5,6 @@ var gulp = require('gulp'),
     utils = require('../utils'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
-    del  = require('del'),
     fs = require('fs'),
     livereload = require('gulp-livereload'),
     // automatically .$inject

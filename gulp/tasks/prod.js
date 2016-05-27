@@ -10,7 +10,9 @@ gulp.task('prod', ['clean'], function(cb) {
 });
 
 gulp.task('prod-clean', function(cb) {
-  del(path('{destEndpoint}'), cb);
+  del(path('{destEndpoint}')).then(function(){
+    cb()
+  });
 })
 
 gulp.task('prod-dest', function() {
