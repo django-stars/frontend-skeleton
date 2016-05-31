@@ -5,9 +5,13 @@ var gulp = require('gulp'),
     del  = require('del');
 
 gulp.task('clean', function(cb) {
-  del(path('{destEndpoint}_**'), cb);
+  del(path('{destEndpoint}_**')).then(function(){
+    cb()
+  });
 });
 
 gulp.task('clean-all', function(cb) {
-  del([path('{destEndpoint}**'), path('.imagemin_cache')], cb)
+  del([path('{destEndpoint}**'), path('.imagemin_cache')]).then(function(){
+    cb()
+  })
 })

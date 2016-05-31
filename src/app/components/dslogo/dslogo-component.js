@@ -1,5 +1,7 @@
 'use strict';
 
+import DSLogoController from './dslogo-component.controller'
+
 let DSLogoComponent = {
   template: '<div class="ds-logo">{{$ctrl.today}}</div>',
   controller: DSLogoController,
@@ -9,10 +11,3 @@ let DSLogoComponent = {
 };
 
 export default DSLogoComponent;
-
-//@Inject('$http')
-class DSLogoController {
-  constructor() {
-
-  }
-}

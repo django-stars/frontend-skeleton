@@ -1,8 +1,7 @@
 'use strict';
 
 var gulp = require('gulp'),
-    path = require('../utils').path,
-    del  = require('del');
+    path = require('../utils').path;
 
 gulp.task('fonts', function () {
   return gulp
