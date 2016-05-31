@@ -68,7 +68,7 @@
     "watchify": "^3.2.1"
   },
   "dependencies": {
-    "angular": "^1.4.0",
+    "angular": "^1.5.5",
     "angular-ui-router": "^0.3.0",
     "jquery": "^2.1.4",
     "lodash": "^4.13.1"

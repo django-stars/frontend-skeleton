@@ -1,21 +1,13 @@
 'use strict';
 
-//@Inject('$http')
-export default class DSLogoComponent {
-  constructor() {
-    this.restrict = 'E';
-    this.template = '<div class="ds-logo">{{today}}</div>';
-    this.scope = {
-      today: '=',
-    }
+import DSLogoController from './dslogo-component.controller'
+
+let DSLogoComponent = {
+  template: '<div class="ds-logo">{{$ctrl.today}}</div>',
+  controller: DSLogoController,
+  bindings: {
+    today: '<'
   }
+};
 
-  /*link(scope, el, attrs) {
-
-  }*/
-
-  /*compile() {
-
-  }*/
-
-}
+export default DSLogoComponent;
