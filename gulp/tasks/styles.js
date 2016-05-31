@@ -2,13 +2,12 @@
 
 var gulp = require('gulp'),
     utils = require('../utils'),
-    del  = require('del'),
     compass = require('compass-importer'),
     sass = require('gulp-sass'),
     rename = require('gulp-rename'),
     livereload = require('gulp-livereload'),
     gulpif = require('gulp-if'),
-    minifyCss = require('gulp-minify-css'),
+    cleanCss = require('gulp-clean-css'),
     sourcemaps = require('gulp-sourcemaps'),
 
     config = require('../config'),
@@ -34,7 +33,7 @@ gulp.task('styles', ['sprites'], function() {
     )
     .pipe(gulpif(!global.isProduction, sourcemaps.write()))
     .on('error', error)
-    .pipe(gulpif(global.isProduction && config.minification.styles, minifyCss({skipImport: true})))
+    .pipe(gulpif(global.isProduction && config.minification.styles, cleanCss({processImport: false})))
     .pipe(gulp.dest(path('{dest}')))
     .pipe(livereload());
 });
