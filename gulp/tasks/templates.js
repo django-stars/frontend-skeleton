@@ -19,7 +19,7 @@ var TEMPLATE_HEADER = 'require("angular");angular.module("<%= module %>"<%= stan
 gulp.task('templates-index', function () {
   var templateLocals = {
     VERSION: Math.floor(Date.now() / 1000),
-    API_BASE_URL: config.API_BASE_URL
+    API_URL: config.API_URL
   };
   return gulp
           .src(path('{base}/index.+(html|jade)'))

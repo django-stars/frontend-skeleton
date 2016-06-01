@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('underscore');
+
 try {
   var local = require('../local.json');
 } catch(e) {
@@ -7,10 +9,13 @@ try {
   var local = require('../local.default.json')
 }
 
+// copy configs from local.json
+_.extend(exports, local);
+
 exports.paths = {
   imagemin: '.imagemin',
   base: 'src', // source base directory
-  dest: 'static',   // destination base directory
+  dest: local.STATIC_PATH || 'static',   // destination base directory
 
   scripts: 'app',     // -> 'dest/app.js'
   styles: 'sass',  // -> 'dest/styles.css'
@@ -33,8 +38,6 @@ exports.minification = {
   scripts: true,
   styles: true
 }
-
-exports.API_BASE_URL = local.API_BASE_URL;
 
 // ALARM! DANGEROUS! don't change if not sure what are you doing
 exports.writeFilesSimultaneously = true
