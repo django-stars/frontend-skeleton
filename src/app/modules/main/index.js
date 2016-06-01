@@ -9,7 +9,7 @@ import module3 from 'modules/module3'
 
 import routes from 'routes';
 
-var API_BASE_URL = angular.element('body').data('api-base-url');
+var API_URL = angular.element('body').data('api-base-url');
 
 // Declare app level module which depends on views, and components
 export default angular.module('dsApp', [
@@ -19,6 +19,6 @@ export default angular.module('dsApp', [
     module2,
     module3
   ])
-  .constant('API_BASE_URL', API_BASE_URL)
+  .constant('API_URL', API_URL)
   .config(routes)
   .name;

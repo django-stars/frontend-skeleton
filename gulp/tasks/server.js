@@ -24,7 +24,7 @@ gulp.task('server', function() {
   app.use('/static', express.static(path('{dest}')));
 
   // Proxy API requests to backend
-  var urlData = url.parse(config.API_BASE_URL);
+  var urlData = url.parse(config.BACKEND_URL);
   var backendBaseURL = urlData.protocol + '//' + urlData.host;
 
   var options = {
@@ -36,14 +36,11 @@ gulp.task('server', function() {
     options.auth = urlData.auth
   }
 
-  app.use(urlData.pathname, proxy(config.API_BASE_URL, options));
+  var proxies = [config.API_URL].concat(config.PROXIES);
 
-  // TODO make this paths configurable
-  // Django's static
-  app.use('/s/', proxy(backendBaseURL + '/s/', options));
-  // Django's media files
-  app.use('/m/', proxy(backendBaseURL + '/m/', options));
-  app.use('/media/', proxy(backendBaseURL + '/media/', options));
+  proxies.forEach(function(p) {
+    app.use(p, proxy(backendBaseURL + p, options));
+  })
 
   if(global.isWatch) {
     // inject livereload
