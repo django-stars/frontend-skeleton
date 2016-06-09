@@ -58,8 +58,8 @@ module.exports = function(config) {
       configure: function(bundle) {
         bundle.on('prebundle', function() {
           bundle.transform(require('babelify').configure({
-            stage: 0,
-            plugins: ["ng-annotate"]
+            presets: ['es2015'],
+            plugins: ['syntax-decorators', 'ng-annotate']
           }));
         });
       }

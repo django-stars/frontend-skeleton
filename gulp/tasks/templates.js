@@ -5,7 +5,7 @@ var gulp = require('gulp'),
     path = utils.path,
     error = utils.error,
     config = require('../config'),
-    jade = require('gulp-jade'),
+    pug = require('gulp-pug'),
     gulpif = require('gulp-if'),
     rename = require('gulp-rename'),
     templateCache = require('gulp-angular-templatecache'),
@@ -21,9 +21,9 @@ gulp.task('templates-index', function () {
     API_URL: config.API_URL
   };
   return gulp
-          .src(path('{base}/index.+(html|jade)'))
-          .pipe(gulpif('*.jade',
-            jade({locals: templateLocals, pretty: true, basedir: path('{base}/{scripts}', true)})
+          .src(path('{base}/index.+(html|jade|pug)'))
+          .pipe(gulpif(/.*\.(jade|pug)$/,
+            pug({locals: templateLocals, pretty: true, basedir: path('{base}/{scripts}', true)})
           ).on('error', error))
           .pipe(gulpif('*.html',
             template(templateLocals)
@@ -35,8 +35,8 @@ gulp.task('templates-index', function () {
 gulp.task('templates-ng', function () {
   return gulp
           .src(path('{base}/**/{templates}/**/*.*'))
-          .pipe(gulpif('*.jade',
-            jade({basedir: path('{base}/{scripts}', true)})
+          .pipe(gulpif(/.*\.(jade|pug)$/,
+            pug({basedir: path('{base}/{scripts}', true)})
           ).on('error', error))
           .pipe(templateCache({
             filename: 'templates.js',

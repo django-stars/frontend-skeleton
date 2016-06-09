@@ -2,7 +2,6 @@
 
 var gulp = require('gulp'),
     path = require('../utils').path,
-    jade = require('gulp-jade'),
     gulpif = require('gulp-if'),
     rename = require('gulp-rename'),
     error = require('../utils').error,
@@ -11,7 +10,8 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence');
 
 
-gulp.task('test', ['test-unit', 'test-e2e']);
+gulp.task('test', ['test-unit-single']);
+gulp.task('test-all', ['test-unit', 'test-e2e']);
 
 gulp.task('test-single', function(cb) {
   runSequence('test-unit-single', 'test-e2e-single', cb)

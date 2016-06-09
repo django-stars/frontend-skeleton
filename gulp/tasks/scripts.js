@@ -1,7 +1,7 @@
 'use strict';
 
 var gulp = require('gulp'),
-    _ = require('underscore'),
+    _ = require('lodash'),
     utils = require('../utils'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
@@ -23,7 +23,10 @@ var gulp = require('gulp'),
     error = utils.error,
     config = require('../config'),
 
-    babelifyOptions = {stage: 0, plugins: ['ng-annotate']};
+    babelifyOptions = {
+      presets: ['es2015'],
+      plugins: ['syntax-decorators', 'ng-annotate']
+    };
 
 gulp.task('scripts-watch', function() {
   var bundler = watchify(
@@ -52,9 +55,11 @@ gulp.task('scripts', function() {
 var packageJson = require('../../package.json');
 var dependencies = Object.keys(packageJson && packageJson.dependencies || {});
 var browserShims = Object.keys(packageJson && packageJson.browser || {});
-var vendors = _.uniq(dependencies.concat(browserShims)
-    // TODO check that polyfill working
-    .concat(['babelify/polyfill', 'babel-plugin-ng-annotate/lib/inject']))
+var vendors = _.uniq(
+      dependencies
+        .concat(browserShims)
+        .concat(['babel-polyfill'])
+    );
 
 gulp.task('scripts-vendor', function() {
   var isExists = fs.existsSync(path('{destEndpoint}/vendor.js')),

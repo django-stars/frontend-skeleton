@@ -20,7 +20,7 @@ Created for using in conjunction with Django.
 * CommonJS (browserify, sourcemaps, uglify)
 * EcmaScript 2015 (ES6, babelify)
 * ng-annotate (including [annotation for classes](https://github.com/mchmielarski/babel-plugin-ng-annotate))
-* Jade
+* Pug (Jade)
 * Compass, sass (sprites, sourcemaps)
 * Lodash
 * re-usable components
@@ -57,3 +57,6 @@ Angular styleguide: https://github.com/johnpapa/angular-styleguide
 * more examples
 * tests directory
 * auto-watch new files
+* built-in Notification Service
+* built-in Abstract Controller with pagination/sorting/order features
+* yeoman generator
