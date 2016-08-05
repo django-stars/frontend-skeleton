@@ -1,0 +1,24 @@
+CACHE MANIFEST
+
+# VERSION <%=VERSION%>
+
+CACHE:
+/
+index.html
+/static/vendor.js?<%=VERSION%>
+/static/templates.js?<%=VERSION%>
+/static/app.css?<%=VERSION%>
+/static/app.js?<%=VERSION%>
+favicon.ico
+/static/fonts/ionicons.ttf?v=2.0.1
+#/static/fonts/*
+
+FALLBACK:
+/ /
+cordova.js /
+http://127.0.0.1:35729/livereload.js?port=35729 /
+
+NETWORK:
+/api
+/app.manifest
+*

@@ -49,7 +49,6 @@ Angular styleguide: https://github.com/johnpapa/angular-styleguide
 
 ## TODO
 
-* Bootstrap or Polymer?
 * PageTitle service
 * built-in Auth Service/Module
 * include RestAngular ?

@@ -1,0 +1,10 @@
+ion-view(view-title='Chats')
+  ion-content
+    ion-list
+      ion-item.item-remove-animate.item-avatar.item-icon-right(ng-repeat='chat in ctrl.chats', type='item-text-wrap', href='#/tab/chats/{{chat.id}}')
+        img(ng-src='{{chat.face}}')
+        h2 {{chat.name}}
+        p {{chat.lastText}}
+        i.icon.ion-chevron-right.icon-accessory
+        ion-option-button.button-assertive(ng-click='ctrl.removeItem(chat)')
+          | Delete

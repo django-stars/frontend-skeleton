@@ -1,0 +1,23 @@
+//
+  The nav bar that will be updated as we navigate between views.
+ion-side-menus
+  // Left menu
+  ion-side-menu(side="left")
+    ion-header-bar.bar-stable
+      h1.title Options
+    ion-content
+      ion-list
+        ion-item(
+          ng-repeat="item in ctrl.items"
+          ui-sref-active="active"
+          ui-sref="ds.tab.{{item.state}}")
+          span(ng-bind="item.name")
+
+  ion-side-menu-content
+    ion-nav-bar.bar-stable
+      ion-nav-buttons(side="left")
+        button.button.button-icon.icon.ion-navicon(menu-toggle="left")
+
+      ion-nav-back-button
+
+    ion-nav-view(name='main-view')
