@@ -37,4 +37,3 @@ gulp.task('styles', ['sprites'], function() {
     .pipe(gulp.dest(path('{dest}')))
     .pipe(livereload());
 });
-
