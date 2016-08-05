@@ -4,7 +4,7 @@ export default routes;
 
 // @ngInject
 function routes($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/state1');
+  $urlRouterProvider.otherwise('/not_found');
 
   $stateProvider
 
@@ -27,5 +27,10 @@ function routes($stateProvider, $urlRouterProvider) {
       templateUrl: 'modules/module3/panel.html',
       controller: 'Module3Controller',
       controllerAs: 'ctrl'
+    })
+
+    .state('404', {
+      url: '/not_found',
+      templateUrl: 'modules/main/404.html'
     })
 }
