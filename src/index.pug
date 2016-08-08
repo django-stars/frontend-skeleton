@@ -1,0 +1,16 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name='viewport', content='initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width')
+    title DS AngularJS Mobile App
+    link(rel="stylesheet", href="static/app.css?#{VERSION}")
+  body(ng-cloak, data-api-base-url="#{API_URL}")
+
+    ion-nav-view
+
+    // cordova script (this will be a 404 during development)
+    script(src='cordova.js')
+    script(src="static/vendor.js?#{VERSION}")
+    script(src="static/templates.js?#{VERSION}")
+    script(src="static/app.js?#{VERSION}")

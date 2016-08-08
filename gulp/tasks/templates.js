@@ -21,14 +21,19 @@ gulp.task('templates-index', function () {
     API_URL: config.API_URL
   };
   return gulp
-          .src(path('{base}/index.+(html|jade|pug)'))
+          .src([
+            path('{base}/index.+(html|jade|pug)'),
+            // ionic settings
+            path('{base}/app.manifest')
+          ])
           .pipe(gulpif(/.*\.(jade|pug)$/,
             pug({locals: templateLocals, pretty: true, basedir: path('{base}/{scripts}', true)})
           ).on('error', error))
           .pipe(gulpif('*.html',
             template(templateLocals)
           ))
-          .pipe(gulp.dest(path('{dest}')))
+          // ionic settings
+          .pipe(gulp.dest(path('{dest}/../')))
           .pipe(livereload());
 });
 

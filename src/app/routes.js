@@ -4,33 +4,74 @@ export default routes;
 
 // @ngInject
 function routes($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/not_found');
-
   $stateProvider
 
-    .state('state1', {
-      url: '/state1',
-      templateUrl: 'modules/module1/panel.html',
-      controller: 'Module1Controller',
-      controllerAs: 'ctrl'
+  // setup an abstract state for the tabs directive
+  .state('ds', {
+    url: '',
+    abstract: true,
+    templateUrl: 'modules/content/content.html',
+    controller: 'MainController',
+    controllerAs: 'ctrl'
+  })
+
+  .state('ds.tab', {
+    url: '/tab',
+    abstract: true,
+    views: {
+      'main-view': {
+        templateUrl: 'modules/main/tabs.html',
+        controller: 'MainController',
+        controllerAs: 'ctrl'
+      }
+    }
+  })
+
+  // Each tab has its own nav history stack:
+
+  .state('ds.tab.dash', {
+    url: '/dash',
+    views: {
+      'tab-dash': {
+        templateUrl: 'modules/dash/tab-dash.html',
+        controller: 'DashController',
+        controllerAs: 'ctrl'
+      }
+    }
+  })
+
+  .state('ds.tab.chats', {
+      url: '/chats',
+      views: {
+        'tab-chats': {
+          templateUrl: 'modules/chats/tab-chats.html',
+          controller: 'ChatsController',
+          controllerAs: 'ctrl'
+        }
+      }
+    })
+    .state('ds.tab.chat-detail', {
+      url: '/chats/:chatId',
+      views: {
+        'tab-chats': {
+          templateUrl: 'modules/chat-detail/chat-detail.html',
+          controller: 'ChatDetailController',
+          controllerAs: 'ctrl'
+        }
+      }
     })
 
-    .state('state2', {
-      url: '/state2',
-      templateUrl: 'modules/module2/panel.html',
-      controller: 'Module2Controller',
-      controllerAs: 'ctrl'
-    })
+  .state('ds.tab.account', {
+    url: '/account',
+    views: {
+      'tab-account': {
+        templateUrl: 'modules/account/tab-account.html',
+        controller: 'AccountController',
+        controllerAs: 'ctrl'
+      }
+    }
+  });
 
-    .state('state3', {
-      url: '/state3',
-      templateUrl: 'modules/module3/panel.html',
-      controller: 'Module3Controller',
-      controllerAs: 'ctrl'
-    })
-
-    .state('404', {
-      url: '/not_found',
-      templateUrl: 'modules/main/404.html'
-    })
+  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/tab/dash');
 }

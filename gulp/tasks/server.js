@@ -51,7 +51,8 @@ gulp.task('server', function() {
 
   // serve index.html for all routes to leave routing up to Angular
   app.all('/*', function(req, res) {
-    res.sendFile(path('{dest}/index.html'), { root: '.' });
+    // ionic settings
+    res.sendFile(path('{dest}/../index.html'), { root: '.' });
   });
 
   var server = http.createServer(app);

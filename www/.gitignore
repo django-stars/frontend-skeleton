@@ -1,0 +1,5 @@
+# this directory need to be in git for corretly ionic builds
+# Ignore everything in this directory
+*
+# Except this file
+!.gitignore

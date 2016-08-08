@@ -10,7 +10,9 @@ logs/*
 .DS_Store
 
 .sass-cache/
-node_modules
+node_modules/
+platforms/
+plugins/
 static
 static*
 .tmp
