@@ -6,7 +6,7 @@
   "contributors": [
     {
       "name": "Yaroslav Shulika",
-      "email": "legendar@gmail.com"
+      "email": "yaroslav.shulika@djangostars.com"
     },
     {
       "name": "Alexander Vilko",
@@ -15,6 +15,18 @@
     {
       "name": "Denis Podlesniy",
       "email": "denis.podlesniy@djangostars.com"
+    },
+    {
+      "name": "Alona Nedelchenko",
+      "email": "alona.nedelchenko@djangostars.com"
+    },
+    {
+      "name": "Eugene Bespaly",
+      "email": "eugene.bespaly@djangostars.com"
+    },
+    {
+      "name": "Oleksiy Onishchenko",
+      "email": "oleksiy.onishchenko@djangostars.com"
     }
   ],
   "bugs": {
