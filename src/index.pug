@@ -3,8 +3,7 @@ html(lang="en")
   head
     meta(charset="utf-8")
     title DS AngularJS App
-    link(rel="stylesheet", href="/static/app.css?#{VERSION}")
-  body(ng-cloak, data-api-base-url="#{API_URL}")
+  body(ng-cloak, data-api-base-url=`${locals.API_URL}`)
 
     div(class="sprites-example")
       span(class="btn-add")
@@ -21,7 +20,3 @@ html(lang="en")
         a(href="#/does/not/exists") otherwise
 
     div(ui-view)
-
-    script(src="/static/vendor.js?#{VERSION}")
-    script(src="/static/templates.js?#{VERSION}")
-    script(src="/static/app.js?#{VERSION}")
