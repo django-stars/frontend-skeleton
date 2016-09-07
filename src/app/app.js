@@ -1,6 +1,8 @@
+import '../sass/app.sass';
+
 'use strict';
 
-import "babel-polyfill";
+import 'babel-polyfill';
 
 import angular from 'angular';
 import dsApp from 'modules/main'; // main module

@@ -13,7 +13,7 @@ var API_URL = angular.element('body').data('api-base-url');
 
 // Declare app level module which depends on views, and components
 export default angular.module('dsApp', [
-    'templates',
+    //'templates',
     uiRouter,
     module1,
     module2,
