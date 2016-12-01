@@ -44,7 +44,7 @@ gulp.task('templates-ng', function () {
             standalone: true,
             templateHeader: TEMPLATE_HEADER,
             transformUrl: function(url) {
-              return url.replace(/^app\//, '').replace(/\/templates\//, '/');
+              return url.replace(/\\/g, '/').replace(/^app\//, '').replace(/\/templates\//, '/');
             }
           }))
           .pipe(gulp.dest(path('{dest}')))
