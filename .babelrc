@@ -1,0 +1,5 @@
+{
+  compact: false,
+  presets: ['es2015'],
+  plugins: ['syntax-decorators', 'ng-annotate']
+}

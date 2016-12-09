@@ -6,6 +6,8 @@ var WriteFilePlugin = require('write-file-webpack-plugin');
 var compassImporter = require('compass-importer');
 var _ = require('lodash');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var morgan  = require('morgan');
+var url     = require('url');
 
 /*var config = {
   paths: {
@@ -13,12 +15,19 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
   }
 }*/
 
+// configure environment
+var envFile = process.env.ENVFILE || '.env/local';
+var envConfig = require('dotenv').config({path: envFile});
+
 module.exports = {
   resolve: {
     root: path.resolve('./src/app'),
     // TODO add all possible/usage extensions
-    extensions: ['', '.js', '.pug', '.html']
+    extensions: ['', '.js', '.pug', '.html', '.css', '.sass', '.scss'],
   },
+
+  debug: true,
+  devtool: 'source-map',
 
   entry: {
     app: 'app.js',
@@ -26,7 +35,7 @@ module.exports = {
   },
 
   output: {
-    path: path.resolve('./build'),
+    path: path.resolve(process.env.STATIC_PATH),
     publicPath: "/",
     //filename: "build/app.js"
     filename: "static/[name].js",
@@ -38,45 +47,46 @@ module.exports = {
     loaders: [
       { test: /\.html$/, loader: 'raw' },
       {
-        test: /\.sass$/,
-        loader: ExtractTextPlugin.extract(['css', 'sass'])
+        test: /\.sass$|\.css$/,
+        // NOTE ?sourceMap option need for resolve-url-loader plugin properly working
+        // don't worry about prod build, all will be fine
+        loader: ExtractTextPlugin.extract(['css-loader?sourceMap', 'resolve-url-loader', 'sass-loader?sourceMap'])
       },
       {
         test: /\.js$/,
         //exclude: /(node_modules|build)/,
-        loader: 'babel',
-        query: {
-          presets: ['es2015'],
-          plugins: ['syntax-decorators', 'ng-annotate']
-        }
+        loaders: [
+          'ng-annotate-loader',
+          'babel-loader',
+        ]
       },
       /*{
         test: /\.pug$/,
         exclude: [
           path.resolve('src/app')
         ],
-        loader: 'pug-html'
+        loader: 'pug-html-loader'
       },*/
       {
         test: /\.pug$/,
         /*include: [
           path.resolve('src/app')
         ],*/
-        loader: 'pug-html',
-        query: {
-          'API_URL': '/api/v1'
-        }
+        loader: 'pug-html-loader',
+        query: _.assign({}, envConfig, {
+          'API_URL': process.env.API_URL
+        })
       },
       // media
       {
-        test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
-        loader: "file"
+        test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff2?$|\.ttf$|\.eot$|\.wav$|\.mp3$/,
+        loader: 'file-loader'
       },
 
       // SHIMS
       /*{
         test: require.resolve('angular'),
-        loader: 'imports?jQuery=jquery'
+        loader: 'imports-loader?jQuery=jquery'
       }*/
     ]
   },
@@ -112,20 +122,30 @@ module.exports = {
 
     // need for the angular
     new webpack.ProvidePlugin({
-      'window.jQuery': 'jquery'
+      'window.jQuery': 'jquery',
+      'jQuery': 'jquery'
     }),
 
+    // FIXME it seems we don't need this, instead use right resolve rules
     new CopyWebpackPlugin([
       {
         context: path.resolve('./src'),
         from: 'img/**/*',
         to: 'static'
+      },
+      {
+        context: path.resolve('./src'),
+        from: 'fonts/**/*',
+        to: 'static'
       }
-    ])
+    ]),
   ],
 
   sassLoader: {
-    includePaths: [path.resolve('./src/sass')],
+    includePaths: [
+      path.resolve('./src/sass'),
+      path.resolve('./node_modules'),
+    ],
     indentedSyntax: true,
     importer: [
       sprityImporter,
@@ -135,9 +155,14 @@ module.exports = {
 
   devServer: {
     // output path for WriteFilePlugin
-    outputPath: path.resolve('./build'),
-    contentBase: path.resolve('./build'),
-    port: 3000
+    outputPath: path.resolve(process.env.STATIC_PATH),
+    contentBase: path.resolve(process.env.STATIC_PATH),
+    port: 3000,
+    historyApiFallback: true,
+    setup: function(app) {
+      app.use(morgan('dev'));
+    },
+    proxy: configureProxy()
   }
 };
 
@@ -154,7 +179,7 @@ function sprityImporter(importName, cssFilePath, done) {
   var options = {
     //src: path('{base}/{sprites}/**/*.') + '{png,jpg}',
     src: path.resolve('./src/img/sprites/**/*.{png,jpg}'),
-    out: path.resolve('./build/static/img'),
+    out: path.resolve(process.env.STATIC_PATH + '/static/img'),
     //cssPath: path('/{destEndpoint}/{images}'),
     style: 'sprites.sass',
     cssPath: '/static/img',
@@ -210,3 +235,27 @@ var handleCallbackError = function (cb) {
   };
 };
 
+function configureProxy() {
+  // Proxy API requests to backend
+  var urlData = url.parse(process.env.BACKEND_URL);
+  var backendBaseURL = urlData.protocol + '//' + urlData.host;
+
+  var options = {
+    changeOrigin: true,
+    target: backendBaseURL,
+    secure: false,
+    //logLevel: 'debug',
+  };
+
+  if (urlData.auth) {
+    options.auth = urlData.auth
+  }
+
+  var context = [process.env.API_URL].concat(JSON.parse(process.env.PROXY));
+
+  var ret = [_.assign({}, options, {
+    context: context,
+  })];
+
+  return ret
+}

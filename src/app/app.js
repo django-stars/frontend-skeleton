@@ -11,6 +11,6 @@ angular
   .element(document.getElementsByTagName('html')[0])
   .ready(function() {
     // bootstrap the app manually
-    angular.bootstrap(document, [dsApp]);
+    angular.bootstrap(document, [dsApp], {strictDi: true});
   });
 
