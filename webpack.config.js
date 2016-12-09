@@ -16,7 +16,7 @@ var url     = require('url');
 }*/
 
 // configure environment
-var envFile = process.env.ENVFILE || '.env/local';
+var envFile = process.env.ENVFILE || '.env/dev';
 var envConfig = require('dotenv').config({path: envFile});
 
 module.exports = {
