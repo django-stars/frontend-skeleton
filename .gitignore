@@ -17,4 +17,4 @@ static*
 .imagemin
 npm-debug.log
 
-local.json
+.env/local
