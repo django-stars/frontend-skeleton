@@ -16,8 +16,16 @@ var url     = require('url');
 }*/
 
 // configure environment
+var dotenv = require('dotenv');
+var fs = require('fs')
 var envFile = process.env.ENVFILE || '.env/local';
-var envConfig = require('dotenv').config({path: envFile});
+if(!fs.existsSync(envFile)) {
+  var envFile = process.env.ENVFILE || '.env/dev';
+}
+if(!fs.existsSync(envFile)) {
+  throw 'no env file'
+}
+var envConfig = dotenv.config({path: envFile});
 
 module.exports = {
   resolve: {
@@ -27,10 +35,14 @@ module.exports = {
   },
 
   debug: true,
-  devtool: 'source-map',
+
+  devtool: 'eval',
+  // perfect but so slow
+  //devtool: 'source-map',
 
   entry: {
     app: 'app.js',
+    styles: './src/sass/app.sass',
     // you can add you own entries here (also check CommonsChunkPlugin)
   },
 
@@ -40,7 +52,8 @@ module.exports = {
     //filename: "build/app.js"
     filename: "static/[name].js",
     // TODO check why we need this
-    chunkFilename: "[id].chunk.js"
+    chunkFilename: "[id].chunk.js",
+    pathinfo: true // debug info
   },
 
   module: {
@@ -79,8 +92,31 @@ module.exports = {
       },
       // media
       {
-        test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff2?$|\.ttf$|\.eot$|\.wav$|\.mp3$/,
-        loader: 'file-loader'
+        test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.wav$|\.mp3$/,
+        loader: 'file-loader',
+        query: {
+          publicPath: 'static/img',
+          //outputPath: 'static/img',
+          name: 'static/img/[hash].[ext]',
+        }
+      },
+      {
+        test: /\.woff2?$|\.ttf$|\.eot$/,
+        loader: 'file-loader',
+        query: {
+          publicPath: '/static/fonts',
+          //outputPath: 'static/fonts',
+          name: 'static/fonts/[hash].[ext]',
+        }
+      },
+      {
+        test: /\.wav$|\.mp3$/,
+        loader: 'file-loader',
+        query: {
+          publicPath: 'static/media',
+          //outputPath: 'static/media',
+          name: 'static/media/[hash].[ext]',
+        }
       },
 
       // SHIMS
@@ -133,12 +169,16 @@ module.exports = {
         from: 'img/**/*',
         to: 'static'
       },
-      {
+      /*{
         context: path.resolve('./src'),
-        from: 'fonts/**/*',
+        from: 'fonts/** /*',
         to: 'static'
-      }
-    ]),
+      }*/
+    ], {
+      ignore: [
+        'img/sprites/**/*'
+      ]
+    }),
   ],
 
   sassLoader: {
