@@ -95,7 +95,7 @@ module.exports = {
         test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.wav$|\.mp3$/,
         loader: 'file-loader',
         query: {
-          publicPath: 'static/img',
+          publicPath: '/',
           //outputPath: 'static/img',
           name: 'static/img/[hash].[ext]',
         }
@@ -104,7 +104,7 @@ module.exports = {
         test: /\.woff2?$|\.ttf$|\.eot$/,
         loader: 'file-loader',
         query: {
-          publicPath: '/static/fonts',
+          publicPath: '/',
           //outputPath: 'static/fonts',
           name: 'static/fonts/[hash].[ext]',
         }
@@ -113,22 +113,16 @@ module.exports = {
         test: /\.wav$|\.mp3$/,
         loader: 'file-loader',
         query: {
-          publicPath: 'static/media',
+          publicPath: '/',
           //outputPath: 'static/media',
           name: 'static/media/[hash].[ext]',
         }
       },
-
-      // SHIMS
-      /*{
-        test: require.resolve('angular'),
-        loader: 'imports-loader?jQuery=jquery'
-      }*/
     ]
   },
 
   plugins: [
-    // Injects bundles in your index.html instead of wiring all manually.
+    // Injects bundles in your index file instead of wiring all manually.
     // you can use chunks option to exclude some bundles and add separate entry point
     // TODO entry for tests?
     new HtmlWebpackPlugin({
@@ -156,9 +150,9 @@ module.exports = {
     // write generated files to filesystem (for debug)
     new WriteFilePlugin(),
 
-    // need for the angular
+    // SHIMS
     new webpack.ProvidePlugin({
-      'window.jQuery': 'jquery',
+      'window.jQuery': 'jquery', // need for the angular
       'jQuery': 'jquery'
     }),
 
