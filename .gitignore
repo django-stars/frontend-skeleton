@@ -70,6 +70,8 @@ node_modules/
 # User-uploaded media
 emdyn_back/media/
 
+# config secrets
+config/settings/secret_settings.py
 
 
 staticfiles/
