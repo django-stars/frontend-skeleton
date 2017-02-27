@@ -55,7 +55,7 @@ module.exports = createConfig([
         path.resolve('./src/app'),
         'node_modules',
       ],
-      extensions: ['.js', '.json', '.pug', '.css', '.sass', '.scss'],
+      extensions: ['.js', '.jsx', '.json', '.pug', '.css', '.sass', '.scss'],
     },
   }),
 

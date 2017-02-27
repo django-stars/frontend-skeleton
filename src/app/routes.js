@@ -1,36 +1,42 @@
 'use strict';
 
-export default routes;
+// HOC for check auth
+import AuthCheck from 'modules/session/AuthCheck'
 
-// @ngInject
-function routes($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/not_found');
+import AuthLogin from 'modules/session/AuthLogin'
+//import AuthRegistration from 'modules/session/AuthRegistration'
+//import AuthPasswordReset from 'modules/session/AuthPasswordReset'
 
-  $stateProvider
+import AppLayout from 'layouts/AppLayout'
+import Dashboard from 'modules/dashboard/Dashboard'
 
-    .state('state1', {
-      url: '/state1',
-      template: require('modules/module1/templates/panel'),
-      controller: 'Module1Controller',
-      controllerAs: 'ctrl'
-    })
-
-    .state('state2', {
-      url: '/state2',
-      template: require('modules/module2/templates/panel'),
-      controller: 'Module2Controller',
-      controllerAs: 'ctrl'
-    })
-
-    .state('state3', {
-      url: '/state3',
-      template: require('modules/module3/templates/panel'),
-      controller: 'Module3Controller',
-      controllerAs: 'ctrl'
-    })
-
-    .state('404', {
-      url: '/not_found',
-      template: require('modules/main/templates/404')
-    })
+const routes = {
+  path: '/',
+  component: AppLayout,
+  //indexRoute: { component: Dashboard },
+  childRoutes: [
+    { path: 'dashboard', component: AuthCheck(Dashboard) },
+    {
+      path: 'auth',
+      //component: AuthLogin,
+      childRoutes: [{
+        path: 'login', component: AuthLogin,
+        //path: 'register', component: AuthRegistration,
+        //path: 'password-reset', component: AuthPasswordReset,
+      }],
+    },
+    //{ path: '*', component: NotFound }
+  ]
 }
+
+export default routes
+
+/*
+  /
+  /auth/
+  /auth/registration
+  /auth/password-reset
+  /dashboard
+  /items
+  /item/:id
+*/

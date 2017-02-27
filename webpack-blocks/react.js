@@ -8,7 +8,8 @@ function react(options) {
   options = options || {}
 
   const bb = babel({
-    presets: [['es2015', { 'modules': false }], 'react'],
+    presets: [['es2015', { 'modules': false }], 'stage-0', 'react'],
+    plugins: ['react-require']
   })
 
   return bb
