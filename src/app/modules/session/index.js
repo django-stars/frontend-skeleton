@@ -17,7 +17,7 @@ const defaultState = {
   user: {}
 }
 
-export function reducer(state = defaultState, {type, payload}) {
+function reducer(state = defaultState, {type, payload}) {
   switch (type) {
     case SESSION_USER_FULFILLED:
       return {
@@ -29,7 +29,7 @@ export function reducer(state = defaultState, {type, payload}) {
   }
 }
 
-export function epic(action$) {
+function epic(action$) {
   return action$.ofType(SESSION_USER_FETCH)
     //.delay(2000) // Asynchronously wait 1000ms then continue
     .mergeMap(action =>
@@ -39,3 +39,8 @@ export function epic(action$) {
         .map(success)
     );
 }
+
+const reducers = {session: reducer}
+const epics = [epic]
+
+export { reducers, epics }

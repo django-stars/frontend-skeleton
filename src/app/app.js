@@ -11,9 +11,13 @@ import 'rxjs/add/operator/mapTo';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/map';
 
+import reduce from 'lodash/reduce'
+import extend from 'lodash/extend'
+import union from 'lodash/union'
+
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { createEpicMiddleware, combineEpics } from 'redux-observable'
-import { epic as sessionEpic, reducer as session } from 'modules/session'
+import { epics as sessionEpics, reducers as sessionReducers } from 'modules/session'
 import { reducer as form } from 'redux-form'
 import createLogger from 'redux-logger'
 
@@ -26,17 +30,21 @@ import routes from './routes'
 import { configure as configureAPI } from 'api'
 
 const epicMiddleware = createEpicMiddleware(
-  combineEpics(
-    sessionEpic
-  )
+  combineEpics(...union(
+    // your epics here
+    sessionEpics,
+  ))
 )
 
 const store = createStore(
-  combineReducers({
-    session,
-    routing,
-    form
-  }),
+  combineReducers(reduce([
+    // your reducers here
+    sessionReducers,
+    {
+      routing,
+      form
+    },
+  ], extend)),
   applyMiddleware(
     epicMiddleware,
     routerMiddleware(browserHistory),
