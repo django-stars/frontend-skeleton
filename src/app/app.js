@@ -20,6 +20,7 @@ import { createEpicMiddleware, combineEpics } from 'redux-observable'
 import { epics as sessionEpics, reducers as sessionReducers } from 'modules/session'
 import { reducer as form } from 'redux-form'
 import createLogger from 'redux-logger'
+import thunk from 'redux-thunk';
 
 import { Provider } from 'react-redux'
 import { render } from 'react-dom'
@@ -27,7 +28,7 @@ import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer as routing, routerMiddleware } from 'react-router-redux'
 
 import routes from './routes'
-import { configure as configureAPI } from 'api'
+import API, { configure as configureAPI } from 'api'
 
 const epicMiddleware = createEpicMiddleware(
   combineEpics(...union(
@@ -47,6 +48,7 @@ const store = createStore(
   ], extend)),
   applyMiddleware(
     epicMiddleware,
+    thunk.withExtraArgument({API}),
     routerMiddleware(browserHistory),
     createLogger()
   )

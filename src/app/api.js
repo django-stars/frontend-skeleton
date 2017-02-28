@@ -20,8 +20,8 @@ class API {
     const authToken = store.getState().session.token;
     const Authorization = authToken ? 'JWT ' + authToken : '';
 
-    return Observable.from(
-      fetch(
+    //return Observable.from(
+    return fetch(
         `/api/v1/${this.endpoint}/`,
         {
           method,
@@ -33,28 +33,30 @@ class API {
         }
       )
       .then(response => {
-        const data = response.json()
-        if(response.ok) {
-          return data;
-        }
+        return response.json()
+          .then(function(body) {
+            if(response.ok) {
+              return body;
+            }
 
-        // handle errors
-        var errors = {};
-        keys(data).forEach( key => {
-          let eKey = key
-          if(key == 'non_field_errors' || key == 'detail') {
-            eKey = '_error'
-          }
-          if(Array.isArray(body[key])) {
-            errors[eKey] = body[key][0];
-          } else {
-            errors[eKey] = body[key];
-          }
-        })
+            // handle errors
+            var errors = {};
+            keys(body).forEach( key => {
+              let eKey = key
+              if(key == 'non_field_errors' || key == 'detail') {
+                eKey = '_error'
+              }
+              if(Array.isArray(body[key])) {
+                errors[eKey] = body[key][0];
+              } else {
+                errors[eKey] = body[key];
+              }
+            })
 
-        throw new SubmissionError(errors)
+            throw new SubmissionError(errors)
+          })
       })
-    )
+    //)
   }
 
   post(data) {
