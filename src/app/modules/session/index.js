@@ -7,8 +7,19 @@ const SESSION_USER_FULFILLED = Symbol('SESSION_USER_FULFILLED')
 
 export { SESSION_USER_FETCH, SESSION_USER_FULFILLED }
 
-const login = createAction(SESSION_USER_FETCH)
+//const login = createAction(SESSION_USER_FETCH)
 const success = createAction(SESSION_USER_FULFILLED)
+
+const login = function(credentials) {
+  return function(dispatch, getState, { API }) {
+    //return new Promise((resolve, reject) => {
+    return API('profiles/login')
+        .post(credentials)
+        //.then(resolve)
+        //.catch(reject)
+    //})
+  }
+}
 
 export { login }
 
@@ -29,7 +40,7 @@ function reducer(state = defaultState, {type, payload}) {
   }
 }
 
-function epic(action$) {
+/*function epic(action$) {
   return action$.ofType(SESSION_USER_FETCH)
     //.delay(2000) // Asynchronously wait 1000ms then continue
     .mergeMap(action =>
@@ -38,9 +49,9 @@ function epic(action$) {
         .catch(err=> { throw err })
         .map(success)
     );
-}
+}*/
 
 const reducers = {session: reducer}
-const epics = [epic]
+//const epics = [epic]
 
-export { reducers, epics }
+export { reducers/*, epics*/ }

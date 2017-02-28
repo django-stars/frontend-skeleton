@@ -6,7 +6,7 @@ import { login } from '.'
 
 class AuthLogin extends Component {
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, error } = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <div>
@@ -17,6 +17,7 @@ class AuthLogin extends Component {
           <label htmlFor="lastName">Password</label>
           <Field name="password" component="input" type="password" />
         </div>
+        { error && <p style={{color:'red'}}>{error}</p> }
         <button type="submit">Login</button>
       </form>
     )
