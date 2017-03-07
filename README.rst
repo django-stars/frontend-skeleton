@@ -3,17 +3,10 @@ emdyn-back
 
 emdyn vigilance portal
 
-.. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
-     :target: https://github.com/pydanny/cookiecutter-django/
-     :alt: Built with Cookiecutter Django
-
 
 Settings
 --------
 
-Moved to settings_.
-
-.. _settings: http://cookiecutter-django.readthedocs.io/en/latest/settings.html
 
 Basic Commands
 --------------
@@ -48,9 +41,6 @@ Running tests with py.test
 Live reloading and Sass CSS compilation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Moved to `Live reloading and SASS compilation`_.
-
-.. _`Live reloading and SASS compilation`: http://cookiecutter-django.readthedocs.io/en/latest/live-reloading-and-sass-compilation.html
 
 
 
@@ -81,6 +71,12 @@ The system is setup with reasonable defaults, including 404 logging and integrat
 You must set the DSN url in production.
 
 
+Developer Setup
+---------------
+
+The following details how to setup a devloper machine for this application.
+
+
 Deployment
 ----------
 
@@ -90,9 +86,3 @@ The following details how to deploy this application.
 
 Docker
 ^^^^^^
-
-See detailed `cookiecutter-django Docker documentation`_.
-
-.. _`cookiecutter-django Docker documentation`: http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html
-
-
