@@ -8,15 +8,27 @@ https://docs.djangoproject.com/en/dev/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
-from __future__ import absolute_import, unicode_literals
+import os
+import json
+# from __future__ import absolute_import, unicode_literals
 
 import environ
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+with open(BASE_DIR +'\config\settings\secret_settings.json') as f:
+    secure_values = json.loads(f.read())
+
+
 ROOT_DIR = environ.Path(__file__) - 3  # (emdyn_back/config/settings/common.py - 3 = emdyn_back/)
+
+
 APPS_DIR = ROOT_DIR.path('emdyn_back')
 
 env = environ.Env()
 env.read_env()
+# env.read_env(str(ROOT_DIR.path('.env')))
 
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -45,13 +57,13 @@ THIRD_PARTY_APPS = (
 # Apps specific for this project go here.
 LOCAL_APPS = (
     # custom users app
-    'emdyn_back.users.apps.UsersConfig',
+    'emdyn_back.users',
     # Your stuff: custom apps go here
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
-
+#
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
 MIDDLEWARE = (
@@ -99,9 +111,23 @@ MANAGERS = ADMINS
 # DATABASE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
+# DATABASES = {
+#     'default': env.db('DATABASE_URL', default='postgres://localhost/emdyn_back'),
+# }
+
+
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres://localhost/emdyn_back'),
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': secure_values['db_name'],
+        'USER': secure_values['db_user'],
+        'PASSWORD': secure_values['db_pwd'],
+        'HOST': secure_values['db_host'],
+        'PORT': secure_values['db_port'],
+    }
+
 }
+
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 
@@ -178,6 +204,7 @@ STATIC_URL = '/static/'
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = (
     str(APPS_DIR.path('static')),
+
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
@@ -185,6 +212,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
+
 
 # MEDIA CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -247,14 +275,14 @@ LOGIN_URL = 'account_login'
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 
 ########## CELERY
-INSTALLED_APPS += ('emdyn_back.taskapp.celery.CeleryConfig',)
-# if you are not using the django database broker (e.g. rabbitmq, redis, memcached), you can remove the next line.
-INSTALLED_APPS += ('kombu.transport.django',)
-BROKER_URL = env('CELERY_BROKER_URL', default='django://')
-if BROKER_URL == 'django://':
-    CELERY_RESULT_BACKEND = 'redis://'
-else:
-    CELERY_RESULT_BACKEND = BROKER_URL
+# INSTALLED_APPS += ('emdyn_back.taskapp.celery.CeleryConfig',)
+# # if you are not using the django database broker (e.g. rabbitmq, redis, memcached), you can remove the next line.
+# INSTALLED_APPS += ('kombu.transport.django',)
+# BROKER_URL = env('CELERY_BROKER_URL', default='django://')
+# if BROKER_URL == 'django://':
+#     CELERY_RESULT_BACKEND = 'redis://'
+# else:
+#     CELERY_RESULT_BACKEND = BROKER_URL
 ########## END CELERY
 
 

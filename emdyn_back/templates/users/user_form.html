@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load staticfiles i18n %}
 {% load crispy_forms_tags %}
 
 {% block title %}{{ user.username }}{% endblock %}
@@ -10,7 +11,7 @@
     {{ form|crispy }}
     <div class="control-group">
       <div class="controls">
-        <button type="submit" class="btn">Update</button>
+        <button type="submit" class="btn">{% trans "Update" %}</button>
       </div>
     </div>
   </form>

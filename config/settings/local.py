@@ -25,6 +25,21 @@ TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 # Note: This key only used for development and testing.
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='a*(0okz5vwu#8a7ucili=+pj%-8q8us*hzx*w!4fn!g9kyks&@')
 
+
+# db
+
+DATABASES = {
+    'default': {
+        # Postgresql with PostGIS
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'emdyn', # DB name
+        'USER': secure_values['db_user'], # DB user name
+        'PASSWORD': secure_values['db_pwd'], # DB user password
+        'HOST': 'localhost',
+        'PORT': '5434',
+    }
+}
 # Mail settings
 # ------------------------------------------------------------------------------
 
@@ -51,7 +66,7 @@ INSTALLED_APPS += ('debug_toolbar', )
 
 INTERNAL_IPS = ['127.0.0.1', '10.0.2.2', ]
 # tricks to have debug toolbar when developing with docker
-if os.environ.get('USE_DOCKER') == 'yes':
+if os.environ.get('USE_DOCKER') == 'no':
     ip = socket.gethostbyname(socket.gethostname())
     INTERNAL_IPS += [ip[:-1] + "1"]
 
