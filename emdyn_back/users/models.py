@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser, UserManager
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from base.models_base import AppModel, TimeStampedModel
+from base.models import AppModel, TimeStampedModel
 
 
 class Organisation(models.Model, AppModel, TimeStampedModel):
