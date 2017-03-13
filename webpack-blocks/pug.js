@@ -8,8 +8,13 @@ function pug(options) {
       loaders: [
         {
           test: context.fileType('text/x-pug'),
-          loader: 'pug-html-loader',
-          query: Object.assign({}, {data: options})
+          loaders: [
+            'html-loader',
+            {
+              loader: 'pug-html-loader',
+              query: Object.assign({}, {data: options})
+            }
+          ],
         }
       ]
     }
@@ -20,7 +25,7 @@ function pug(options) {
 
 function pre(context) {
   const registeredTypes = context.fileType.all()
-  if (!('application/x-pug' in registeredTypes)) {
+  if (!('text/x-pug' in registeredTypes)) {
     context.fileType.add('text/x-pug', /\.pug$/)
   }
 }
