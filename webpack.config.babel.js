@@ -50,6 +50,7 @@ module.exports = createConfig([
   }),
 
   customConfig({
+    target: envConfig.ELECTRON ? 'electron-renderer' : 'web',
     resolve: {
       modules: [
         path.resolve('./src/app'),
