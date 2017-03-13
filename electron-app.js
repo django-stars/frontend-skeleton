@@ -13,11 +13,13 @@ function createWindow (eee) {
   // Create the browser window.
   win = new BrowserWindow({width: 800, height: 600})
 
-  win.loadURL('ds://django.stars/auth/login')
-  win.webContents.executeJavaScript('require("electron").webFrame.registerURLSchemeAsPrivileged("ds")')
+  //win.loadURL('ds://django.stars/auth/login') // FIXME should be own protocol in production build
+  win.loadURL('http://localhost:3000/auth/login')
 
   // Open the DevTools.
   win.webContents.openDevTools()
+
+  win.webContents.executeJavaScript('require("electron").webFrame.registerURLSchemeAsPrivileged("ds");')
 
   // Emitted when the window is closed.
   win.on('closed', () => {
