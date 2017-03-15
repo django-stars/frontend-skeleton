@@ -74,7 +74,7 @@ def api_face(photo_db_path):
             face_name = os.path.splitext(filename)[0]
             params = {"meta": face_name, "galleries": [face_gallery]}
 
-            req_response = requests.request("post", url, files=photo, data=params, headers=headers)
+            req_response = requests.request("post", urlprocess_input_folder, files=photo, data=params, headers=headers)
             parsed_response = json.loads(req_response.text)
 
             if req_response.status_code == 200:

@@ -1,8 +1,9 @@
 from django.db import models
 from emdyn_back.users.models import Organisation
+from users.models import User
+from base.models import AppModel
 
-
-class FaceProcess(models.Model):
+class FaceProcess(AppModel):
     """
     On every batch run a log entry is stored here
     """
@@ -13,11 +14,23 @@ class FaceProcess(models.Model):
     # count success images processed
     # count failed image processed
 
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    success_images = models.IntegerField()
+    failed_images = models.IntegerField()
+    total_images = models.IntegerField()
+
+
+    user = models.ForeignKey(User)
+
+    if multiple single image sellect pass array of paths
+
+
     pass
 
 
 
-class FaceList(models.Model):
+class FaceList(AppModel):
 
     # customer = models.ForeignKey(Organisation)
     # proccess_id = models.ForeignKey(FaceProcess)

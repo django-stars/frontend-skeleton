@@ -19,7 +19,9 @@ urlpatterns = [
     url(r'^users/', include('emdyn_back.users.urls', namespace='users')),
     url(r'^accounts/', include('allauth.urls')),
 
-    # Your stuff: custom urls includes go here
+    # EMDYN API
+    url(r'^api/v0/', include('findface.urls', namespace='api')),
+
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
