@@ -23,7 +23,7 @@ class FaceProcess(AppModel):
 
     user = models.ForeignKey(User)
 
-    if multiple single image sellect pass array of paths
+    # if multiple single image sellect pass array of paths
 
 
     pass
