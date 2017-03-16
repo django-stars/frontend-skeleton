@@ -4,6 +4,9 @@ from PIL import Image
 from skimage import io
 import cv2
 
+from emdyn_back.findface.models import FaceProcess, FaceList, FindFaceErrorLog
+from rest_framework.decorators import api_view
+
 try:
     import requests
 except ImportError:
@@ -46,7 +49,13 @@ def rotator_api(photo):
             io.imsave(rotated_photo, img)
             return (rotated_photo, "OK")
 
-def api_face(photo_db_path):
+@api_view('GET')
+def api_face(request, photo_db_path):
+
+    # create process object
+    FaceProcess.objects.create(owner=request.user)
+    FaceProcess.save()
+
     global token
     global ffserver_url
     global mf_selector
@@ -83,6 +92,10 @@ def api_face(photo_db_path):
             else:
                 log.write("{0};{1}\n".format(filename, "Error: " + parsed_response["reason"]))
                 status = "Error: " + parsed_response["reason"]
+
+                FindFaceErrorLog.objects.create(error_source="FF", image_file_name=filename,
+                                                error_reason=parsed_response["reason"])
+
                 shutil.copy(photo_file_path, os.path.join(no_faces_dir, filename))
             progress_bar(i / total, line=filename + ", " + status)
 
@@ -151,6 +164,7 @@ def api_face_with_rotate(photo_db_path):
 
             if req_response.status_code == 200:
                 log.write("{0};{1}\n".format(filename, "OK"))
+                Face
                 status = "OK"
             else:
                 log.write("{0};{1}\n".format(filename, "Error: " + parsed_response["reason"]))
