@@ -2,6 +2,7 @@ from django.db import models
 from emdyn_back.users.models import Organisation
 from users.models import User
 from base.models import AppModel
+# from emdyn_back.users.models import Organisation
 
 class FaceProcess(AppModel):
     """

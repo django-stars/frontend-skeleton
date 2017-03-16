@@ -5,10 +5,14 @@ from django.contrib.auth.models import AbstractUser, UserManager
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from base.models import AppModel, TimeStampedModel
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from rest_framework.authtoken.models import Token
 
 
-class Organisation(models.Model, AppModel, TimeStampedModel):
+class Organisation(models.Model):
     name = models.CharField(max_length=200,
                             help_text=_("The name of the organization"))
     is_active = models.BooleanField(default=True)
@@ -26,11 +30,11 @@ class Organisation(models.Model, AppModel, TimeStampedModel):
         return self.name
 
 
-class Department(models.Model, AppModel, TimeStampedModel):
+class Department(models.Model):
     name = models.CharField(max_length=200,
                             help_text=_("The name of the organization"))
     is_active = models.BooleanField(default=True)
-    organization = models.ForeignKey(Organisation)
+    organisation = models.ForeignKey(Organisation)
 
     token = models.CharField(max_length=200, null=True, blank=True, default=None,
                              verbose_name=_("token"))
@@ -45,28 +49,24 @@ class Department(models.Model, AppModel, TimeStampedModel):
         return self.name
 
 
-class User(AbstractUser, AppModel, TimeStampedModel):
+class User(AbstractUser):
     # First Name and Last Name do not cover name patterns
     # around the globe.
     name = models.CharField(_('Name of User'), blank=True, max_length=255)
-    email = models.EmailField(
-        verbose_name='email address',
-        max_length=255,
-        unique=True,
-        help_text=_('Required, must be a valid email address'),
-    )
-
-    token = models.CharField(max_length=200, null=True, blank=True, default=None,
-                             verbose_name=_("token"))
-
-    organisation = models.ForeignKey(Organisation, blank=True)
-    department = models.ForeignKey(Department, blank=True)
+    email = models.EmailField(max_length=255, unique=True)
+    organisation = models.ForeignKey(Organisation, blank=True, null=True)
+    department = models.ForeignKey(Department, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    def create_auth_token(sender, instance=None, created=False, **kwargs):
+        if created:
+            Token.objects.create(user=instance)
+
     def __str__(self):
-        return self.username
+        return self.email
 
     def get_absolute_url(self):
-        return reverse('users:detail', kwargs={'username': self.username})
+        return reverse('users:detail', kwargs={'email': self.email})
