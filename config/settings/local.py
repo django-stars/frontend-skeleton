@@ -37,7 +37,7 @@ DATABASES = {
         'USER': secure_values['db_user'], # DB user name
         'PASSWORD': secure_values['db_pwd'], # DB user password
         'HOST': 'localhost',
-        'PORT': '5434',
+        'PORT': '5432',
     }
 }
 # Mail settings

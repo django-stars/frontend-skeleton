@@ -1,14 +1,14 @@
 from django.db import models
 from django.db.models import signals
-from model_utils.fields import AutoCreatedField, AutoLastModifiedField
+# from model_utils.fields import AutoCreatedField, AutoLastModifiedField
 
 
-class TimeStampedModel(models.Model):
-    created = AutoCreatedField()
-    modified = AutoLastModifiedField()
-
-    class Meta:
-        abstract = True
+# class TimeStampedModel(models.Model):
+#     created = AutoCreatedField()
+#     modified = AutoLastModifiedField()
+#
+#     class Meta:
+#         abstract = True
 
 
 class AppQuerySet(models.QuerySet):

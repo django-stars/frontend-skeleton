@@ -1,5 +1,5 @@
 from django.db import models
-from emdyn_back.users.models import Organisation
+# from emdyn_back.users.models import Organisation
 
 
 class FaceProcess(models.Model):
