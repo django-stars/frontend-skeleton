@@ -68,4 +68,4 @@ class EmdynToken(models.Model):
         unique_together = ("license_key", "user")
 
     def __str__(self):
-        return "foo"
+        return str(self.user) or ""
