@@ -29,6 +29,20 @@ EMAIL_PORT = 1025
 # for unit testing purposes
 EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
 
+DATABASES = {
+    'default': {
+        # Postgresql with PostGIS
+        # 'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'emdyn', # DB name
+        'USER': secure_values['db_user'], # DB user name
+        'PASSWORD': secure_values['db_pwd'], # DB user password
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
+
 # CACHING
 # ------------------------------------------------------------------------------
 # Speed advantages of in-memory caching without having to run Memcached

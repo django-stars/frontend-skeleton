@@ -31,8 +31,8 @@ SECRET_KEY = env('DJANGO_SECRET_KEY', default='a*(0okz5vwu#8a7ucili=+pj%-8q8us*h
 DATABASES = {
     'default': {
         # Postgresql with PostGIS
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'emdyn', # DB name
         'USER': secure_values['db_user'], # DB user name
         'PASSWORD': secure_values['db_pwd'], # DB user password

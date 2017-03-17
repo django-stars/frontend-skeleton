@@ -16,11 +16,11 @@ urlpatterns = [
     url(settings.ADMIN_URL, admin.site.urls),
 
     # User management
-    url(r'^users/', include('emdyn_back.users.urls', namespace='users')),
-    url(r'^accounts/', include('allauth.urls')),
+    # url(r'^users/', include('emdyn_back.users.urls', namespace='users')),
+    # url(r'^accounts/', include('allauth.urls')),
 
     # EMDYN API
-    url(r'^api/v0/', include('findface.urls', namespace='api')),
+    url(r'^api/v0/', include('emdyn_back.api.urls', namespace='api')),
 
 
 

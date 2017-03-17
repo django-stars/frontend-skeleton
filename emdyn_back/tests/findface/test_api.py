@@ -5,7 +5,7 @@ import base64
 
 # from tests.models import BasicModel
 
-from users.models import User
+from emdyn_back.users.models import User
 from django.contrib.auth.models import Group, Permission
 
 from rest_framework import (
