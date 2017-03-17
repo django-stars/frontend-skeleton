@@ -9,6 +9,8 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from emdyn_back.api.models import EmdynModuleLicence
+
 from rest_framework.authtoken.models import Token
 
 
@@ -16,12 +18,7 @@ class Organisation(models.Model):
     name = models.CharField(max_length=200,
                             help_text=_("The name of the organization"))
     is_active = models.BooleanField(default=True)
-
-    token = models.CharField(max_length=200, null=True, blank=True, default=None,
-                             verbose_name=_("token"))
-
-    def is_member(self, user):
-        return True if user in self.users.all() else False
+    token = models.ForeignKey(EmdynModuleLicence, null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['name']
@@ -36,11 +33,6 @@ class Department(models.Model):
     is_active = models.BooleanField(default=True)
     organisation = models.ForeignKey(Organisation)
 
-    token = models.CharField(max_length=200, null=True, blank=True, default=None,
-                             verbose_name=_("token"))
-
-    def is_member(self, user):
-        return True if user in self.users.all() else False
 
     class Meta:
         ordering = ['organisation', 'name']
