@@ -24,7 +24,8 @@ class EmdynModuleLicence(models.Model):
     def days_remaining(self):
         """
         count how many days until licence expires
-        :return:
+        :return: number of days
+
         """
 
         d1 = date.today()
