@@ -7,7 +7,8 @@ from emdyn_back.api.models import EmdynToken
 
 
 @api_view(['GET'])
-def api_auth(request):
+def api_auth(request, **kwargs):
+
     username = str(request.user)
     user_token = str(request.auth)
 

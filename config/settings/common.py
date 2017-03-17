@@ -60,6 +60,7 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     # custom users app
     # 'emdyn_back.base',
+    'emdyn_back.api',
     'emdyn_back.users',
     # 'emdyn_back.findface',
 
@@ -308,7 +309,6 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',

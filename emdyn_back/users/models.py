@@ -9,7 +9,7 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from emdyn_back.api.models import EmdynModuleLicence
+from emdyn_back.api.models import EmdynModuleLicense
 
 from rest_framework.authtoken.models import Token
 
@@ -18,7 +18,7 @@ class Organisation(models.Model):
     name = models.CharField(max_length=200,
                             help_text=_("The name of the organization"))
     is_active = models.BooleanField(default=True)
-    token = models.ForeignKey(EmdynModuleLicence, null=True, blank=True, on_delete=models.CASCADE)
+    token = models.ForeignKey(EmdynModuleLicense, null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['name']
@@ -46,6 +46,9 @@ class User(AbstractUser):
     # around the globe.
     name = models.CharField(_('Name of User'), blank=True, max_length=255)
     email = models.EmailField(max_length=255, unique=True)
+
+    license_key = models.ForeignKey(EmdynModuleLicense, null=True, blank=True)
+
     organisation = models.ForeignKey(Organisation, blank=True, null=True)
     department = models.ForeignKey(Department, blank=True, null=True)
 

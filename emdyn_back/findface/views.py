@@ -1,9 +1,5 @@
-import json
 import os
 import subprocess
-
-import requests
-import shutil
 from PIL import Image
 
 from rest_framework import status
@@ -86,22 +82,19 @@ def process_input_folder(folder_root_path):
                 pdf2jpeg(f_path)
 
 
-
-
-
 # import cProfile
 #
 # cProfile.run('process_input_folder("/home/mdiener/Dropbox/00_GOMOGI")')
 #
 
 
+
 @api_view(['POST'])
 def run_ff_face_api(request, image_path):
-
     # process_input_folder("/home/mdiener/Dropbox/00_GOMOGI")
 
 
-    supported_file_types = (".JPEG", ".PNG", ".TIFF", ".WEBP" )
+    supported_file_types = (".JPEG", ".PNG", ".TIFF", ".WEBP")
 
     # first find all pdfs anc convert
     # next run through new list and push to api
@@ -111,14 +104,14 @@ def run_ff_face_api(request, image_path):
         # d = request.data
 
 
-        return Response({"get":"thing"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"get": "thing"}, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == "POST":
         # serializer = SnippetSerializer(data=request.data)
         # if serializer.is_valid():
         #     serializer.save()
-            # return Response(serializer.data, status=status.HTTP_201_CREATED)
-            # return Response({"some":"thing"}, status=status.HTTP_201_CREATED)
+        # return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response({"some":"thing"}, status=status.HTTP_201_CREATED)
 
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response({"post":"thing"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"post": "thing"}, status=status.HTTP_400_BAD_REQUEST)
