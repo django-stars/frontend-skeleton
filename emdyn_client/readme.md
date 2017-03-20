@@ -12,21 +12,26 @@ For clients to authenticate, the token key should be included in the Authorizati
     
 ##Request to login
 
-    curl -X POST -u username:secretPassword http://127.0.0.1:8000/api/v0/login/
+    curl -X POST -d "username=someUserName&password=secretPassword" http://127.0.0.1:8000/api/v0/users/login/
+
     
 Response
 
-    {"token":"91274819231299lsadf923741","username":"m.diener@gomogi.com"}
+    {
+        "username":"demomain@goomail.com",
+        "user_token":"479bf16ecba43727c5d119fa09e14d8475432b4f",
+        "licenses":[
+            { "expires-on":"2017-05-27",
+              "name":"BioTrace",
+              "license":"d804b6ae06asdfasdfasdfscbf1b5e092ef98753"
+            },
+            { "expires-on":"2017-06-17",
+              "name":"DemoApp2",
+              "license":"4846ae1cd14e768942d86ccf14c1f55d7c107c0b"
+            }
+         ]
+     }
     
 
-###Request for user token
-Make sure you do not forget the trailing slash on your request.
-
-    curl -X POST -d "username=YourUserName&password=secretPwd" http://127.0.0.1:8000/api/v0/users/token/
-
-
-Response
-
-    {"token":"479bf16ecba43727c5d119fa09e14d8475432b4f"}
     
     
