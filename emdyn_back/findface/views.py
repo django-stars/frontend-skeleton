@@ -10,6 +10,14 @@ from emdyn_back.findface.models import FaceProcess
 from emdyn_back.findface.api import FacenAPI, Face, FacenAPIError
 
 
+# TODO
+# FE POST, single image file path as single item array
+# POST folder ['/path/to/folder']
+# POST multiple images ['/path/to/image2.jpg', '/path/to/image3.jpg']
+# POST single image ['/path/to/image1.jpg']
+
+# POST if multiple single image select pass array of paths
+
 def get_all_files_in_dir(root_dir_path):
     files_list = [os.path.join(dp, f) for dp, dn, filenames in os.walk(root_dir_path) for f in filenames if
                   os.path.splitext(f)[1] == '.jpg']
