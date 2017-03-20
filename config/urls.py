@@ -20,7 +20,7 @@ urlpatterns = [
     # url(r'^accounts/', include('allauth.urls')),
 
     # EMDYN API
-    url(r'^api/v0/', include('emdyn_back.api.urls', namespace='api')),
+    url(r'^api/v1/', include('emdyn_back.api.urls', namespace='api')),
 
 
 
