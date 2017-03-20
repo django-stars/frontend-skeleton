@@ -2,8 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.conf.urls import url, include
-
-from emdyn_back.api.views import api_auth
+from emdyn_back.api.views import LoginEmdynObtainAuthToken
 
 urlpatterns = [
     url(
@@ -12,9 +11,7 @@ urlpatterns = [
         name='findface'
     ),
     url(
-        regex=r'^auth/$',
-        view=api_auth,
-        name='api-auth'
+        regex=r'^users/login/',
+        view=LoginEmdynObtainAuthToken.as_view()
     )
-
 ]
