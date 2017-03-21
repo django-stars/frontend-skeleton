@@ -76,3 +76,15 @@ config/settings/secret_settings.py
 
 
 staticfiles/
+
+logs/*
+.DS_Store
+static
+static*
+.tmp
+.imagemin
+build/
+dist/
+.cache/
+
+.env/local

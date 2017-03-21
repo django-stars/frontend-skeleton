@@ -1,0 +1,10 @@
+.main-module {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .logo {
+    height: 36px;
+    opacity: 0.3;
+    max-width: 100%;
+  }
+}

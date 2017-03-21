@@ -1,0 +1,11 @@
+header {
+  padding: 15px;
+  height: 50px;
+  box-sizing: border-box;
+  background-color: $color-default500;
+  text-align: center;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.20);
+  .logo {
+    height: 12px;
+  }
+}

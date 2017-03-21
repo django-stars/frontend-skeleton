@@ -1,0 +1,6 @@
+{
+  "BACKEND_URL": "http://localhost:8000",
+  "API_URL": "/api/v1/",
+  "PROXIES": ["/s/", "/m/"],
+  "STATIC_PATH": "static"
+}
