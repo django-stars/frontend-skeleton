@@ -33,5 +33,9 @@ Response
      }
     
 
+
+Authorized request with token
+
+    curl -X GET http://127.0.0.1:8000/api/v1/findface/test/ -H 'Authorization: Token 479bf16ecba43727c5d119fa09e14d8475432b4f'
     
     

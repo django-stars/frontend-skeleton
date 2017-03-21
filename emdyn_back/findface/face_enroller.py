@@ -2,9 +2,9 @@ import os,json,sys, shutil
 import numpy as np
 from PIL import Image
 from skimage import io
-import cv2
+# import cv2
 
-from emdyn_back.findface.models import FaceProcess, FaceList, FindFaceErrorLog
+from emdyn_back.findface.models import ProcessJob, FaceList, ProcessErrorLog
 from rest_framework.decorators import api_view
 
 try:
@@ -53,8 +53,8 @@ def rotator_api(photo):
 def api_face(request, photo_db_path):
 
     # create process object
-    FaceProcess.objects.create(owner=request.user)
-    FaceProcess.save()
+    ProcessJob.objects.create(owner=request.user)
+    ProcessJob.save()
 
     global token
     global ffserver_url
@@ -93,7 +93,7 @@ def api_face(request, photo_db_path):
                 log.write("{0};{1}\n".format(filename, "Error: " + parsed_response["reason"]))
                 status = "Error: " + parsed_response["reason"]
 
-                FindFaceErrorLog.objects.create(error_source="FF", image_file_name=filename,
+                ProcessErrorLog.objects.create(error_source="FF", image_file_name=filename,
                                                 error_reason=parsed_response["reason"])
 
                 shutil.copy(photo_file_path, os.path.join(no_faces_dir, filename))
@@ -164,7 +164,7 @@ def api_face_with_rotate(photo_db_path):
 
             if req_response.status_code == 200:
                 log.write("{0};{1}\n".format(filename, "OK"))
-                Face
+
                 status = "OK"
             else:
                 log.write("{0};{1}\n".format(filename, "Error: " + parsed_response["reason"]))
