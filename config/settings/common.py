@@ -62,7 +62,7 @@ LOCAL_APPS = (
     # 'emdyn_back.base',
     'emdyn_back.api',
     'emdyn_back.users',
-    # 'emdyn_back.findface',
+    'emdyn_back.findface',
 
 )
 
