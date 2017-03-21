@@ -13,6 +13,16 @@ from rest_framework.response import Response
 from emdyn_back.findface.models import ProcessJob
 # from emdyn_back.findface.api import FacenAPI, Face, FacenAPIError
 
+from fabric.api import local
+from fabric.api import run, env
+
+env.hosts = ['host1', 'host2']
+
+def prepare_deploy():
+    local("./manage.py test my_app")
+    local("git add -p && git commit")
+    local("git push")
+
 
 @api_view(['GET'])
 def test(request):
@@ -22,14 +32,25 @@ def test(request):
 def get_all_files_in_dir(root_dir_path):
     files_list = [os.path.join(dp, f) for dp, dn, filenames in os.walk(root_dir_path) for f in filenames if
                   os.path.splitext(f)[1] == '.jpg']
-    count_total = len(files_list)
+
+    return files_list
 
 
 @api_view(['POST'])
 def process_images(request):
+    """
+    Process a set of images and find any duplicates or image matches in local dataset
+
+    for example with cur:
+        curl -X POST -d '{"paths":["/some/path/folder"]}' http://127.0.0.1:8000/api/v1/findface/process/ -H 'Authorization: Token 479bf16ecba43727c5d119fa09e14d8475432b4f' -H "Content-Type: application/json"
+
+    :param request: JSON array of images, single image or single path to folder
+    :return: JSON object representing the process job and its result set
+
+    """
 
     ind = request.data
-    f = ['[/some/path/folder/image1.jpg,/some/path/folder/image2.jpg]']
+
     # test curl api call
     # curl -X POST -d "['/some/path/folder/image1.jpg','/some/path/folder/image2.jpg']" http://127.0.0.1:8000/api/v1/findface/process/ -H 'Authorization: Token 479bf16ecba43727c5d119fa09e14d8475432b4f'
     # curl -X POST -d '{"paths":["/some/path/folder/image1.jpg","/some/path/folder/image2.jpg"]}' http://127.0.0.1:8000/api/v1/findface/process/ -H 'Authorization: Token 479bf16ecba43727c5d119fa09e14d8475432b4f' -H "Content-Type: application/json"
@@ -44,6 +65,7 @@ def process_images(request):
     # curl -X POST -d '{"paths":["/some/path/folder"]}' http://127.0.0.1:8000/api/v1/findface/process/ -H 'Authorization: Token 479bf16ecba43727c5d119fa09e14d8475432b4f' -H "Content-Type: application/json"
 
     folder_list = ind['paths']
+    folder_path = None
 
     supported_formats = ('JPG', 'JPEG', 'PNG', 'TIFF', 'WEBP', 'PDF')
     is_file = False
@@ -65,7 +87,21 @@ def process_images(request):
             is_file = True
         else:
             is_file = False
+            folder_path = file_folder_path
             print("pass in single image folder")
+
+    if not is_file:
+        # deal with folder of folders
+        file_list = get_all_files_in_dir(folder_path)
+        total_files = len(file_list)
+
+
+    elif is_file:
+        # deal with either single image or multiple image files
+        pass
+        # file_list =
+
+
 
     print(is_file)
 
