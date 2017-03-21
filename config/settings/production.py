@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-
-
+from __future__ import absolute_import, unicode_literals
 from .common import *
 
 # DEBUG
@@ -70,15 +69,6 @@ CELERY_ALWAYS_EAGER = True
 
 
 
-from __future__ import absolute_import, unicode_literals
-
-# from boto.s3.connection import OrdinaryCallingFormat
-from django.utils import six
-
-import logging
-
-
-from .common import *  # noqa
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -142,7 +132,7 @@ MEDIA_URL = 'https://s3.amazonaws.com/%s/' % AWS_STORAGE_BUCKET_NAME
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# EMAIL
+# EMAILfrom __future__ import absolute_import, unicode_literals
 # ------------------------------------------------------------------------------
 DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
                          default='emdyn-back <noreply@vigilance.net>')
@@ -156,7 +146,7 @@ ANYMAIL = {
     "MAILGUN_SENDER_DOMAIN": env('MAILGUN_SENDER_DOMAIN')
 }
 EMAIL_BACKEND = "anymail.backends.mailgun.MailgunBackend"
-
+from __future__ import absolute_import, unicode_literals
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See:
