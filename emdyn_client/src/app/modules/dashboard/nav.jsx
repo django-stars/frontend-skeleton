@@ -21,7 +21,7 @@ class Nav extends Component {
         <a className="collapse">Collapse <Icon onClick={this.toggleCollapse} type={this.state.collapsed ? 'right' : 'left'} /></a>
         <div className="wrap">
           <Link to="/" className={this.props.location.pathname === '/' ? 'active' : null}>
-            <Icon type="line-chart" />Dashboard
+            <Icon type="area-chart" />Dashboard
           </Link>
           {
             this.props.checkLicense('BioTrace') ? (

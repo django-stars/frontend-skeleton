@@ -75,6 +75,16 @@ body {
     color: #fff;
     background-color: transparent;
   }
+  &:disabled {
+    background: #496C81;
+    border-color: #496C81;
+    color: rgba(255, 255, 255, 0.4);
+    &:hover {
+      background: #496C81;
+      border-color: #496C81;
+      color: rgba(255, 255, 255, 0.4);
+    }
+  }
 }
 
 .ant-btn-primary {

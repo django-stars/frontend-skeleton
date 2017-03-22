@@ -1,11 +1,13 @@
 import { Component } from 'react'
-import { Carousel, Button, Icon } from 'antd'
+import { Carousel, Button, Icon, notification } from 'antd'
 import { connect } from 'react-redux'
 import { updateProgress, resetProgress, timeToUpdate } from './reducers'
 import keys from 'lodash/keys'
 import path from 'path'
 import { remote } from 'electron'
+import fs from 'fs'
 const dialog = remote.dialog
+
 
 export class LeftNavButton extends Component {
   render() {
@@ -35,8 +37,8 @@ class BioTrace extends Component {
         "errors": {
           "count": 4,
           "list": [
-            { "name": "ImageName1", "date": "13 Aug 2017 00:41AM", "error": "Code:1" },
-            { "name": "ImageName2", "date": "12 Aug 2017 00:41AM", "error": "Code:2" },
+            { "name": "ImageName1", "date": "13 Aug 2017 00:41AM", "error": "Invalid file type" },
+            { "name": "ImageName2", "date": "12 Aug 2017 00:41AM", "error": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure placeat perspiciatis deserunt, cumque magni quis deleniti delectus velit ullam tenetur inventore beatae eligendi, voluptatibus facere. Non laboriosam, obcaecati recusandae cupiditate." },
             { "name": "ImageName3", "date": "11 Aug 2017 00:41AM", "error": "Code:3" },
             { "name": "ImageName4", "date": "15 Aug 2017 00:41AM", "error": "Code:4" }
           ]
@@ -207,6 +209,7 @@ class BioTrace extends Component {
     this.changeViewType = this.changeViewType.bind(this);
     this.toggleGalleryMode = this.toggleGalleryMode.bind(this);
     this.toggleGalleryModal = this.toggleGalleryModal.bind(this);
+    this.exportCsv = this.exportCsv.bind(this);
   }
 
   //triggers progress overlay
@@ -228,13 +231,40 @@ class BioTrace extends Component {
   selectPath() {
     dialog.showOpenDialog({
       properties: ['openFile', 'openDirectory', 'multiSelections']
-    }, (path) => {
-      if (path) {
-        this.props.updateProgress({ path })
+    }, (paths) => {
+      if (paths) {
+        this.props.updateProgress({ paths })
       }
     });
   }
 
+  exportCsv() {
+    const data = this.state.selectedProcess;
+    if (!data.matches.length) {
+      notification.error({ message: "No data to export" });
+      return;
+    }
+    let csvContent = `Job ID,Start date,End date,Username,Original ID,Matches \n`;
+
+    data.matches.forEach((item, index) => {
+      const matchesList = item.matches.map(matches => matches.face.meta).join(',');
+      const dataString = `${data.id},${data.start},${data.end},${data.username},${item.name},"${matchesList}"`;
+      csvContent += index < data.matches.length ? `${dataString} \n` : dataString;
+    });
+
+    dialog.showSaveDialog(fileName => {
+      if (fileName === undefined) {
+        notification.error({ message: "You didn't save the file" });
+        return;
+      }
+      fs.writeFile(fileName + '.csv', csvContent, 'utf8', (err) => {
+        if (err) {
+          notification.error({ message: "An error ocurred creating the file " + err.message });
+        }
+        notification.success({ message: "The file has been succesfully saved" });
+      });
+    });
+  }
 
   startCounter() {
     let timeCounter = timeToUpdate;
@@ -253,20 +283,26 @@ class BioTrace extends Component {
     In case of single file select - shows path to this file
   */
   getPath(PATH) {
-    if (PATH) {
-      if (PATH.length > 1) {
-        return path.dirname(PATH[0])
-      }
-      return PATH[0];
+    if (!PATH.length) {
+      return 'Choose files or folder'
     }
-    return 'Choose files or folder'
+    if (PATH.length > 1) {
+      return path.dirname(PATH[0])
+    }
+    return PATH[0];
+  }
+
+  getHeadClass() {
+    if (!this.state.selectedProcess) {
+      return '';
+    }
+    return this.state.errorsView ? 'error' : 'success';
   }
 
   //shows all data related to choosen job in history
   selectProcess(selectedProcess) {
     return () => {
       this.setState({ selectedProcess })
-      console.log(this.state.selectedProcess);
     }
   }
 
@@ -275,37 +311,46 @@ class BioTrace extends Component {
     this.setState({ errorsView: !this.state.errorsView })
   }
 
-  toggleGalleryMode(gallery) {
-    return () => {
-      if (this.state.errorsView) {
-        return false
-      }
-      let currentGallery = [];
-      if (gallery) {
+  setCurrentGallery(gallery) {
+    let currentGallery = [];
+    if (gallery) {
+      currentGallery.push({
+        name: gallery.name,
+        date: gallery["process-timestamp"],
+        photo: gallery.photo,
+      });
+      gallery.matches.forEach((item) => {
         currentGallery.push({
-          name: gallery.name,
-          date: gallery["process-timestamp"],
-          photo: gallery.photo,
-        });
-        gallery.matches.forEach((item) => {
-          currentGallery.push({
-            name: item.face.meta,
-            date: item.face.timestamp,
-            photo: item.face.photo,
-            confidence: item.confidence
-          })
-        });
-      }
-      this.setState({ galleryMode: !this.state.galleryMode, currentGallery });
+          name: item.face.meta,
+          date: item.face.timestamp,
+          photo: item.face.photo,
+          confidence: item.confidence
+        })
+      });
     }
+    this.setState({ currentGallery });
+  }
+
+  onProcessClick(gallery) {
+    return () => {
+      this.setCurrentGallery(gallery);
+      this.toggleGalleryMode();
+    }
+  }
+
+  toggleGalleryMode() {
+    if (this.state.errorsView) {
+      return false
+    }
+    this.setState({ galleryMode: !this.state.galleryMode });
   }
 
   toggleGalleryModal(index) {
     return () => {
-      console.log(index);
       this.setState({ showGalleryModal: !this.state.showGalleryModal, slideIndex: index || 0 });
     }
   }
+
 
   render() {
     const { updateProgress, progress} = this.props;
@@ -382,14 +427,14 @@ class BioTrace extends Component {
       <div className="scrolling-list matched-list">
         <div className="head">
           <div className="col">File name</div>
-          <div className="col">Creation date</div>
+          <div className="col">Start process date</div>
           <div className="col">{this.state.errorsView ? 'Errors' : 'Matches'}</div>
         </div>
         <ul className={`list ${this.state.errorsView ? '' : 'matches'}`}>
           {
             viewList.map((item, index) => {
               return (
-                <li key={index} onClick={this.toggleGalleryMode(item)}>
+                <li key={index} onClick={this.onProcessClick(item)}>
                   <div className="col">{item.name}</div>
                   <div className="col">{item["process-timestamp"] || item.date}</div>
                   <div className="col">{item["matches-count"] || item.error}</div>
@@ -399,7 +444,7 @@ class BioTrace extends Component {
           }
         </ul>
         <div className="bottom-panel">
-          <Button>Export CSV</Button>
+          {this.state.errorsView ? null : (<Button onClick={this.exportCsv}>Export CSV <Icon type="export" /></Button>)}
         </div>
       </div>
     ) : (<div className="empty-text">No data to display</div>);
@@ -429,7 +474,7 @@ class BioTrace extends Component {
     const gallery = this.state.currentGallery.length ? (
       <div className="content gallery">
         <div className="item">
-          <div className="head" onClick={this.toggleGalleryMode()}><Icon type="left" /> Back to list view</div>
+          <div className="head" onClick={this.toggleGalleryMode}><Icon type="left" /> Back to list view</div>
           <div className="main-img">
             <div
               className="img"
@@ -496,17 +541,17 @@ class BioTrace extends Component {
       <div>
         <div className="match">
           <div className="item upload">
-            <div className="head">{this.state.errorsView ? 'Errors' : 'Processed'}</div>
+            <div className={`head ${this.getHeadClass()}`}>{this.state.errorsView ? 'Errors' : 'Processed'}</div>
             <div className="upload-row">
               <div className="file-select" onClick={this.selectPath}>
                 <input
                   type="text"
-                  value={this.getPath(progress.path)}
+                  value={this.getPath(progress.paths)}
                   readOnly
                   className="input-custom" />
                 <div className="browse">Browse...</div>
               </div>
-              <Button type="primary" disabled={!progress.path} onClick={this.startProcess}>Go</Button>
+              <Button type="primary" disabled={!progress.paths.length} onClick={this.startProcess}>Go</Button>
             </div>
           </div>
           {this.state.galleryMode ? gallery : process}

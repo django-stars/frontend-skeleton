@@ -16,7 +16,7 @@ $ ./node_modules/.bin/electron .
 install NodeJs and npm
 $ npm install
 $ yarn build
-$ ./node_modules/.bin/electron-packager . (not woking yet)
+$ yarn package-mac/package-win/package-linux (not woking yet)
 
 ## Authorization
 For clients to authenticate, the token key should be included in the Authorization HTTP header. The key should be prefixed by the string literal "Token", with whitespace separating the two strings. For example:

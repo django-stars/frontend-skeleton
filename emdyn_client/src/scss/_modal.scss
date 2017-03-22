@@ -34,9 +34,9 @@
     font-size: 24px;
     z-index: 2;
     position: relative;
-    max-height: calc(100% - 80px);
+    max-height: calc(100% - 40px);
     width: 500px;
-    margin: auto;
+    margin: 20px auto 0;
     overflow: auto;
   }
   .ant-carousel {
