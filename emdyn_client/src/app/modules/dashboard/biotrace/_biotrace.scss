@@ -64,6 +64,12 @@
       font-size: 12px;
       height: 32px;
       box-sizing: border-box;
+      &.error {
+        color: $color-error;
+      }
+      &.success {
+        color: #8BC34A;
+      }
     }
   }
   .content {
@@ -120,8 +126,15 @@
       text-align: right;
       .ant-btn {
         height: 36px;
-        padding: 8px;
+        padding: 6px 8px;
         font-size: 14px;
+        &:hover {
+          background-color: $color-default;
+          border-color: $color-default;
+        }
+        .anticon {
+          transition: none;
+        }
       }
     }
     &.gallery {
@@ -203,6 +216,7 @@
       width: 100%;
       max-width: calc(100% - 220px);
       display: inline-block;
+      vertical-align: top;
       margin-right: 15px;
       position: relative;
       .browse {
@@ -213,6 +227,7 @@
         color: #fff;
         height: 100%;
         padding: 6px 16px;
+        font-weight: 100;
         box-sizing: border-box;
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px;
@@ -268,7 +283,7 @@
   .col {
     width: 33%;
     display: inline-block;
-    vertical-align: top;
+    vertical-align: middle;
     text-align: center;
     &:first-child {
       text-align: left;

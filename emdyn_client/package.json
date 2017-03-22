@@ -1,23 +1,23 @@
 {
   "name": "frontend-skeleton",
+  "productName": "Emdyn Vigilance",
   "version": "0.2.0",
   "description": "Yet another boilerplate created for using Angular/React in conjunction with Django.",
   "author": "DjangoStars <info@djangostars.com>",
   "main": "electron-app.js",
   "contributors": [
-    {
-      "name": "Yaroslav Shulika",
-      "email": "legendar@gmail.com"
-    },
-    {
-      "name": "Alexander Vilko",
-      "email": "alexander.vilko@djangostars.com"
-    },
-    {
-      "name": "Denis Podlesniy",
-      "email": "denis.podlesniy@djangostars.com"
-    }
-  ],
+  {
+    "name": "Yaroslav Shulika",
+    "email": "legendar@gmail.com"
+  },
+  {
+    "name": "Alexander Vilko",
+    "email": "alexander.vilko@djangostars.com"
+  },
+  {
+    "name": "Denis Podlesniy",
+    "email": "denis.podlesniy@djangostars.com"
+  }],
   "bugs": {
     "url": "https://github.com/django-stars/frontend-skeleton/issues"
   },
@@ -86,6 +86,9 @@
   },
   "scripts": {
     "start": "NODE_ENV=development node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline",
-    "build": "NODE_ENV=production node ./node_modules/webpack/bin/webpack.js"
+    "build": "NODE_ENV=production node ./node_modules/webpack/bin/webpack.js",
+    "package-mac": "./node_modules/.bin/electron-packager . --overwrite --platform=darwin --arch=x64 --icon=dist/static/img/icon-app.icns --prune=true --out=app-build",
+    "package-win": "./node_modules/.bin/electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=dist/static/img/icon-app.ico --prune=true --out=app-build --version-string.CompanyName=CE --version-string.FileDescription=CE",
+    "package-linux": "./node_modules/.bin/electron-packager . --overwrite --platform=linux --arch=x64 --icon=dist/static/img/icon-app.png --prune=true --out=app-build"
   }
 }

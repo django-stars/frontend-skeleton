@@ -86,5 +86,6 @@ static*
 build/
 dist/
 .cache/
+app-build/
 
 .env/local

@@ -13,7 +13,7 @@ function createWindow(eee) {
   // Create the browser window.
   win = new BrowserWindow({ width: 960, height: 800 })
 
-  // win.loadURL('ds://localhost:3000/login')
+  // win.loadURL('ds://djangostars/login')
   win.loadURL('http://localhost:3000/')
 
   // Open the DevTools.

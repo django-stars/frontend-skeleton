@@ -1,6 +1,6 @@
 nav {
   height: 100%;
-  min-width: 230px;
+  width: 230px;
   position: relative;
   background-color: $color-default550;
   transition: $comp-transition;
@@ -61,6 +61,9 @@ nav {
   .logout {
     border-top: 1px solid $color-default600;
     border-bottom: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     .anticon {
       opacity: 0.7;
       color: $color-default;
@@ -74,7 +77,7 @@ nav {
   }
   &.collapsed {
     font-size: 0;
-    min-width: 66px;
+    width: 66px;
     a {
       text-align: center;
     }

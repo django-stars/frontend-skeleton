@@ -11,7 +11,7 @@ const resetProgress = createAction(RESET_PROGRESS)
 const timeToUpdate = 9;
 
 const defaultState = {
-  path: '',
+  paths: [],
   timeCounter: timeToUpdate,
   showProgressOverlay: false,
   from: 0,
