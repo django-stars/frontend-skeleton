@@ -106,7 +106,7 @@ X_FRAME_OPTIONS = 'DENY'
 # ------------------------------------------------------------------------------
 # Hosts/domain names that are valid for this site
 # See https://docs.djangoproject.com/en/1.6/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['vigilance.net'])
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['emdyn.net'])
 # END SITE CONFIGURATION
 
 INSTALLED_APPS += ('gunicorn', )
@@ -196,71 +196,7 @@ CACHES = {
 # Sentry Configuration
 # SENTRY_DSN = env('DJANGO_SENTRY_DSN')
 # SENTRY_CLIENT = env('DJANGO_SENTRY_CLIENT', default='raven.contrib.django.raven_compat.DjangoClient')
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'root': {
-        'level': 'WARNING',
-        'handlers': ['sentry'],
-    },
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s '
-                      '%(process)d %(thread)d %(message)s'
-        },
-    },
-    'handlers': {
-        # 'sentry': {
-        #     'level': 'ERROR',
-        #     'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-        # },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        }
-    },
-    'loggers': {
-        'django.db.backends': {
-            'level': 'ERROR',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-#         'raven': {# Copyright (C) 2014-2016 Michael Diener <m.diener@gomogi.com>
-# # This program is free software: you can redistribute it and/or modify
-# # it under the terms of the GNU Affero General Public License as
-# # published by the Free Software Foundation, either version 3 of the
-# # License, or (at your option) any later version.
-# #
-# # This program is distributed in the hope that it will be useful,
-# # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# # GNU Affero General Public License for more details.
-# #
-# # You should have received a copy of the GNU Affero General Public License
-# # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-#             'level': 'DEBUG',
-#             'handlers': ['console'],
-#             'propagate': False,
-#         },
-#         'sentry.errors': {
-#             'level': 'DEBUG',
-#             'handlers': ['console'],
-#             'propagate': False,
-#         },
-        'django.security.DisallowedHost': {
-            'level': 'ERROR',
-            'handlers': ['console', 'sentry'],
-            'propagate': False,
-        },
-    },
-}
-# SENTRY_CELERY_LOGLEVEL = env.int('DJANGO_SENTRY_LOG_LEVEL', logging.INFO)
-# RAVEN_CONFIG = {
-#     'CELERY_LOGLEVEL': env.int('DJANGO_SENTRY_LOG_LEVEL', logging.INFO),
-#     'DSN': SENTRY_DSN
-# }
+
 
 # Custom Admin URL, use {% url 'admin:index' %}
 ADMIN_URL = env('DJANGO_ADMIN_URL')
