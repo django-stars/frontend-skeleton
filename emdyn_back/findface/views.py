@@ -1,22 +1,30 @@
-import os
 import json
-import subprocess
+import os
 
 import requests
-from PIL import Image
-from django.views.decorators.csrf import csrf_exempt
-
-from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
+from rest_framework import authentication, permissions
 
-from emdyn_back.findface.models import ProcessJob
-# from emdyn_back.findface.api import FacenAPI, Face, FacenAPIError
+
+
 
 from fabric.api import local
 from fabric.api import run, env
+from rest_framework.views import APIView
+
+from emdyn_back.findface.models import ProcessJob
+from emdyn_back.findface.serializer import ProcessJobSerializer
+
+import logging
+
+emdynlogger = logging.getLogger(__name__)
+
+
 
 env.hosts = ['host1', 'host2']
+
 
 def prepare_deploy():
     local("./manage.py test my_app")
@@ -24,20 +32,31 @@ def prepare_deploy():
     local("git push")
 
 
-@api_view(['GET'])
-def test(request):
-    return Response({"name":"foo"})
 
-
-def get_all_files_in_dir(root_dir_path):
-    files_list = [os.path.join(dp, f) for dp, dn, filenames in os.walk(root_dir_path) for f in filenames if
-                  os.path.splitext(f)[1] == '.jpg']
-
-    return files_list
 
 
 @api_view(['POST'])
-def process_images(request):
+def process_job(request):
+    """
+    Process a set of images and find any duplicates or image matches in local dataset
+
+    for example with cur:
+        curl -X POST -d '{"paths":["/some/path/folder"]}' http://127.0.0.1:8000/api/v1/findface/process/ -H 'Authorization: Token 479bf16ecba43727c5d119fa09e14d8475432b4f' -H "Content-Type: application/json"
+
+    :param request: JSON array of images, single image or single path to folder
+    :return: JSON object representing the process job and its result set
+    """
+    pass
+
+
+
+
+def handle_error_message(error_string, error_source):
+    pass
+
+
+
+class StartProcessJob(APIView):
     """
     Process a set of images and find any duplicates or image matches in local dataset
 
@@ -49,73 +68,81 @@ def process_images(request):
 
     """
 
-    ind = request.data
-
-    # test curl api call
-    # curl -X POST -d "['/some/path/folder/image1.jpg','/some/path/folder/image2.jpg']" http://127.0.0.1:8000/api/v1/findface/process/ -H 'Authorization: Token 479bf16ecba43727c5d119fa09e14d8475432b4f'
-    # curl -X POST -d '{"paths":["/some/path/folder/image1.jpg","/some/path/folder/image2.jpg"]}' http://127.0.0.1:8000/api/v1/findface/process/ -H 'Authorization: Token 479bf16ecba43727c5d119fa09e14d8475432b4f' -H "Content-Type: application/json"
-
-    # sample call multiple images
-    # curl -X POST -d '{"paths":["/some/path/folder/image1.jpg","/some/path/folder/image2.jpg"]}' http://127.0.0.1:8000/api/v1/findface/process/ -H 'Authorization: Token 479bf16ecba43727c5d119fa09e14d8475432b4f' -H "Content-Type: application/json"
-
-    # single image call
-    # curl -X POST -d '{"paths":["/some/path/folder/image1.jpg"]}' http://127.0.0.1:8000/api/v1/findface/process/ -H 'Authorization: Token 479bf16ecba43727c5d119fa09e14d8475432b4f' -H "Content-Type: application/json"
-
-    # single folder call
-    # curl -X POST -d '{"paths":["/some/path/folder"]}' http://127.0.0.1:8000/api/v1/findface/process/ -H 'Authorization: Token 479bf16ecba43727c5d119fa09e14d8475432b4f' -H "Content-Type: application/json"
-
-    folder_list = ind['paths']
-    folder_path = None
-
-    supported_formats = ('JPG', 'JPEG', 'PNG', 'TIFF', 'WEBP', 'PDF')
-    is_file = False
+    authentication_classes = (authentication.TokenAuthentication,)
 
 
-    if len(folder_list) > 1:
-        print("pass in list of image files")
-        is_file = True
-        for file in folder_list:
-            # run through each file in list
-            print(file)
+    def post(self, request, format=None):
+        """
+        Parse incoming array of folders, images or single image
+        :param request:
+        :param format:
+        :return:
+        """
+        incoming_paths = request.data
+        url_emdyn_onsite = "http://localhost:8000/api/v1/onsite/"
 
-    if len(folder_list) == 1:
-        # found a single folder or file
-        file_folder_path = folder_list[0]
+        user = request.user
 
-        if file_folder_path.upper().endswith(supported_formats):
-            print("pass in single image file")
-            is_file = True
+        print(incoming_paths['paths'])
+        print(user)
+
+        mydata = {'user':request.user.pk, 'status': 'in-progress'}
+
+        # onsite users token
+        token= 'af073fd185bf7157fcaecd8ff7024851066ddfb3'
+
+
+
+        headers = {"Authorization": "Token " + token}
+
+        serializer = ProcessJobSerializer(data=mydata)
+        emdynlogger.error(msg="more s")
+
+        if serializer.is_valid():
+            serializer.save()
+            new_data = serializer.data
+            start_content = {"paths": incoming_paths['paths'], "user": str(user), "process_id":new_data['id'],
+                             "start_time": new_data['start_time']}  # , "process_info": proc_info}
+
+            print(start_content)
+
+
+            req_response = requests.request("post", url_emdyn_onsite, data=start_content, headers=headers)
+
+            print(req_response.text)
+            # parsed_response = req_response.json
+            #
+            # if req_response.status_code == 200:
+            #     emdynlogger.error(msg= "foo all good or: {0}".format(parsed_response['reason']))
+            #     status_intern = "OK"
+            # else:
+            #     emdynlogger.info(msg="darn {0}".format("somename Error: " + parsed_response["reason"]))
+            #     status_intern = "Error: " + parsed_response["reason"]
+
+
+
+
+
+            emdynlogger.error(msg="broken")
+            return Response(data=start_content, status=status.HTTP_201_CREATED)
         else:
-            is_file = False
-            folder_path = file_folder_path
-            print("pass in single image folder")
-
-    if not is_file:
-        # deal with folder of folders
-        file_list = get_all_files_in_dir(folder_path)
-        total_files = len(file_list)
+            emdynlogger.error(msg="broken2222")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-    elif is_file:
-        # deal with either single image or multiple image files
-        pass
-        # file_list =
+        # ProcessJob.objects.get_or_create(user=request.user, status='in-progress')
+        # ProcessJob.save(self)
+        # proc_info = ProcessJob.objects.get(self)
 
 
 
-    print(is_file)
 
 
-    # print("first item in list ind")
-    # print(ind[0])
-    content = {"name":is_file}
+        # from django.db.models import F
+        # job = ProcessJob.objects.get(status='in-progress')
+        # job.success_count = F('success_count') + 1
+        # job.save()
 
-    foo1 = {"name":{"[/some/path/folder1]":""}}
-    foo2 = {"name":{"[/some/path/folder/image1.jpg]":""}}
-    foo3 = {"name":{"[/some/path/folder/image1.jpg,/some/path/folder/image2.jpg]":""}}
-
-
-    return Response(content)
 
 
 
@@ -157,32 +184,7 @@ def process_images(request):
 #         return True
 
 
-# def pdf2jpeg(pdf_file):
-#     """
-#
-#     :param pdf_file: full path and file name of PDF example:  /home/mdiener/1234.pdf
-#     :return:
-#     """
-#
-#     outfile = pdf_file.split(".pdf")[0] + ".jpg"
-#
-#     try:
-#         if outfile.split("/")[-1] == "img019.jpg":
-#             # print("found file image019.jpg")
-#             subprocess.run(["gm", "convert", pdf_file, "-quality", "100", outfile],
-#                                   check=True)  # on windows  shell=True
-#
-#
-#
-#             # subprocess.check_output(command, stderr=subprocess.STDOUT)
-#     # do something with output
-#     except subprocess.CalledProcessError as e:
-#         print (e.output)
-#
-#         if e.output.startswith('error: {'):
-#             error = json.loads(e.output[7:])  # Skip "error: "
-#             print(error['code'])
-#             print(error['message'])
+
 
 
 

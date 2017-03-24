@@ -1,6 +1,11 @@
 import binascii
 import os
 from datetime import date
+from logging import Handler, Formatter, getLogger
+import json
+import datetime
+
+import requests
 
 from django.conf import settings
 from django.db import models
@@ -9,6 +14,70 @@ from django.utils.translation import ugettext_lazy as _
 
 def generate_key():
     return binascii.hexlify(os.urandom(20)).decode()
+
+
+# class EmdynErrorFormatter(Formatter):
+#     def __init__(self, task_name=None, task_source=None):
+#         self.task_name = task_name
+#         self.task_source = task_source
+#
+#         super(EmdynErrorFormatter, self).__init__()
+#
+#     def format(self, record):
+#         data = {'message': record.msg,
+#                 'timestamp': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ')}
+#
+#         if self.task_name:
+#             data['@task_name'] = self.task_name
+#
+#         if self.task_source:
+#             data['source'] = self.task_source
+#
+#         return json.dumps(data)
+
+
+# class RequestsLogHandler(Handler):
+#     def emit(self, record):
+#         log_entry = self.format(record)
+#         return requests.post('/error',
+#                              log_entry, headers={"Content-type": "application/json"}).content
+
+
+# class MyLogger:
+#     def __init__(self,logger_name=None, error_source=None, error_level=None):
+#         self.logger_name = logger_name
+#         self.error_source = error_source
+#         self.error_level = error_level
+#
+#
+#     def __init_logging(self):
+#         # http://masnun.com/2015/11/04/python-writing-custom-log-handler-and-formatter.html
+#         self.logger = getLogger(self.logger_name.upper())
+#         self.logger.setLevel(self.error_level)
+#
+#         handler = RequestsLogHandler()
+#         formatter = EmdynErrorFormatter(self.logger_name.upper())
+#         handler.setFormatter(formatter)
+#         self.logger.addHandler(handler)
+
+
+# class ProcessLogHandler(Handler): # Inherit from logging.Handler
+#     def __init__(self):
+#         # run the regular Handler __init__
+#         Handler.__init__(self)
+#
+#     def emit(self, record):
+#         # instantiate the model
+#         try:
+#             #NOTE: need to import this here otherwise it causes a circular reference and doesn't work
+#             #  i.e. settings imports loggers imports models imports settings...
+#             from emdyn_back.findface.models import ProcessErrorLog
+#             logEntry = ProcessErrorLog(level=record.levelname, message=record.message, timestamp=datetime.datetime.now())
+#             logEntry.save()
+#         except:
+#             pass
+#
+#         return
 
 
 class EmdynModuleLicense(models.Model):

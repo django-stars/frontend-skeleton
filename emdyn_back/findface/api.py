@@ -130,7 +130,7 @@ class FacenAPI:
             results.append(box)
         return results
 
-photo1 = 'http://static.findface.pro/sample.jpg'
+photo1 = open('/home/mdiener/Downloads/training-originals/0002_1.jpg', 'rb')
 photo2 = 'http://static.findface.pro/sample2.jpg'
 # if you want to upload files from local machine you could pass file objects or byte strings instead of URL strings:
 # like this:
@@ -138,12 +138,14 @@ photo2 = 'http://static.findface.pro/sample2.jpg'
 # or
 # photo1 = open('/path/to/sample.jpg', 'rb').read()
 
-a = FacenAPI('http://HOST:PORT', 'TOKEN')
+a = FacenAPI('http://35.187.51.87:8000', 'uztOvtq3S2XkbIVi_L9O4UNUz03uyLJm')
 r = a.detect(photo1)
 print(r)
 
-r = a.verify(photo1, photo2, threshold = 0.4)
-print(r)
 
-r = a.identify(photo1)
-print(r)
+
+# r = a.verify(photo1, photo2, threshold = 0.4)
+# print(r)
+#
+# r = a.identify(photo1)
+# print(r)

@@ -146,7 +146,7 @@ ANYMAIL = {
     "MAILGUN_SENDER_DOMAIN": env('MAILGUN_SENDER_DOMAIN')
 }
 EMAIL_BACKEND = "anymail.backends.mailgun.MailgunBackend"
-from __future__ import absolute_import, unicode_literals
+
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See:

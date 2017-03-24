@@ -8,6 +8,11 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 
 from emdyn_back.api.models import EmdynToken
 
+import logging
+
+emdynlogger = logging.getLogger(__name__)
+
+
 
 class LoginEmdynObtainAuthToken(APIView):
     throttle_classes = ()
@@ -36,4 +41,26 @@ class LoginEmdynObtainAuthToken(APIView):
 
         content = {'username': str(user.email), 'user_token': token.key, 'licenses': my_lics}
 
+        emdynlogger.error(msg='error log on sucess login attempt', )
+
+
         return Response(content, status=status.HTTP_200_OK)
+
+
+class ProcessStatus(APIView):
+
+    def get(self, request):
+
+        total_images = 250000
+        processed_images = 45
+        return Response(
+            {"status": "we are still running", "image_count": total_images, "images_processed": processed_images})
+
+
+
+class ErrorLog(APIView):
+
+    def post(self, request):
+        incoming_log = request.data
+        return Response({"error":"arrived"})
+
