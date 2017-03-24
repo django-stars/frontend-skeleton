@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from emdyn_back.findface.models import ProcessJob, ProcessErrorLog, FaceList
+from emdyn_back.findface.models import ProcessJob, ProcessErrorLog, FaceMatchList
 
 
 class ProcessJobSerializer(serializers.ModelSerializer):
@@ -31,5 +31,5 @@ class ProcessErrorSerializer(serializers.ModelSerializer):
 
 class FaceListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = FaceList
+        model = FaceMatchList
         fields = ('id', 'image_name', 'created_on', 'matches_count')
