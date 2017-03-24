@@ -3,6 +3,9 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 from emdyn_back.users.models import User
 
+from model_utils.fields import StatusField
+from model_utils import Choices
+
 
 class AppQuerySet(models.QuerySet):
     def delete(self, **kwargs):
@@ -43,25 +46,28 @@ class AppModel(models.Model):
         )
 
 
-
 class ProcessJob(AppModel):
     """
     On every batch run a log entry is stored here
     """
+
+    STATUS_CHOICES = Choices('in-progress', 'success', 'failed')
+
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(default=None, null=True, blank=True)
     success_count = models.IntegerField(verbose_name="successfully processed images count",
-                                                default=None, null=True, blank=True) # represents processed amount
+                                        default=None, null=True, blank=True)  # represents processed amount
     error_count = models.IntegerField(verbose_name="failed images count",
-                                               default=None, null=True, blank=True) # failed images count
+                                      default=None, null=True, blank=True)  # failed images count
     total_count = models.IntegerField(verbose_name="Total amount of images provided",
-                                            help_text="total number of images submitted to process",
-                                            default=None, null=True, blank=True)
+                                      help_text="total number of images submitted to process",
+                                      default=None, null=True, blank=True)
 
     matches = models.IntegerField(verbose_name="number of image matches found", default=None, null=True, blank=True)
 
-    user = models.ForeignKey(User, related_name="processjob", on_delete=models.CASCADE)
+    status = StatusField(choices_name='STATUS_CHOICES')
 
+    user = models.ForeignKey(User, related_name="processjob", on_delete=models.CASCADE)
 
     def is_completed(self):
         if self.end_time:
@@ -102,8 +108,7 @@ class ProcessErrorLog(AppModel):
         return self.image_file_name or ""
 
 
-class FaceList(AppModel):
-
+class FaceMatchList(AppModel):
     image_name = models.CharField(verbose_name="unique file name", max_length=255)
     created_on = models.DateTimeField(auto_now_add=True)
     findface_id = models.IntegerField(name="FindFace internal image id")
@@ -111,13 +116,11 @@ class FaceList(AppModel):
 
     findface_matches = JSONField(verbose_name="array of images and their details that match this image", db_index=True)
 
-
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     process = models.ForeignKey(ProcessJob, on_delete=models.CASCADE)
 
     def matches_count(self):
         return len(self.findface_matches)
-
 
     class Meta:
         ordering = ['process', 'image_name']
