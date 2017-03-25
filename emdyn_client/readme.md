@@ -12,7 +12,7 @@ For clients to authenticate, the token key should be included in the Authorizati
     
 ##Request to login
 
-    curl -X POST -d "username=someUserName&password=secretPassword" http://127.0.0.1:8000/api/v0/users/login/
+    curl -X POST -d "username=someUserName&password=secretPassword" http://127.0.0.1:8010/api/v1/users/login/
 
     
 Response

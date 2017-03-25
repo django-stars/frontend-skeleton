@@ -70,6 +70,17 @@ class StartProcessJob(APIView):
 
     authentication_classes = (authentication.TokenAuthentication,)
 
+    # def get(self, request, process_id, format=None):
+    #     """
+    #     Parse incoming array of folders, images or single image
+    #     :param request:
+    #     :param format:
+    #     :return:
+    #     """
+    #
+    #     res = self.get_object(int(process_id))
+    #     serializer = ProcessJobSerializer(res)
+    #     return Response(serializer.data)
 
     def post(self, request, format=None):
         """

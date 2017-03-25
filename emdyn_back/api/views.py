@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework import parsers, renderers
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.serializers import AuthTokenSerializer
-
+from rest_framework.exceptions import APIException
 from emdyn_back.api.models import EmdynToken
 
 import logging
@@ -22,29 +22,37 @@ class LoginEmdynObtainAuthToken(APIView):
     serializer_class = AuthTokenSerializer
 
     def post(self, request, *args, **kwargs):
+        # try:
         serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
 
-        token, created = Token.objects.get_or_create(user=user)
+        if serializer.is_valid(raise_exception=True):
+            user = serializer.validated_data['user']
 
-        emdyn_tokens = EmdynToken.objects.filter(user=user)
+            token, created = Token.objects.get_or_create(user=user)
 
-        my_lics = []
+            emdyn_tokens = EmdynToken.objects.filter(user=user)
 
-        for x in emdyn_tokens:
-            new_lic = {}
-            new_lic['name'] = x.license_key.name
-            new_lic['license'] = x.license_key.key
-            new_lic['expires-on'] = x.license_key.expiration_date
-            my_lics.append(new_lic)
+            my_lics = []
 
-        content = {'username': str(user.email), 'user_token': token.key, 'licenses': my_lics}
+            for x in emdyn_tokens:
+                new_lic = {}
+                new_lic['name'] = x.license_key.name
+                new_lic['license'] = x.license_key.key
+                new_lic['expires-on'] = x.license_key.expiration_date
+                my_lics.append(new_lic)
 
-        emdynlogger.error(msg='error log on sucess login attempt', )
+            content = {'username': str(user.email), 'user_token': token.key, 'licenses': my_lics}
+
+            emdynlogger.error(msg='error log on sucess login attempt', )
 
 
-        return Response(content, status=status.HTTP_200_OK)
+            return Response(content, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.error, status=status.HTTP_401_UNAUTHORIZED)
+            # raise APIException("There was a problem!", status=status.HTTP_400_BAD_REQUEST)
+
+        # except Exception as e:
+        #     return Response({"hmm": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProcessStatus(APIView):
