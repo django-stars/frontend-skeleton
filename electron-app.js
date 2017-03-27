@@ -17,8 +17,7 @@ function createWindow (eee) {
     webPreferences: {webSecurity: false}
   })
 
-  win.loadURL('ds://django.stars/auth/login') // FIXME should be own protocol in production build
-  //win.loadURL('http://localhost:3000/auth/login')
+  win.loadURL('ds://django.stars/')
 
   // Open the DevTools.
   win.webContents.openDevTools()
@@ -47,27 +46,16 @@ process.on('uncaughtException', function(error) {
 app.on('ready', () => {
   protocol.registerFileProtocol('ds', (request, callback) => {
     const location = url.parse(request.url)
-    const pathname = fs.existsSync(`${__dirname}/dist${location.pathname}`) ?
+    const fpath = `${__dirname}/dist${location.pathname}`
+    const pathname =
+      fs.existsSync(fpath) && fs.lstatSync(fpath).isFile() ?
       location.pathname : 'index.html'
-    //console.log(location, pathname)
+
     callback({path: path.normalize(`${__dirname}/dist/${pathname}`)})
-    return
-    callback({
-      url: request.url,
-      method: request.method,
-      //referrer: request.url,
-      uploadData: {
-        contentType: 'text/html',
-        data: fs.readFileSync(`${__dirname}/dist/${url}`)
-      }
-      //path: path.normalize(`${__dirname}/dist/${url}`)
-    })
-    return;
   }, (error) => {
-    //createWindow(error)
-    //console.log('aa')
     if (error) console.error('Failed to register protocol')
   })
+
   createWindow()
 })
 
