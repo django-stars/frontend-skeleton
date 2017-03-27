@@ -83,18 +83,22 @@ class ProcessStatus(APIView):
 
 
 class ErrorLog(APIView):
+
     def post(self, request):
         """
         Accept an error report and save it to /Findface.models.py model ProcessErrorLog
         :param request: 
         :return: 
         """
-        # test_data = {"image_name":"image2.jpg",   "error_message":"test message",    "process":21, "image_count":23, "user":1, "error_source":"GM"}
-
-        serializer = ProcessErrorSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            content = {'status': 'Success'}
-            return Response(content, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # test_data = {"image_name":"image2.jpg", "error_message":"test message", "process":21, "image_count":23, "user":1, "error_source":"GM"}
+        try:
+            serializer = ProcessErrorSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                content = {'status': 'Success'}
+                return Response(content, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            error_msg = {"error": str(e)}
+            return Response(error_msg, content_type="application/json", status=status.HTTP_400_BAD_REQUEST)
