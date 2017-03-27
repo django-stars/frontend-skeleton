@@ -5,6 +5,9 @@ Here you will find the 3 client side code bases
     2. Web Application
     3. Django Admin
     
+## EMDYN API Host Name
+The base EMDYN API url  `https://api.emdyn.net`
+
 ## Authorization
 For clients to authenticate, the token key should be included in the Authorization HTTP header. The key should be prefixed by the string literal "Token", with whitespace separating the two strings. For example:
 
@@ -37,17 +40,50 @@ Response
 Authorized request with token
 
     curl -X GET http://127.0.0.1:8000/api/v1/findface/test/ -H 'Authorization: Token 479bf16ecba43727c5d119fa09e14d8475432b4f'
+  
     
+##Request to start Job  Process
+Get the current status of any job process via api
+api/v1/findface/process/
+
+Request using Curl passing a single folder path
+
+    curl -X POST -d '{"paths":["/home/mdiener/testImages"]}' http://127.0.0.1:8010/api/v1/findface/process/ -H 'Authorization: Token 479bf16ecba43727c5d119fa09e14d8475432b4f' -H "Content-Type: application/json"
+
+####Response
+Inside the reponse you have the currently started {process_id} This represents the process job id you just started.
+
+
+    {"user":"m.diener@gomogi.com","start_time":"2017-03-27T11:32:04.474404Z","paths":["/some/path/folder"],"process_id":248}
+
+
     
 ##Get Job Process Status by ID
 Get the current status of any job process via api
-api/v1/process/{process-id}/status
+
+api/v1/process/`{process_id}`/status
 
     api/v1/process/12/status
     
 Response
 
     {"image_count":"25","status":"in-progress"}
+    
+    
+##Post Error for a Job Process
+If an error occurs during processing we send a POST request with the error here.
+
+api/v1/process/error/  be sure to include the trailing slash /
+
+    api/v1/process/error/
+    
+Data to include in POST must include:
+
+    {"image_name":"image2.jpg",   "error_message":"test message",    "process":21, "image_count":23, "user":1, "error_source":"GM"}
+    
+Response
+
+    {"status":"Success"}
     
     
     
