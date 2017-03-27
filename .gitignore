@@ -73,6 +73,9 @@ emdyn_back/media/
 
 # config secrets
 config/settings/secret_settings.py
+*.migrations
+.cache
+config/settings/secret_settings.json
 
 
 staticfiles/
