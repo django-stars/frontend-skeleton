@@ -47,6 +47,8 @@ redis>=2.10.5
 
 celery==3.1.24
 
+raven
+
 
 # Your custom requirements go here
 
