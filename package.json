@@ -1,23 +1,23 @@
 {
   "name": "frontend-skeleton",
   "version": "0.2.0",
+  "productName": "Frontend Skeleton",
   "description": "Yet another boilerplate created for using Angular/React in conjunction with Django.",
   "author": "DjangoStars <info@djangostars.com>",
   "main": "electron-app.js",
   "contributors": [
-    {
-      "name": "Yaroslav Shulika",
-      "email": "legendar@gmail.com"
-    },
-    {
-      "name": "Alexander Vilko",
-      "email": "alexander.vilko@djangostars.com"
-    },
-    {
-      "name": "Denis Podlesniy",
-      "email": "denis.podlesniy@djangostars.com"
-    }
-  ],
+  {
+    "name": "Yaroslav Shulika",
+    "email": "legendar@gmail.com"
+  },
+  {
+    "name": "Alexander Vilko",
+    "email": "alexander.vilko@djangostars.com"
+  },
+  {
+    "name": "Denis Podlesniy",
+    "email": "denis.podlesniy@djangostars.com"
+  }],
   "bugs": {
     "url": "https://github.com/django-stars/frontend-skeleton/issues"
   },
@@ -45,6 +45,8 @@
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.26.1",
     "dotenv": "^2.0.0",
+    "electron": "^1.6.2",
+    "electron-packager": "^8.5.2",
     "extract-text-webpack-plugin": "2.1.0",
     "file-loader": "^0.10.0",
     "html-loader": "^0.4.5",
@@ -65,12 +67,7 @@
     "webpack-dev-server": "^2.3.0",
     "write-file-webpack-plugin": "^3.4.2"
   },
-  "optionalDependencies": {
-    "electron": "^1.6.2"
-  },
   "dependencies": {
-    "electron": "^1.6.2",
-    "jquery": "~2.2.4",
     "lodash": "~4.13.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
@@ -88,6 +85,9 @@
   "scripts": {
     "start": "NODE_ENV=development node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline",
     "build": "NODE_ENV=production node ./node_modules/webpack/bin/webpack.js",
-    "electron": "NODE_ENV=development node ./node_modules/.bin/electron ."
+    "electron": "NODE_ENV=development node ./node_modules/.bin/electron .",
+    "package-mac": "yarn build && ./node_modules/.bin/electron-packager . --overwrite --platform=darwin --arch=x64 --icon=dist/static/img/icon-app.icns --prune=true --out=build",
+    "package-win": "yarn build && ./node_modules/.bin/electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=dist/static/img/icon-app.ico --prune=true --out=build --version-string.CompanyName=CE --version-string.FileDescription=CE",
+    "package-linux": "yarn build && ./node_modules/.bin/electron-packager . --overwrite --platform=linux --arch=x64 --icon=dist/static/img/icon-app.png --prune=true --out=build"
   }
 }

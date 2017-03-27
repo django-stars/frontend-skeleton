@@ -35,13 +35,13 @@ import dotenv from 'dotenv'
 import fs from 'fs'
 
 var envFile = process.env.ENVFILE || '.env/local';
-if(!fs.existsSync(envFile)) {
+if (!fs.existsSync(envFile)) {
   var envFile = process.env.ENVFILE || '.env/dev';
 }
-if(!fs.existsSync(envFile)) {
+if (!fs.existsSync(envFile)) {
   throw 'no env file'
 }
-var envConfig = dotenv.config({path: envFile});
+var envConfig = dotenv.config({ path: envFile });
 
 module.exports = createConfig([
   entryPoint({
@@ -126,7 +126,7 @@ module.exports = createConfig([
     devServer({
       contentBase: path.resolve(`${process.env.OUTPUT_PATH}`),
       port: process.env.DEV_SERVER_PORT || 3000,
-      setup: function(app) {
+      setup: function (app) {
         app.use(morgan('dev'));
       },
       hot: true,
@@ -148,16 +148,14 @@ module.exports = createConfig([
     extractText('app.[contenthash:8].css', 'text/x-sass'),
 
     addPlugins([
-      // FIXME we need to enable it!
-      new webpack.optimize.UglifyJsPlugin({
-        //compress: { warnings: true }, // TODO remove this
-      }),
+      new webpack.DefinePlugin({}),
+      new webpack.optimize.UglifyJsPlugin()
     ]),
   ]),
 ])
 
 function configureProxy() {
-  if(process.env.NODE_ENV != 'development') {
+  if (process.env.NODE_ENV != 'development') {
     return []
   }
   // Proxy API requests to backend
