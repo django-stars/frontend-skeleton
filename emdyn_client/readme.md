@@ -39,3 +39,15 @@ Authorized request with token
     curl -X GET http://127.0.0.1:8000/api/v1/findface/test/ -H 'Authorization: Token 479bf16ecba43727c5d119fa09e14d8475432b4f'
     
     
+##Get Job Process Status by ID
+Get the current status of any job process via api
+api/v1/process/{process-id}/status
+
+    api/v1/process/12/status
+    
+Response
+
+    {"image_count":"25","status":"in-progress"}
+    
+    
+    
