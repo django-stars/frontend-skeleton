@@ -1,4 +1,4 @@
-const { app, protocol, webFrame, BrowserWindow, dialog } = require('electron')
+const { app, protocol, webFrame, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
@@ -11,15 +11,24 @@ let win
 
 function createWindow(eee) {
   // Create the browser window.
-  win = new BrowserWindow({ width: 960, height: 800 })
+  win = new BrowserWindow({
+    width: 960,
+    height: 800,
+    webPreferences: { webSecurity: false }
+  })
 
-  // win.loadURL('ds://djangostars/login')
-  win.loadURL('http://localhost:3000/')
+  win.loadURL('ds://django.stars/dashboard') // FIXME should be own protocol in production build
+  //win.loadURL('http://localhost:3000/login')
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  if (process.env.NODE_ENV === 'development') {
+    win.webContents.openDevTools()
+  }
 
-  win.webContents.executeJavaScript('require("electron").webFrame.registerURLSchemeAsPrivileged("ds");')
+  win.webContents.executeJavaScript('require("electron").webFrame.registerURLSchemeAsPrivileged("ds", {bypassCSP: false});')
+  // FIXME not working
+  //win.webContents.executeJavaScript('require("electron").webFrame.registerURLSchemeAsBypassingCSP("http");')
+  //win.webContents.executeJavaScript('require("electron").webFrame.registerURLSchemeAsSecure("ds");')
 
   // Emitted when the window is closed.
   win.on('closed', () => {

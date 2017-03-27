@@ -42,6 +42,7 @@
     "babel-preset-stage-0": "^6.22.0",
     "compass-importer": "^0.4.1",
     "copy-webpack-plugin": "^4.0.1",
+    "clean-webpack-plugin": "^0.1.16",
     "css-loader": "^0.26.1",
     "dotenv": "^2.0.0",
     "electron": "^1.6.2",
@@ -87,8 +88,9 @@
   "scripts": {
     "start": "NODE_ENV=development node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline",
     "build": "NODE_ENV=production node ./node_modules/webpack/bin/webpack.js",
-    "package-mac": "./node_modules/.bin/electron-packager . --overwrite --platform=darwin --arch=x64 --icon=dist/static/img/icon-app.icns --prune=true --out=app-build",
-    "package-win": "./node_modules/.bin/electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=dist/static/img/icon-app.ico --prune=true --out=app-build --version-string.CompanyName=CE --version-string.FileDescription=CE",
-    "package-linux": "./node_modules/.bin/electron-packager . --overwrite --platform=linux --arch=x64 --icon=dist/static/img/icon-app.png --prune=true --out=app-build"
+    "electron": "NODE_ENV=development node ./node_modules/.bin/electron .",
+    "package-mac": "yarn build && ./node_modules/.bin/electron-packager . --overwrite --platform=darwin --arch=x64 --icon=dist/static/img/icon-app.icns --prune=true --out=build",
+    "package-win": "yarn build && ./node_modules/.bin/electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=dist/static/img/icon-app.ico --prune=true --out=build --version-string.CompanyName=CE --version-string.FileDescription=CE",
+    "package-linux": "yarn build && ./node_modules/.bin/electron-packager . --overwrite --platform=linux --arch=x64 --icon=dist/static/img/icon-app.png --prune=true --out=build"
   }
 }

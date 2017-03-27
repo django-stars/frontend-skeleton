@@ -20,7 +20,7 @@ class Nav extends Component {
       <nav className={this.state.collapsed ? 'collapsed' : ''}>
         <a className="collapse">Collapse <Icon onClick={this.toggleCollapse} type={this.state.collapsed ? 'right' : 'left'} /></a>
         <div className="wrap">
-          <Link to="/" className={this.props.location.pathname === '/' ? 'active' : null}>
+          <Link to="/dashboard" className={this.props.location.pathname === '/dashboard' ? 'active' : null}>
             <Icon type="area-chart" />Dashboard
           </Link>
           {

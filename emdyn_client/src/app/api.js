@@ -4,13 +4,16 @@ import { notification } from 'antd'
 
 var store
 
-const API_URL = document.body.getAttribute('data-api-base-url');
-
 // FIXME make it as middleware
 export function configure(s) { store = s }
 
 export default function (endpoint) {
   return new API(endpoint)
+}
+
+let API_URL = '/api/v1/'
+if (document && document.body) {
+  API_URL = document.body.dataset.apiBaseUrl
 }
 
 class API {

@@ -12,7 +12,7 @@ import BioTrace from 'modules/dashboard/biotrace'
 const routes = [
   { path: '/login', component: LoginPage },
   {
-    path: '/',
+    path: '/dashboard',
     component: AuthCheck(AppLayout),
     childRoutes: [
       { path: '/biotrace', component: BioTrace },
