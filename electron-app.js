@@ -1,4 +1,4 @@
-const {app, protocol, webFrame, BrowserWindow} = require('electron')
+const { app, protocol, webFrame, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
@@ -9,18 +9,20 @@ protocol.registerStandardSchemes(['ds'])
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
-function createWindow (eee) {
+function createWindow(eee) {
   // Create the browser window.
   win = new BrowserWindow({
     width: 800,
     height: 600,
-    webPreferences: {webSecurity: false}
+    webPreferences: { webSecurity: false }
   })
 
   win.loadURL('ds://django.stars/')
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  if (process.env.NODE_ENV === 'development') {
+    win.webContents.openDevTools()
+  }
 
   win.webContents.executeJavaScript('require("electron").webFrame.registerURLSchemeAsPrivileged("ds", {bypassCSP: false});')
   // FIXME not working
@@ -36,8 +38,8 @@ function createWindow (eee) {
   })
 }
 
-process.on('uncaughtException', function(error) {
-    console.error("ERROR Exception => " + error.stack);
+process.on('uncaughtException', function (error) {
+  console.error("ERROR Exception => " + error.stack);
 });
 
 // This method will be called when Electron has finished
@@ -50,8 +52,7 @@ app.on('ready', () => {
     const pathname =
       fs.existsSync(fpath) && fs.lstatSync(fpath).isFile() ?
       location.pathname : 'index.html'
-
-    callback({path: path.normalize(`${__dirname}/dist/${pathname}`)})
+    callback({ path: path.normalize(`${__dirname}/dist/${pathname}`) })
   }, (error) => {
     if (error) console.error('Failed to register protocol')
   })

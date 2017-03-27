@@ -11,6 +11,8 @@ logs/*
 
 .sass-cache/
 node_modules
+build/
+dist/
 static
 static*
 .tmp
