@@ -81,3 +81,16 @@ config/settings/secret_settings.json
 
 
 staticfiles/
+
+logs/*
+.DS_Store
+static
+static*
+.tmp
+.imagemin
+build/
+dist/
+.cache/
+app-build/
+
+.env/local

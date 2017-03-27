@@ -1,0 +1,27 @@
+.login-page {
+  background: linear-gradient(#044061 1%, #000C13 95%);
+  height: 100%;
+  display: flex;
+  position: relative;
+  .logo {
+    margin-bottom: 40px;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 30%;
+    background: url(img/login-bg.png) repeat-x bottom;
+  }
+  .form-login {
+    width: 100%;
+    max-width: 380px;
+    margin: auto;
+    .ant-btn {
+      display: block;
+      width: 100%;
+    }
+  }
+}

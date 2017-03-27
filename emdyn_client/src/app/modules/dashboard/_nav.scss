@@ -1,0 +1,88 @@
+nav {
+  height: 100%;
+  width: 230px;
+  position: relative;
+  background-color: $color-default550;
+  transition: $comp-transition;
+  box-sizing: border-box;
+  .wrap {
+    height: calc(100% - 128px);
+    overflow: auto;
+  }
+  a {
+    display: block;
+    padding: 20px 15px;
+    min-height: 64px;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid $color-default600;
+    cursor: pointer;
+    .anticon {
+      font-size: 20px;
+      margin-right: 15px;
+      opacity: 0.2;
+      transition: $comp-transition;
+    }
+    &.active {
+      background-color: $color-default600;
+      color: #fff;
+      .anticon {
+        opacity: 0.8;
+      }
+    }
+    &:hover {
+      color: $color-default;
+      .anticon {
+        opacity: 1;
+        color: $color-default;
+      }
+    }
+  }
+  .collapse {
+    text-align: right;
+    padding: 12px 15px;
+    .anticon {
+      margin: 0 0 0 15px;
+      opacity: 1;
+      border: 1px solid $color-default;
+      border-radius: 4px;
+      color: $color-default;
+      padding: 8px;
+      cursor: pointer;
+      &:hover {
+        background-color: $color-default;
+        color: #fff;
+      }
+    }
+    &:hover {
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
+  .logout {
+    border-top: 1px solid $color-default600;
+    border-bottom: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    .anticon {
+      opacity: 0.7;
+      color: $color-default;
+    }
+    &:hover {
+      color: $color-default;
+      .anticon {
+        opacity: 1;
+      }
+    }
+  }
+  &.collapsed {
+    font-size: 0;
+    width: 66px;
+    a {
+      text-align: center;
+    }
+    .anticon {
+      margin: 0;
+    }
+  }
+}

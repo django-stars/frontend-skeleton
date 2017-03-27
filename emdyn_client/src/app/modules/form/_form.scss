@@ -1,0 +1,61 @@
+@mixin placeholder($color) {
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+  &:-moz-placeholder {
+    color: $color;
+  }
+  &::-moz-placeholder {
+    color: $color;
+  }
+  &:-ms-input-placeholder {
+    color: $color;
+  }
+}
+
+.input-custom {
+  width: 100%;
+  font-size: 16px;
+  border: 1px solid $color-default;
+  padding: 11px 15px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: $color-default500;
+  cursor: pointer;
+  color: #fff;
+  @include placeholder(#fff);
+}
+
+.field {
+  position: relative;
+  margin-bottom: 35px;
+  .message-error {
+    position: absolute;
+    top: -3px;
+    right: 0;
+    transform: translateY(-100%);
+  }
+  .label-custom {
+    position: static;
+    display: block;
+  }
+  .label-text {
+    font-size: 16px;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 15px;
+    transition: $comp-transition;
+    &.touched {
+      top: -3px;
+      color: $color-default20;
+      transform: translateY(-100%);
+      font-size: 14px;
+      left: 0;
+    }
+  }
+  input {
+    @extend .input-custom;
+  }
+}

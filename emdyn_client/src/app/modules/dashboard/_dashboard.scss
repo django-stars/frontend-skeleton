@@ -1,0 +1,14 @@
+main {
+  display: flex;
+  height: calc(100% - 50px);
+  & > div {
+    height: 100%;
+    padding: 16px 20px;
+    box-sizing: border-box;
+    flex: 1;
+    position: relative;
+    background-color: $color-default700;
+    padding: 12px 15px;
+    box-sizing: border-box;
+  }
+}

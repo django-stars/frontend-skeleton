@@ -1,0 +1,82 @@
+{{#each layouts}}
+  {{#each layout.items}}
+${{cssesc ../name}}-{{cssesc meta.name}}: -{{baseDim x}}px -{{baseDim y}}px {{baseDim width}}px {{baseDim height}}px
+  {{/each}}
+{{/each}}
+
+$all-sprites: ({{#each layouts}}{{#each layout.items}}{{cssesc ../name}}-{{cssesc meta.name}}: -{{baseDim x}}px -{{baseDim y}}px {{baseDim meta.width}}px {{baseDim meta.height}}px {{baseDim width}}px {{baseDim height}}px,{{/each}}{{/each}})
+
+=sprite-width($sprite)
+  width: nth($sprite, 3)
+
+=sprite-height($sprite)
+  height: nth($sprite, 4)
+
+=sprite-position($sprite)
+  $sprite-offset-x: nth($sprite, 1)
+  $sprite-offset-y: nth($sprite, 2)
+  background-position: $sprite-offset-x  $sprite-offset-y
+
+=sprite-position-old($sprite)
+  $sprite-offset-x: nth($sprite, 1) - (nth($sprite, 5) - nth($sprite, 3)) / 2
+  $sprite-offset-y: nth($sprite, 2) - (nth($sprite, 6) - nth($sprite, 4)) / 2
+  background-position: $sprite-offset-x  $sprite-offset-y
+
+=sprite($sprite, $display: block)
+  +sprite-position($sprite)
+  background-repeat: no-repeat
+  overflow: hidden
+  display: $display
+  +sprite-width($sprite)
+  +sprite-height($sprite)
+
+{{#each layouts}}
+{{#each sprites}}
+{{#unless dpi}}
+.{{cssesc ../../classname}}
+  background-image: url('{{escimage url}}')
+{{/unless}}
+{{#if dpi}}
+
+@media (-webkit-min-device-pixel-ratio: {{ratio}}), (min-resolution: {{dpi}}dpi)
+  .{{cssesc ../../classname}}
+    background-image: url('{{escimage url}}')
+    background-size: {{baseWidth}}px {{baseHeight}}px
+{{/if}}
+{{/each}}
+{{/each}}
+
+{{#each layouts}}
+// support SASS syntax
+={{cssesc name}}-sprite($sprite, $size: false)
+  @extend .sprite-{{cssesc name}}
+  $sprite: map-get($all-sprites, {{cssesc name}}-#{$sprite})
+  +sprite-position-old($sprite)
+  background-repeat: no-repeat
+  //overflow: hidden
+  @if $size
+    +sprite-width($sprite)
+    +sprite-height($sprite)
+=all-{{cssesc name}}-sprites($size: false)
+  {{#each layout.items}}
+  .{{cssesc ../name}}-{{cssesc meta.name}}
+    +{{cssesc ../name}}-sprite({{cssesc meta.name}}, $size)
+  {{/each}}
+{{/each}}
+
+$FONT_TYPES: (woff: 'woff', woff2: 'woff2', otf: 'opentype', opentype: 'opentype', ttf: 'truetype', truetype: 'truetype', svg: 'svg', eot: 'embedded-opentype')
+@function font-format-prepare($file)
+  @if $file
+    @return format(map-get($FONT_TYPES, str-slice($file, str-index($file, '.') + 1)))
+  @return null
+@function font-file-prepare($file)
+  @if $file
+    @return url('/static/fonts/' + $file)
+  @return null
+@function font-files($fonts...)
+  $files: ()
+  $formats: ()
+  @each $f in $fonts
+    $files: append($files, font-file-prepare($f))
+    $formats: append($formats, font-format-prepare($f))
+  @return zip($files, $formats)
