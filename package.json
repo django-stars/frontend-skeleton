@@ -87,6 +87,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=development node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline",
-    "build": "NODE_ENV=production node ./node_modules/webpack/bin/webpack.js"
+    "build": "NODE_ENV=production node ./node_modules/webpack/bin/webpack.js",
+    "electron": "NODE_ENV=development node ./node_modules/.bin/electron ."
   }
 }

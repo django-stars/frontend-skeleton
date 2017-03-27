@@ -11,6 +11,11 @@ export default function(endpoint) {
   return new API(endpoint)
 }
 
+let API_URL = '/api/v1/'
+if(document && document.body) {
+  API_URL = document.body.dataset.apiBaseUrl
+}
+
 class API {
   constructor(endpoint) {
     this.endpoint = endpoint;
@@ -22,7 +27,7 @@ class API {
 
     //return Observable.from(
     return fetch(
-        `/api/v1/${this.endpoint}/`,
+        `${API_URL}${this.endpoint}/`,
         {
           method,
           body: JSON.stringify(data),
