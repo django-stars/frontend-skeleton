@@ -25,7 +25,7 @@ class ProcessErrorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProcessErrorLog
-        fields = ('id', 'image_name', 'created_on', 'error_message', 'error_source', 'process')
+        fields = ('id', 'image_name', 'created_on', 'error_message', 'error_source', 'process', 'user')
 
 
 class FaceListSerializer(serializers.ModelSerializer):
