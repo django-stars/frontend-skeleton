@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import authentication, permissions
 
+from django.conf import settings
+
 
 
 
@@ -90,7 +92,7 @@ class StartProcessJob(APIView):
         :return:
         """
         incoming_paths = request.data
-        url_emdyn_onsite = "http://localhost:8000/api/v1/onsite/"
+        url_emdyn_onsite = settings.EMDYN_API_ONSITE_URL_BASE +"/api/v1/onsite/"
 
         user = request.user
 

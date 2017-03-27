@@ -317,3 +317,9 @@ REST_FRAMEWORK = {
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
     'PAGE_SIZE': 10
 }
+
+# Production URLS
+EMDYN_API_URL_BASE = "https://api.emdyn.net" # cloud off site
+EMDYN_API_ONSITE_URL_BASE = "https://onapi.emdyn.net" # local DELL server machine
+EMDYN_FINDFACE_URL = "https://ff.emdyn.net"  # local DELL server machine
+

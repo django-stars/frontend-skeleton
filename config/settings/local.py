@@ -143,3 +143,16 @@ LOGGING = {
         },
     },
 }
+
+EMDYN_API_URL_BASE = "http://localhost:8010"
+EMDYN_API_ONSITE_URL_BASE = "http://localhost:8000"
+EMDYN_FINDFACE_URL_STAGE = "https://ff.emdyn.net"
+EMDYN_FINDFACE_URL = "https://ff.emdyn.net"
+
+
+# production URLS
+# EMDYN_API_URL_BASE = "https://api.emdyn.net"
+# EMDYN_API_ONSITE_URL_BASE = "https://onapi.emdyn.net"
+# EMDYN_FINDFACE_URL = "https://ff.emdyn.net"
+
+

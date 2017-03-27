@@ -8,8 +8,6 @@ DEBUG = env.bool('DJANGO_DEBUG', default=True)
 TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 
 
-# db
-
 DATABASES = {
     'default': {
         # Postgresql with PostGIS
@@ -48,28 +46,6 @@ CELERY_ALWAYS_EAGER = True
 # ------------------------------------------------------------------------------
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
@@ -82,14 +58,14 @@ SECRET_KEY = env('DJANGO_SECRET_KEY')
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # raven sentry client
 # See https://docs.sentry.io/clients/python/integrations/django/
-INSTALLED_APPS += ('raven.contrib.django.raven_compat', )
+# INSTALLED_APPS += ('raven.contrib.django.raven_compat', )
 
 # Use Whitenoise to serve static files
 # See: https://whitenoise.readthedocs.io/
-WHITENOISE_MIDDLEWARE = ('whitenoise.middleware.WhiteNoiseMiddleware', )
-MIDDLEWARE = WHITENOISE_MIDDLEWARE + MIDDLEWARE
-RAVEN_MIDDLEWARE = ('raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware', )
-MIDDLEWARE = RAVEN_MIDDLEWARE + MIDDLEWARE
+# WHITENOISE_MIDDLEWARE = ('whitenoise.middleware.WhiteNoiseMiddleware', )
+# MIDDLEWARE = WHITENOISE_MIDDLEWARE + MIDDLEWARE
+# RAVEN_MIDDLEWARE = ('raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware', )
+# MIDDLEWARE = RAVEN_MIDDLEWARE + MIDDLEWARE
 
 
 # SECURITY CONFIGURATION
@@ -115,7 +91,7 @@ X_FRAME_OPTIONS = 'DENY'
 # ------------------------------------------------------------------------------
 # Hosts/domain names that are valid for this site
 # See https://docs.djangoproject.com/en/1.6/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['vigilance.net'])
+ALLOWED_HOSTS = ['vigilance.net', '.emdyn.net', 'api.emdyn.net', 'onsite.emdyn.net', '.emdyn.net']
 # END SITE CONFIGURATION
 
 INSTALLED_APPS += ('gunicorn', )
@@ -233,7 +209,10 @@ CACHES = {
 # }
 
 # Custom Admin URL, use {% url 'admin:index' %}
-ADMIN_URL = env('DJANGO_ADMIN_URL')
+ADMIN_URL = r'^admin/'
 
 # Your production stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
+EMDYN_API_URL_BASE = "https://api.emdyn.net" # cloud off site
+EMDYN_API_ONSITE_URL_BASE = "https://onapi.emdyn.net" # local DELL server machine
+EMDYN_FINDFACE_URL = "https://ff.emdyn.net"  # local DELL server machine
