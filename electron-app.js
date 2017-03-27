@@ -11,15 +11,22 @@ let win
 
 function createWindow (eee) {
   // Create the browser window.
-  win = new BrowserWindow({width: 800, height: 600})
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {webSecurity: false}
+  })
 
-  //win.loadURL('ds://django.stars/auth/login') // FIXME should be own protocol in production build
-  win.loadURL('http://localhost:3000/auth/login')
+  win.loadURL('ds://django.stars/auth/login') // FIXME should be own protocol in production build
+  //win.loadURL('http://localhost:3000/auth/login')
 
   // Open the DevTools.
   win.webContents.openDevTools()
 
-  win.webContents.executeJavaScript('require("electron").webFrame.registerURLSchemeAsPrivileged("ds");')
+  win.webContents.executeJavaScript('require("electron").webFrame.registerURLSchemeAsPrivileged("ds", {bypassCSP: false});')
+  // FIXME not working
+  //win.webContents.executeJavaScript('require("electron").webFrame.registerURLSchemeAsBypassingCSP("http");')
+  //win.webContents.executeJavaScript('require("electron").webFrame.registerURLSchemeAsSecure("ds");')
 
   // Emitted when the window is closed.
   win.on('closed', () => {
