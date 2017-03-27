@@ -3,6 +3,7 @@ import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import WriteFilePlugin from 'write-file-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
+import CleanWebpackPlugin from 'clean-webpack-plugin'
 
 import morgan from 'morgan'
 import path from 'path'
@@ -76,9 +77,6 @@ module.exports = createConfig([
   //ng2(),
   react(),
 
-  extractText('app.[contenthash:8].css'),
-  extractText('app.[contenthash:8].css', 'text/x-sass'),
-
   addPlugins([
     // Injects bundles in your index file instead of wiring all manually.
     // you can use chunks option to exclude some bundles and add separate entry point
@@ -117,6 +115,11 @@ module.exports = createConfig([
         return module.resource && module.resource.indexOf(path.resolve(__dirname, 'src')) === -1;
       }
     }),
+
+    new CleanWebpackPlugin(['dist'], {
+      root: __dirname,
+      watch: true,
+    }),
   ]),
 
   env('development', [
@@ -126,7 +129,7 @@ module.exports = createConfig([
       setup: function(app) {
         app.use(morgan('dev'));
       },
-      hot: false,
+      hot: true,
     }),
     devServer.proxy(configureProxy()),
     sourceMaps(),
@@ -137,16 +140,19 @@ module.exports = createConfig([
       // write generated files to filesystem (for debug)
       new WriteFilePlugin(),
 
-    ])
+    ]),
   ]),
 
   env('production', [
+    extractText('app.[contenthash:8].css'),
+    extractText('app.[contenthash:8].css', 'text/x-sass'),
+
     addPlugins([
       // FIXME we need to enable it!
-      /*new webpack.optimize.UglifyJsPlugin({
+      new webpack.optimize.UglifyJsPlugin({
         //compress: { warnings: true }, // TODO remove this
-      }),*/
-    ])
+      }),
+    ]),
   ]),
 ])
 
