@@ -16,14 +16,19 @@ urlpatterns = [
         view=LoginEmdynObtainAuthToken.as_view()
     ),
     url(
-        regex=r'^process/error/',
+        regex=r'^process/(?P<pk>[0-9]+)/error/$',
         view=ErrorLog.as_view(),
         name='error-log'
 
     ),
     url(
-        regex=r'^process/status/$',
+        regex=r'^process/(?P<pk>[0-9]+)/status/$',
         view=ProcessStatus.as_view(),
         name='process-status'
+    ),
+    url(
+        regex=r'^process/error/$',
+        view=ErrorLog.as_view(),
+        name='process-error'
     )
 ]
