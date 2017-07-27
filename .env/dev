@@ -1,0 +1,5 @@
+BACKEND_URL=http://localhost:8000
+API_URL=/api/v1/
+PROXY=["/s/","/m/","/media/"]
+OUTPUT_PATH=dist
+PUBLIC_PATH=static
