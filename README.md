@@ -1,27 +1,40 @@
 
 ## Yet another boilerplate
-AngularJS, Browserify, Gulp, EcmaScript 2015 (Babelify).
+React/Redux, Babel, Webpack, EcmaScript 2017.
 Created for using in conjunction with Django.
 
-## Install
+## Usage
 
-1. git clone git@github.com:django-stars/frontend-skeleton.git
-2. npm install -g gulp
-3. npm install
-4. cp local.default.json local.json
-5. gulp
+### Clone repo
+
+```
+git clone git@github.com:django-stars/frontend-skeleton.git
+```
+
+### Install dependencies
+
+```
+npm install
+```
+
+### Available commands
+```
+// run dev server
+npm start
+
+// build bundles
+npm build
+
+// run tests
+npm test
+```
 
 ## Supports
 
-* Gulp (build, watching)
-* Simple static node server (express)
-* Livereload
-* Images compression (imagemin)
-* CommonJS (browserify, sourcemaps, uglify)
-* EcmaScript 2015 (ES6, babelify)
-* ng-annotate (including [annotation for classes](https://github.com/mchmielarski/babel-plugin-ng-annotate))
-* Pug (Jade)
-* Compass, sass (sprites, sourcemaps)
+* Webpack (build, watching, dev-server, livereload)
+* Images compression (imagemin) (*need restore*)
+* EcmaScript 2017
+* Sass (~~sprites~~, sourcemaps)
 * Lodash
 * re-usable components
 
