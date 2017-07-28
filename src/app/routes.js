@@ -8,26 +8,29 @@ import AuthLogin from 'modules/session/AuthLogin'
 //import AuthPasswordReset from 'modules/session/AuthPasswordReset'
 
 import AppLayout from 'layouts/AppLayout'
+import NotFound from 'layouts/NotFound'
 import Dashboard from 'modules/dashboard/Dashboard'
 
-const routes = {
-  path: '/',
-  component: AppLayout,
-  //indexRoute: { component: Dashboard },
-  childRoutes: [
-    { path: 'dashboard', component: AuthCheck(Dashboard) },
-    {
-      path: 'auth',
-      //component: AuthLogin,
-      childRoutes: [{
-        path: 'login', component: AuthLogin,
-        //path: 'register', component: AuthRegistration,
-        //path: 'password-reset', component: AuthPasswordReset,
-      }],
-    },
-    //{ path: '*', component: NotFound }
-  ]
-}
+const routes = [
+  {
+    path: '/',
+    component: AppLayout,
+    //indexRoute: { component: Dashboard },
+    childRoutes: [
+      { path: 'dashboard/', component: AuthCheck(Dashboard) },
+      {
+        path: 'auth',
+        childRoutes: [{
+          path: 'login/',
+          component: AuthLogin,
+          //path: 'register', component: AuthRegistration,
+          //path: 'password-reset', component: AuthPasswordReset,
+        }],
+      },
+    ]
+  },
+  { path: '*', component: NotFound }
+]
 
 export default routes
 

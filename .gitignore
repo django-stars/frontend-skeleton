@@ -16,7 +16,7 @@ static*
 .tmp
 .imagemin
 npm-debug.log
+yarn-error.log
 
 .env/local
-
-__snapshots__
+dist/
