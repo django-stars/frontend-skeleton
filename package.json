@@ -87,7 +87,7 @@
   "scripts": {
     "start": "NODE_ENV=development node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline",
     "build": "NODE_ENV=production node ./node_modules/webpack/bin/webpack.js",
-    "lint": "node linter | snazzy",
-    "lint:fix": "node linter --fix | snazzy"
+    "lint": "node linter --verbose | snazzy",
+    "lint:fix": "node linter --fix --verbose | snazzy"
   }
 }
