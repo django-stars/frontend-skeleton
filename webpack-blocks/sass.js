@@ -2,7 +2,7 @@ module.exports = sass
 
 var path = require('path')
 var compassImporter = require('compass-importer');
-var sprity = require('sprity');
+//var sprity = require('sprity');
 var vfs = require('vinyl-fs');
 var through2 = require('through2');
 var _ = require('lodash');
@@ -36,7 +36,7 @@ function sass (options) {
                 ],
                 indentedSyntax: true,
                 importer: [
-                  sprityImporter,
+                  //sprityImporter,
                   compassImporter
                 ],
                 omitSourceMapUrl: process.env.NODE_ENV != 'development',

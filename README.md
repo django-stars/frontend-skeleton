@@ -14,19 +14,20 @@ git clone git@github.com:django-stars/frontend-skeleton.git
 ### Install dependencies
 
 ```
-npm install
+// NOTE: remove '--ignore-optional' flag if you need electron
+yarn install --ignore-optional
 ```
 
 ### Available commands
 ```
 // run dev server
-npm start
+yarn start
 
 // build bundles
-npm build
+yarn build
 
 // run tests
-npm test
+yarn test
 ```
 
 ## Supports
