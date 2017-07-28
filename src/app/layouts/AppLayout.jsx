@@ -1,6 +1,6 @@
 export default ({children})=> (
   <div>
-    AAA
+    MAIN LAYOUT COMPONENT
     {children}
   </div>
 )
