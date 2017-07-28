@@ -18,3 +18,5 @@ static*
 npm-debug.log
 
 .env/local
+
+__snapshots__
