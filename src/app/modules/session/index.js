@@ -4,19 +4,21 @@ import API from 'api'
 
 const SESSION_USER_FETCH = Symbol('SESSION_USER_FETCH')
 const SESSION_USER_FULFILLED = Symbol('SESSION_USER_FULFILLED')
+const SESSION_USER_LOGOUT = Symbol('SESSION_USER_LOGOUT')
 
 export { SESSION_USER_FETCH, SESSION_USER_FULFILLED }
 
 //const login = createAction(SESSION_USER_FETCH)
 const success = createAction(SESSION_USER_FULFILLED)
+const logout = createAction(SESSION_USER_LOGOUT)
 
-const login = function(credentials) {
-  return function(dispatch, getState, { API }) {
+const login = function (credentials) {
+  return function (dispatch, getState, { API }) {
     //return new Promise((resolve, reject) => {
-    return API('profiles/login')
-        .post(credentials)
-        //.then(resolve)
-        //.catch(reject)
+    return API('login/')
+      .post(credentials)
+    //.then(resolve)
+    //.catch(reject)
     //})
   }
 }
@@ -28,13 +30,15 @@ const defaultState = {
   user: {}
 }
 
-function reducer(state = defaultState, {type, payload}) {
+function reducer(state = defaultState, { type, payload }) {
   switch (type) {
     case SESSION_USER_FULFILLED:
       return {
         ...state,
         ...payload
       }
+    case SESSION_USER_LOGOUT:
+      return defaultState
     default:
       return state;
   }
@@ -51,7 +55,7 @@ function reducer(state = defaultState, {type, payload}) {
     );
 }*/
 
-const reducers = {session: reducer}
+const reducers = { session: reducer }
 //const epics = [epic]
 
-export { reducers/*, epics*/ }
+export { reducers /*, epics*/ }
