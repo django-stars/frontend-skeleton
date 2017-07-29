@@ -1,0 +1,7 @@
+{
+  "roots": ["./src/app"],
+  "testRegex": ".*\\.test.(js|jsx)$",
+  "unmockedModulePathPatterns": [
+      "./node_modules/react"
+  ]
+}
