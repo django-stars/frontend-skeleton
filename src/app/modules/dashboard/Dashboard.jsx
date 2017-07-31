@@ -1,7 +1,8 @@
 import { Component } from 'react'
 
 export default class Dashboard extends Component {
+
   render() {
-    return <div>DASHBOARD</div>
+    return <div id='dash'><h2>DASHBOARD</h2></div>
   }
 }

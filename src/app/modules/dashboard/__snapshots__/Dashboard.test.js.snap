@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components <Dashboard /> renders correctly 1`] = `
+<div
+  id="dash"
+>
+  <h2>
+    DASHBOARD
+  </h2>
+</div>
+`;
