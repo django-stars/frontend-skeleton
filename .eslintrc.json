@@ -1,6 +1,17 @@
 {
   "extends": "standard",
   "rules": {
-
+    "curly": ["error", "all"],
+    "comma-dangle": ["error", "always-multiline"],
+    "keyword-spacing": ["error", { "overrides": {
+      "if": { "after": false },
+      "for": { "after": false },
+      "while": { "after": false }
+    }}],
+    "spaced-comment": ["error", "always", {
+      "line": { "exceptions": ["/"], "markers": ["/"] },
+      "block": { "exceptions": ["*"], "markers": ["/"], "balanced": true }
+    }],
+    "space-before-function-paren": ["error", { "anonymous": "never", "named": "never", "asyncArrow": "always" }]
   }
 }

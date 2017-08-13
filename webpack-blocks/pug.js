@@ -12,12 +12,12 @@ function pug(options) {
             'html-loader',
             {
               loader: 'pug-html-loader',
-              query: Object.assign({}, {data: options})
-            }
+              query: Object.assign({}, {data: options}),
+            },
           ],
-        }
-      ]
-    }
+        },
+      ],
+    },
   })
 
   return Object.assign(setter, { pre })
@@ -25,7 +25,7 @@ function pug(options) {
 
 function pre(context) {
   const registeredTypes = context.fileType.all()
-  if (!('text/x-pug' in registeredTypes)) {
+  if(!('text/x-pug' in registeredTypes)) {
     context.fileType.add('text/x-pug', /\.pug$/)
   }
 }
