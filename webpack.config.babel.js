@@ -27,21 +27,21 @@ import extractText from '@webpack-blocks/extract-text2'
 import pug from './webpack-blocks/pug'
 import sass from './webpack-blocks/sass'
 
-//import ng2 from './webpack-blocks/ng2'
+// import ng2 from './webpack-blocks/ng2'
 import react from './webpack-blocks/react'
 
 // configure environment
 import dotenv from 'dotenv'
 import fs from 'fs'
 
-var envFile = process.env.ENVFILE || '.env/local';
+let envFile = process.env.ENVFILE || '.env/local'
 if(!fs.existsSync(envFile)) {
-  var envFile = process.env.ENVFILE || '.env/dev';
+  envFile = process.env.ENVFILE || '.env/dev'
 }
 if(!fs.existsSync(envFile)) {
-  throw 'no env file'
+  throw 'no env file' // eslint-disable-line no-throw-literal
 }
-var envConfig = dotenv.config({path: envFile});
+let envConfig = dotenv.config({path: envFile})
 
 module.exports = createConfig([
   entryPoint({
@@ -66,14 +66,15 @@ module.exports = createConfig([
     filename: '[name].js',
     // TODO check why we need this (HMR?)
     chunkFilename: '[id].chunk.js',
-    pathinfo: process.env.NODE_ENV == 'development',
+    pathinfo: process.env.NODE_ENV === 'development',
   }),
 
   babel(),
   pug(envConfig),
   sass(),
 
-  //ng2(),
+  // angular specific configuration
+  ///ng2(),
   react(),
 
   addPlugins([
@@ -84,7 +85,7 @@ module.exports = createConfig([
       template: 'src/index.pug',
       inject: 'body',
       hash: true,
-      filename: path.resolve(`${process.env.OUTPUT_PATH}/index.html`)
+      filename: path.resolve(`${process.env.OUTPUT_PATH}/index.html`),
     }),
 
     // FIXME it seems we don't need this, instead use right resolve rules
@@ -92,7 +93,7 @@ module.exports = createConfig([
       {
         context: path.resolve('./src'),
         from: 'img/**/*',
-        to: ''
+        to: '',
       },
       /*{
         context: path.resolve('./src'),
@@ -101,8 +102,8 @@ module.exports = createConfig([
       }*/
     ], {
       ignore: [
-        'img/sprites/**/*'
-      ]
+        'img/sprites/**/*',
+      ],
     }),
 
     // common code
@@ -110,9 +111,9 @@ module.exports = createConfig([
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       filename: 'vendor.js',
-      minChunks: function (module, count) {
-        return module.resource && module.resource.indexOf(path.resolve(__dirname, 'src')) === -1;
-      }
+      minChunks: function(module, count) {
+        return module.resource && module.resource.indexOf(path.resolve(__dirname, 'src')) === -1
+      },
     }),
 
     new CleanWebpackPlugin(['dist'], {
@@ -126,7 +127,7 @@ module.exports = createConfig([
       contentBase: path.resolve(`${process.env.OUTPUT_PATH}`),
       port: process.env.DEV_SERVER_PORT || 3000,
       setup: function(app) {
-        app.use(morgan('dev'));
+        app.use(morgan('dev'))
       },
       hot: true,
     }),
@@ -156,29 +157,29 @@ module.exports = createConfig([
 ])
 
 function configureProxy() {
-  if(process.env.NODE_ENV != 'development') {
+  if(process.env.NODE_ENV !== 'development') {
     return []
   }
   // Proxy API requests to backend
-  var urlData = url.parse(process.env.BACKEND_URL);
-  var backendBaseURL = urlData.protocol + '//' + urlData.host;
+  var urlData = url.parse(process.env.BACKEND_URL)
+  var backendBaseURL = urlData.protocol + '//' + urlData.host
 
   var options = {
     changeOrigin: true,
     target: backendBaseURL,
     secure: false,
     //logLevel: 'debug',
-  };
+  }
 
-  if (urlData.auth) {
+  if(urlData.auth) {
     options.auth = urlData.auth
   }
 
-  var context = [process.env.API_URL].concat(JSON.parse(process.env.PROXY));
+  var context = [process.env.API_URL].concat(JSON.parse(process.env.PROXY))
 
   var ret = [Object.assign({}, options, {
     context: context,
-  })];
+  })]
 
   return ret
 }

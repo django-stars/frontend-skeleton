@@ -1,8 +1,8 @@
 module.exports = ng2
 
 const babel = require('@webpack-blocks/babel6')
-const webpack = require("webpack");
-var path = require('path');
+const webpack = require('webpack')
+var path = require('path')
 
 function ng2(options) {
   options = options || {}
@@ -12,8 +12,8 @@ function ng2(options) {
     plugins: [
       'syntax-decorators',
       ['ng-annotate-2', {keepClass: true}],
-      ['angularjs-annotate', { 'explicitOnly': true }]
-    ]
+      ['angularjs-annotate', { 'explicitOnly': true }],
+    ],
   })
 
   return Object.assign((context) => {
@@ -23,14 +23,14 @@ function ng2(options) {
         // SHIMS
         new webpack.ProvidePlugin({
           'window.jQuery': 'jquery', // need for the angular
-          'jQuery': 'jquery'
+          'jQuery': 'jquery',
         }),
 
         new webpack.ContextReplacementPlugin(
           /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
           path.resolve('./src/app')
-        )
-      ]
+        ),
+      ],
     }
   }, { post: bb.postConfig })
 }
