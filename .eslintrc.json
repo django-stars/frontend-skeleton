@@ -1,5 +1,5 @@
 {
-  "extends": "standard",
+  "extends": ["standard", "standard-react"],
   "rules": {
     "curly": ["error", "all"],
     "comma-dangle": ["error", "always-multiline"],
@@ -12,6 +12,7 @@
       "line": { "exceptions": ["/"], "markers": ["/"] },
       "block": { "exceptions": ["*"], "markers": ["/"], "balanced": true }
     }],
-    "space-before-function-paren": ["error", { "anonymous": "never", "named": "never", "asyncArrow": "always" }]
+    "space-before-function-paren": ["error", { "anonymous": "never", "named": "never", "asyncArrow": "always" }],
+    "react/react-in-jsx-scope": 0
   }
 }
