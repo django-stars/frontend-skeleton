@@ -45,6 +45,7 @@
     "css-loader": "^0.26.1",
     "dotenv": "^2.0.0",
     "enzyme": "^2.9.1",
+    "eslint-config-standard-react": "^5.0.0",
     "extract-text-webpack-plugin": "2.1.0",
     "file-loader": "^0.10.0",
     "html-loader": "^0.4.5",
@@ -73,7 +74,6 @@
     "electron": "^1.6.2"
   },
   "dependencies": {
-    "eslint-config-standard-react": "^5.0.0",
     "jquery": "~2.2.4",
     "lodash": "~4.13.1",
     "react": "^15.4.2",
