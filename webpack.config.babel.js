@@ -130,6 +130,7 @@ module.exports = createConfig([
         app.use(morgan('dev'))
       },
       hot: true,
+      disableHostCheck: true,
     }),
     devServer.proxy(configureProxy()),
     sourceMaps(),
