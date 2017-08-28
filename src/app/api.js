@@ -98,12 +98,15 @@ class API {
   post(data) {
     return this.request('POST', data)
   }
+
   delete(data) {
     return this.request('DELETE', data)
   }
+
   patch(data) {
     return this.request('PATCH', data)
   }
+
   put(data) {
     return this.request('PUT', data)
   }
