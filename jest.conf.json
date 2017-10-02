@@ -4,5 +4,7 @@
   "unmockedModulePathPatterns": [
     "./node_modules/react"
   ],
-  "moduleDirectories": ["src/app", "node_modules"]
+  "moduleDirectories": ["src/app", "node_modules"],
+  "collectCoverageFrom": ["src/app/**/*.{js,jsx}"],
+	"coverageDirectory": "./coverage"
 }
