@@ -118,7 +118,6 @@ module.exports = createConfig([
 
     new CleanWebpackPlugin(['dist'], {
       root: __dirname,
-      watch: true,
     }),
   ]),
 
