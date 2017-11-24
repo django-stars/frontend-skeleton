@@ -1,0 +1,6 @@
+body {
+  background: black;
+  background-image: svg-load('../img/icons/ic-create.svg', fill=#ff0000);
+}
+
+

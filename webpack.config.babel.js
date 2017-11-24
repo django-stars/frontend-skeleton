@@ -1,185 +1,129 @@
-import webpack from 'webpack'
-
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import WriteFilePlugin from 'write-file-webpack-plugin'
-import CopyWebpackPlugin from 'copy-webpack-plugin'
-import CleanWebpackPlugin from 'clean-webpack-plugin'
-
-import morgan from 'morgan'
+import './init-env'
 import path from 'path'
-import url from 'url'
+import webpack  from 'webpack'
+import CleanWebpackPlugin from 'clean-webpack-plugin'
 
 import {
   createConfig,
-  entryPoint,
-  setOutput,
-  customConfig,
-  env,
-  sourceMaps,
-  setDevTool,
+  //match,
+  // Feature blocks
+  //css,
+  devServer,
+  //file,
+  //postcss,
+  uglify,
+  resolve,
+
+  // Shorthand setters
   addPlugins,
-} from '@webpack-blocks/webpack2'
+  setEnv,
+  entryPoint,
+  env,
+  setOutput,
+  sourceMaps
+} from 'webpack-blocks'
 
-import babel from '@webpack-blocks/babel6'
-import devServer from '@webpack-blocks/dev-server2'
-import extractText from '@webpack-blocks/extract-text2'
-
-import pug from './webpack-blocks/pug'
-import sass from './webpack-blocks/sass'
-
-// import ng2 from './webpack-blocks/ng2'
-import react from './webpack-blocks/react'
-
-// configure environment
-import dotenv from 'dotenv'
-import fs from 'fs'
-
-let envFile = process.env.ENVFILE || '.env/local'
-if(!fs.existsSync(envFile)) {
-  envFile = process.env.ENVFILE || '.env/dev'
-}
-if(!fs.existsSync(envFile)) {
-  throw 'no env file' // eslint-disable-line no-throw-literal
-}
-let envConfig = dotenv.config({path: envFile})
+import { babel, mpa, postcss, react, sass, spa } from './presets'
 
 module.exports = createConfig([
+
   entryPoint({
-    app: 'app.js',
+    bundle: 'index.js',
     //styles: './src/sass/app.sass',
     // you can add you own entries here (also check CommonsChunkPlugin)
   }),
 
-  customConfig({
-    resolve: {
-      modules: [
-        path.resolve('./src/app'),
-        'node_modules',
-      ],
-      extensions: ['.js', '.jsx', '.json', '.pug', '.css', '.sass', '.scss'],
-    },
+  /*env('development', [
+    entryPoint({
+      bundle: 'hmr.js',
+    }),
+  ]),
+
+  env('production', [
+    entryPoint({
+      bundle: 'index.js',
+    }),
+  ]),*/
+
+  resolve({
+    modules: [
+      path.resolve(`${process.env.SOURCES_PATH}/app`),
+      'node_modules',
+    ],
+    extensions: ['.js', '.jsx', '.json', '.css', '.sass', '.scss'],
   }),
 
   setOutput({
     path: path.resolve(`${process.env.OUTPUT_PATH}/${process.env.PUBLIC_PATH}`),
-    publicPath: '/' + process.env.PUBLIC_PATH + '/',
+    publicPath: `/${process.env.PUBLIC_PATH}/`,
+    // NOTE: 'name' here is the name of entry point
     filename: '[name].js',
     // TODO check why we need this (HMR?)
-    chunkFilename: '[id].chunk.js',
+    //chunkFilename: '[id].chunk.js',
     pathinfo: process.env.NODE_ENV === 'development',
   }),
 
-  babel(),
-  pug(envConfig),
-  sass(),
-
-  // angular specific configuration
-  ///ng2(),
-  react(),
+  /*match('*.css', { exclude: path.resolve('node_modules') }, [
+    css(),
+    postcss([
+      autoprefixer({ browsers: ['last 2 versions'] })
+    ])
+  ]),
+  match(['*.gif', '*.jpg', '*.jpeg', '*.png', '*.webp'], [
+    file()
+  ]),
+  */
+  setEnv([
+    // pass env values to compile environment
+    'BACKEND_URL', 'API_URL', 'PUBLIC_PATH', 'AUTH_HEADER'
+  ]),
 
   addPlugins([
-    // Injects bundles in your index file instead of wiring all manually.
-    // you can use chunks option to exclude some bundles and add separate entry point
-    // TODO entry for tests?
-    new HtmlWebpackPlugin({
-      template: 'src/index.pug',
-      inject: 'body',
-      hash: true,
-      filename: path.resolve(`${process.env.OUTPUT_PATH}/index.html`),
-    }),
-
-    // FIXME it seems we don't need this, instead use right resolve rules
-    new CopyWebpackPlugin([
-      {
-        context: path.resolve('./src'),
-        from: 'img/**/*',
-        to: '',
-      },
-      /*{
-        context: path.resolve('./src'),
-        from: 'fonts/** /*',
-        to: ''
-      }*/
-    ], {
-      ignore: [
-        'img/sprites/**/*',
-      ],
-    }),
-
-    // common code
-    // Automatically move all modules defined outside of application directory to vendor bundle.
+    // move all modules defined outside of application directory to vendor bundle
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'vendor.js',
+      name: 'vundle',
+      filename: '[name].js',
       minChunks: function(module, count) {
         return module.resource && module.resource.indexOf(path.resolve(__dirname, 'src')) === -1
       },
     }),
 
-    new CleanWebpackPlugin(['dist'], {
-      root: __dirname,
-    }),
+    // clean distribution folder before compile
+    //new CleanWebpackPlugin([process.env.OUTPUT_PATH], { root: __dirname }),
   ]),
 
   env('development', [
     devServer({
       contentBase: path.resolve(`${process.env.OUTPUT_PATH}`),
       port: process.env.DEV_SERVER_PORT || 3000,
-      setup: function(app) {
+      overlay: true,
+      clientLogLevel: 'info', // FIXME move to VERBOSE mode (add loglevel/verbose option)
+      stats: 'minimal',
+      /*setup: function(app) {
         app.use(morgan('dev'))
-      },
-      hot: true,
-      disableHostCheck: true,
+      },*/
+      //disableHostCheck: true,
     }),
-    devServer.proxy(configureProxy()),
-    sourceMaps(),
-    setDevTool('eval'),
-    // perfect but so slow
-    //setDevTool('source-map'),
-    addPlugins([
+    sourceMaps('eval-source-map'),
+
+    /*addPlugins([
       // write generated files to filesystem (for debug)
       new WriteFilePlugin(),
-
-    ]),
+    ]),*/
   ]),
-
   env('production', [
-    extractText('app.[contenthash:8].css'),
-    extractText('app.[contenthash:8].css', 'text/x-sass'),
+    //extractText('app.[contenthash:8].css'),
+    //extractText('app.[contenthash:8].css', 'text/x-sass'),
 
-    addPlugins([
-      // FIXME we need to enable it!
-      new webpack.optimize.UglifyJsPlugin({
-        //compress: { warnings: true }, // TODO remove this
-      }),
-    ]),
+    uglify(),
   ]),
+
+  spa(),
+  //mpa(),
+
+  babel(),
+  //react(),
+
+  //sass()
+  postcss()
 ])
-
-function configureProxy() {
-  if(process.env.NODE_ENV !== 'development') {
-    return []
-  }
-  // Proxy API requests to backend
-  var urlData = url.parse(process.env.BACKEND_URL)
-  var backendBaseURL = urlData.protocol + '//' + urlData.host
-
-  var options = {
-    changeOrigin: true,
-    target: backendBaseURL,
-    secure: false,
-    //logLevel: 'debug',
-  }
-
-  if(urlData.auth) {
-    options.auth = urlData.auth
-  }
-
-  var context = [process.env.API_URL].concat(JSON.parse(process.env.PROXY))
-
-  var ret = [Object.assign({}, options, {
-    context: context,
-  })]
-
-  return ret
-}
