@@ -1,0 +1,12 @@
+@import "bootstrap";
+
+$bgcolor: red;
+
+
+body {
+  background: $bgcolor;
+}
+body:after {
+  content: 'postcss initialized'
+}
+

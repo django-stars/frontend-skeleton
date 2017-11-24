@@ -1,13 +1,20 @@
-import { css, group, match, postcss } from 'webpack-blocks'
+import { css, env, extractText, group, match, sass } from 'webpack-blocks'
 import path from 'path'
-
-// TODO
 
 export default function spa(config) {
   return group([
-    match('*.css', { exclude: path.resolve('node_modules') }, [
+    match(['*.css', '*.sass', '*.scss'], { exclude: path.resolve('node_modules') }, [
       css(),
-      postcss(),
+      sass({
+        includePaths: [
+          path.resolve('./src/styles'),
+          path.resolve('./node_modules/bootstrap/scss'),
+          path.resolve('./node_modules'),
+        ],
+      }),
+      env('production', [
+        extractText('bundle.css'),
+      ]),
     ]),
   ])
 }

@@ -1,8 +1,0 @@
-body {
-  background: grey;
-}
-body:after {
-  content: 'postcss initialized'
-}
-
-

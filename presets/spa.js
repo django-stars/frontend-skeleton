@@ -20,7 +20,7 @@ export default function spa(config) {
     ]),
 
     env('development', [
-      devServer.proxy(configureProxy()),
+      //devServer.proxy(configureProxy()),
     ]),
   ])
 }

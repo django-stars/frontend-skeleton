@@ -139,7 +139,6 @@ module.exports = createConfig([
     addPlugins([
       // write generated files to filesystem (for debug)
       new WriteFilePlugin(),
-
     ]),
   ]),
 

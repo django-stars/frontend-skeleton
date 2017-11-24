@@ -3,6 +3,8 @@ import './init-env' // SHOULD BE FIRST
 import path from 'path'
 import webpack from 'webpack'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
+import WriteFilePlugin from 'write-file-webpack-plugin'
+//import ReloadPlugin from 'reload-html-webpack-plugin'
 import {
   addPlugins,
   createConfig,
@@ -21,8 +23,8 @@ import {
   mpa,
   postcss,
   // react,
-  // sass,
-  // spa
+  sass,
+  spa
 } from './presets'
 
 
@@ -87,24 +89,24 @@ module.exports = createConfig([
     }),
     sourceMaps('eval-source-map'),
 
-    /*
     addPlugins([
       // write generated files to filesystem (for debug)
+      // FIXME are we realy need this???
       new WriteFilePlugin(),
+      //new ReloadPlugin(),
     ]),
-    */
   ]),
 
   env('production', [
     uglify(),
   ]),
 
-  // spa(),
-  mpa(),
+  spa(),
+  //mpa(),
 
   babel(),
   // react(),
 
-  // sass(),
-  postcss(),
+  sass(),
+  //postcss(),
 ])
