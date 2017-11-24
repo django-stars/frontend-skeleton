@@ -1,49 +1,38 @@
-import './init-env'
+import './init-env' // SHOULD BE FIRST
+
 import path from 'path'
-import webpack  from 'webpack'
+import webpack from 'webpack'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
-
 import {
-  createConfig,
-  //match,
-  // Feature blocks
-  //css,
-  devServer,
-  //file,
-  //postcss,
-  uglify,
-  resolve,
-
-  // Shorthand setters
   addPlugins,
-  setEnv,
-  entryPoint,
+  createConfig,
+  devServer,
   env,
+  entryPoint,
+  resolve,
+  setEnv,
   setOutput,
-  sourceMaps
+  sourceMaps,
+  uglify,
 } from 'webpack-blocks'
 
-import { babel, mpa, postcss, react, sass, spa } from './presets'
+import {
+  babel,
+  mpa,
+  postcss,
+  // react,
+  // sass,
+  // spa
+} from './presets'
+
 
 module.exports = createConfig([
 
   entryPoint({
     bundle: 'index.js',
-    //styles: './src/sass/app.sass',
+    // styles: './src/sass/app.sass',
     // you can add you own entries here (also check CommonsChunkPlugin)
   }),
-
-  /*env('development', [
-    entryPoint({
-      bundle: 'hmr.js',
-    }),
-  ]),
-
-  env('production', [
-    entryPoint({
-      bundle: 'index.js',
-    }),
-  ]),*/
 
   resolve({
     modules: [
@@ -59,23 +48,13 @@ module.exports = createConfig([
     // NOTE: 'name' here is the name of entry point
     filename: '[name].js',
     // TODO check why we need this (HMR?)
-    //chunkFilename: '[id].chunk.js',
+    // chunkFilename: '[id].chunk.js',
     pathinfo: process.env.NODE_ENV === 'development',
   }),
 
-  /*match('*.css', { exclude: path.resolve('node_modules') }, [
-    css(),
-    postcss([
-      autoprefixer({ browsers: ['last 2 versions'] })
-    ])
-  ]),
-  match(['*.gif', '*.jpg', '*.jpeg', '*.png', '*.webp'], [
-    file()
-  ]),
-  */
   setEnv([
     // pass env values to compile environment
-    'BACKEND_URL', 'API_URL', 'PUBLIC_PATH', 'AUTH_HEADER'
+    'BACKEND_URL', 'API_URL', 'PUBLIC_PATH', 'AUTH_HEADER',
   ]),
 
   addPlugins([
@@ -89,7 +68,7 @@ module.exports = createConfig([
     }),
 
     // clean distribution folder before compile
-    //new CleanWebpackPlugin([process.env.OUTPUT_PATH], { root: __dirname }),
+    new CleanWebpackPlugin([process.env.OUTPUT_PATH], { root: __dirname }),
   ]),
 
   env('development', [
@@ -99,31 +78,33 @@ module.exports = createConfig([
       overlay: true,
       clientLogLevel: 'info', // FIXME move to VERBOSE mode (add loglevel/verbose option)
       stats: 'minimal',
-      /*setup: function(app) {
+      /*
+      setup: function(app) {
         app.use(morgan('dev'))
-      },*/
-      //disableHostCheck: true,
+      },
+      */
+      // disableHostCheck: true,
     }),
     sourceMaps('eval-source-map'),
 
-    /*addPlugins([
+    /*
+    addPlugins([
       // write generated files to filesystem (for debug)
       new WriteFilePlugin(),
-    ]),*/
+    ]),
+    */
   ]),
-  env('production', [
-    //extractText('app.[contenthash:8].css'),
-    //extractText('app.[contenthash:8].css', 'text/x-sass'),
 
+  env('production', [
     uglify(),
   ]),
 
-  spa(),
-  //mpa(),
+  // spa(),
+  mpa(),
 
   babel(),
-  //react(),
+  // react(),
 
-  //sass()
-  postcss()
+  // sass(),
+  postcss(),
 ])

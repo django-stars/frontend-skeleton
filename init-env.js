@@ -2,9 +2,16 @@ import dotenv from 'dotenv'
 
 dotenv.config({
   // dotenv use .env by default, but you can override this
-  path: process.env.ENVFILE
+  path: process.env.ENVFILE,
 })
 
+// load default config from .env.example
+dotenv.config({
+  // dotenv use .env by default, but you can override this
+  path: '.env.default',
+})
+
+/*
 const defaults = {
   BACKEND_URL: 'http://localhost:8000',
   API_URL: '/api/v1/',
@@ -22,5 +29,6 @@ Object.keys(defaults).forEach(function (key) {
     process.env[key] = defaults[key]
   }
 })
+*/
 
 export default process.env

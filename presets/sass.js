@@ -7,7 +7,7 @@ export default function spa(config) {
   return group([
     match('*.css', { exclude: path.resolve('node_modules') }, [
       css(),
-      postcss()
-    ])
+      postcss(),
+    ]),
   ])
 }

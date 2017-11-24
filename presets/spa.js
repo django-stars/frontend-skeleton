@@ -37,7 +37,7 @@ function configureProxy() {
     changeOrigin: true,
     target: backendBaseURL,
     secure: false,
-    //logLevel: 'debug',
+    // logLevel: 'debug',
   }
 
   if(urlData.auth) {

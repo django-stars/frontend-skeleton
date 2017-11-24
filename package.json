@@ -30,27 +30,29 @@
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "clean-webpack-plugin": "^0.1.17",
     "dotenv": "^4.0.0",
+    "eslint": "^4.11.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
     "html-webpack-plugin": "^2.30.1",
     "postcss-inline-svg": "^3.0.0",
+    "snazzy": "^7.0.0",
+    "standard-engine": "^7.2.0",
     "webpack": "^3.8.1",
     "webpack-blocks": "^1.0.0-rc.2",
     "webpack-dev-server": "^2.9.4"
   },
-  "optionalDependencies": {},
-  "dependencies": {
-    "react": "^16.1.1",
-    "react-dom": "^16.1.1",
-    "react-hot-loader": "^3.1.3"
-  },
+  "dependencies": {},
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --progress --colors",
     "build": "NODE_ENV=production webpack",
     "lint": "node linter --verbose | snazzy",
     "lint:fix": "node linter --fix --verbose | snazzy",
-    "test": "jest --config jest.conf.json -u"
+    "test": "exit 0"
   }
 }

@@ -19,7 +19,7 @@ function configureProxy() {
   var backendBaseURL = urlData.protocol + '//' + urlData.host
 
   var options = {
-    //changeOrigin: true,
+    // changeOrigin: true,
     target: backendBaseURL,
     secure: false,
     headers: {host: urlData.host},

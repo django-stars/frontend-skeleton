@@ -9,9 +9,9 @@ const opts = {
   eslint: eslint,
   cmd: 'linter',
   eslintConfig: {
-    configFile: path.join(__dirname, '.eslintrc.json')
+    configFile: path.join(__dirname, '.eslintrc.json'),
   },
-  cwd: ''
+  cwd: '',
 }
 
 require('standard-engine').cli(opts)

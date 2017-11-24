@@ -26,7 +26,7 @@ export default function spa(config) {
         ['env', {'modules': false}],
         // we use stage-2 for more stability
         'stage-2',
-        'react'
+        'react',
       ],
 
       // FIXME skeleton still based on react, but should be more abstract
