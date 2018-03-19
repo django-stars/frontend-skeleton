@@ -1,4 +1,9 @@
-import '../styles/index.scss'
+import { render } from 'react-dom'
 
+import { store, history } from './init'
+import App from './App'
 
-console.info('skeleton initialized', process.env.API_URL)
+render(
+  <App store={store} history={history} />,
+  document.getElementById('root'),
+)

@@ -25,7 +25,7 @@ export default function(config) {
         // some additonal `export` syntax features
         'babel-plugin-transform-export-extensions',
         // need for react HMR
-        'extract-hoc/babel',
+        //'extract-hoc/babel',
         'react-hot-loader/babel',
       ],
     }),
