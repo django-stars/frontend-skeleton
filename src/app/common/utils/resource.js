@@ -52,11 +52,11 @@ export function connectResource(resource) {
         ...ownProps[namespace],
         ...stateProps,
         ...dispatchProps,
-      }
+      },
     })
   )
 }
-  /*  return function(ComposedComponent) {
+/*  return function(ComposedComponent) {
 
     return class ResourceContainer extends Component {
       componentWillMount() {
@@ -74,7 +74,7 @@ export function connectResource(resource) {
     }
 
   }
-}*/
+} */
 
 export function makeResource(config) {
   if(isString(config)) {
@@ -96,13 +96,12 @@ const defaultState = {
 
 
 export function reducer(state = defaultState, { type, payload = {}, meta = {}, error = false }) {
-
-  switch(type) {
+  switch (type) {
     case SET_DATA: return {
       ...state,
       [meta.resource.namespace]: {
         data: payload,
-      }
+      },
     }
   }
 
@@ -114,13 +113,13 @@ export function epic(action$, store, { API }) { // FIXME API
     .debounce(() => interval(100)) // FIXME: FAIL on different requests types
     .switchMap(function({ meta, payload }) {
       return concat(
-        //of(actions.setLoading(true)),
+        // of(actions.setLoading(true)),
         fromPromise(API(meta.resource.endpoint).request(meta.type, payload))
           .switchMap(response => of(
             setData(response, meta),
-            //actions.setLoading(false),
+            // actions.setLoading(false),
           ))
-          //.catch(err => of(actions.setErrors(err)))
+          // .catch(err => of(actions.setErrors(err)))
       )
     })
 }

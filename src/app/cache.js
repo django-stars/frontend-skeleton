@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce'
 import pick from 'lodash/pick'
 
 
-const CACHE_STATE_KEYS=JSON.parse(process.env.CACHE_STATE_KEYS)
+const CACHE_STATE_KEYS = JSON.parse(process.env.CACHE_STATE_KEYS)
 const state = JSON.parse(localStorage.getItem(process.env.STORAGE_KEY) || '{}')
 
 const middleware = store => next => action => {

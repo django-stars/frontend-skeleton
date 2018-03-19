@@ -4,7 +4,7 @@ import path from 'path'
 import webpack from 'webpack'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
 import WriteFilePlugin from 'write-file-webpack-plugin'
-//import ReloadPlugin from 'reload-html-webpack-plugin'
+// import ReloadPlugin from 'reload-html-webpack-plugin'
 
 import {
   addPlugins,
@@ -21,8 +21,8 @@ import {
 
 import {
   babel,
-  mpa,
-  postcss,
+  // mpa,
+  // postcss,
   react,
   sass,
   spa,
@@ -96,7 +96,7 @@ module.exports = createConfig([
       // write generated files to filesystem (for debug)
       // FIXME are we realy need this???
       new WriteFilePlugin(),
-      //new ReloadPlugin(),
+      // new ReloadPlugin(),
     ]),
   ]),
 
@@ -105,11 +105,12 @@ module.exports = createConfig([
   ]),
 
   spa(),
-  //mpa(),
+  // mpa(),
 
   babel(),
   react(),
 
   sass(),
-  //postcss(),
+  // postcss(),
+  assets(),
 ])

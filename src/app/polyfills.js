@@ -1,6 +1,6 @@
 import 'babel-polyfill'
-//import smoothScroll from 'smoothscroll-polyfill'
-//smoothScroll.polyfill()
+// import smoothScroll from 'smoothscroll-polyfill'
+// smoothScroll.polyfill()
 
 // should be after React import for IE11
 // 'require' used because inside condition

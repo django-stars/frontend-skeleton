@@ -13,7 +13,7 @@ export default compose(
     (state, props) => ({
       level: userLevelSelector({
         ...state,
-      })
+      }),
     })
   ),
 )(CheckAccess)

@@ -2,7 +2,7 @@ import RouteRecursive from './RouteRecursive'
 import navigate from './navigate'
 import { Link, NavLink } from './Link'
 import match from './match'
-//import Prompt from './Prompt'
+// import Prompt from './Prompt'
 
 export {
   RouteRecursive,
@@ -10,5 +10,5 @@ export {
   Link,
   NavLink,
   match,
-  //Prompt,
+  // Prompt,
 }
