@@ -2,9 +2,9 @@ import NotFound from 'pages/fallbacks/NotFound'
 
 import { routes as test } from 'pages/test'
 
-import { access } from 'common/session'
+// import { access } from 'common/session'
 
-const appRoutes =  [
+const appRoutes = [
   {
     path: '/',
     exact: true,
@@ -21,7 +21,7 @@ const appRoutes =  [
       {
         component: NotFound,
       },
-    ]
+    ],
   },
 ]
 
@@ -39,7 +39,7 @@ function routesMap(routes, basePath = '/') {
     if(name) {
       acc = {
         ...acc,
-        [name]: path
+        [name]: path,
       }
     }
 

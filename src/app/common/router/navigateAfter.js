@@ -27,7 +27,7 @@ export function navigateAfterEpic(action$, store, { API }) {
       const { actionType, path, state } = payload
       return action$.ofType(actionType)
         // TODO stop navigation on manual navigate
-        //.takeUntil(navigate)
+        // .takeUntil(navigate)
         .switchMap(_ => {
           return of(
             push({pathname: path, state})

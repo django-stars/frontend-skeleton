@@ -5,7 +5,7 @@ import toPairs from 'lodash/toPairs'
 import get from 'lodash/get'
 
 const convertValueFor = ['ordering']
-const arrayQueries = ['asset_class','strategy','region','market', 'status']
+const arrayQueries = ['asset_class', 'strategy', 'region', 'market', 'status']
 
 export function parseQueryParams(str) {
   if(str.length <= 2) {
@@ -16,19 +16,19 @@ export function parseQueryParams(str) {
     .substr(1) // symbol '?'
     .split('&')
     .reduce(function(params, param) {
-      var paramSplit = param.split('=').map(function (chunk) {
+      var paramSplit = param.split('=').map(function(chunk) {
         return decodeURIComponent(chunk.replace('+', '%20'))
-      });
+      })
       const name = paramSplit[0]
       let value = paramSplit[1]
       if(convertValueFor.includes(name)) {
         value = camelCaseParam(value)
       }
       if(arrayQueries.includes(name)) {
-        value = [...get(params,name,[]), value]
+        value = [...get(params, name, []), value]
       }
       params[name] = value
-      return params;
+      return params
     }, {})
 }
 
@@ -42,20 +42,20 @@ export function buildQueryParams(params) {
 
     // TODO null should not be here, check field components
     if(value !== null && value !== undefined && String(value).length > 0) {
-      if(arrayQueries.includes(key)){
-        value.forEach(val=>{
-          ret.push(encodeURIComponent(key)+'='+encodeURIComponent(val))
+      if(arrayQueries.includes(key)) {
+        value.forEach(val => {
+          ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(val))
         })
       } else {
         if(convertValueFor.includes(key)) {
           value = snakeCaseParam(value)
         }
-        if (value === false) return ret
+        if(value === false) { return ret }
 
         ret.push(
-          encodeURIComponent(key)
-          + '='
-          + encodeURIComponent(value)
+          encodeURIComponent(key) +
+          '=' +
+          encodeURIComponent(value)
         )
       }
     }

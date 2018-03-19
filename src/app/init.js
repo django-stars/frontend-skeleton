@@ -7,7 +7,7 @@ import { createStore, applyMiddleware, combineReducers, compose as reduxCompose 
 import { reducer as form } from 'redux-form'
 import { createEpicMiddleware, combineEpics } from 'redux-observable'
 
-//import API, { configure as configureAPI } from 'api'
+// import API, { configure as configureAPI } from 'api'
 const API = {}
 import { middleware as cacheMiddleware, state as initialState } from './cache'
 import { reducers, epics } from 'store'
@@ -31,11 +31,11 @@ const store = createStore(
       cacheMiddleware,
     )
   )
-);
+)
 
 // FIXME why API need store ?
-//configureAPI(store)
+// configureAPI(store)
 
 export {
-  store, history
+  store, history,
 }
