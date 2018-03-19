@@ -1,20 +1,8 @@
 import { group, babel } from 'webpack-blocks'
 
 
-export default function spa(config) {
+export default function(config) {
   return group([
-    env('development', [
-      entryPoint({
-        bundle: 'hmr.js',
-      }),
-    ]),
-
-    env('production', [
-      entryPoint({
-        bundle: 'index.js',
-      }),
-    ]),
-
     babel({
       // ideally we only need set modules:false for env here, but:
       // this is why we need duplicate all config:

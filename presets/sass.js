@@ -1,7 +1,7 @@
 import { css, env, extractText, group, match, sass } from 'webpack-blocks'
 import path from 'path'
 
-export default function spa(config) {
+export default function(config) {
   return group([
     match(['*.css', '*.sass', '*.scss'], { exclude: path.resolve('node_modules') }, [
       css(),

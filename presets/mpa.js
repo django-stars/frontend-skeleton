@@ -2,7 +2,7 @@ import { devServer, env, group } from 'webpack-blocks'
 import url from 'url'
 
 
-export default function spa(config) {
+export default function(config) {
   return group([
     env('development', [
       devServer.proxy(configureProxy()),
@@ -22,6 +22,10 @@ function configureProxy() {
     // changeOrigin: true,
     target: backendBaseURL,
     secure: false,
+    // changeOrigin, hostRewrite and protocolRewrite used here for httpS proxy
+    changeOrigin: true,
+    hostRewrite: true,
+    protocolRewrite: true,
     headers: {host: urlData.host},
     logLevel: 'debug', // TODO verbose
   }

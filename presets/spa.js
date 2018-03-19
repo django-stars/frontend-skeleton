@@ -4,7 +4,7 @@ import url from 'url'
 import path from 'path'
 
 
-export default function spa(config) {
+export default function(config) {
   return group([
     addPlugins([
       // Injects bundles in your index file instead of wiring all manually.
@@ -20,7 +20,7 @@ export default function spa(config) {
     ]),
 
     env('development', [
-      //devServer.proxy(configureProxy()),
+      devServer.proxy(configureProxy()),
     ]),
   ])
 }
