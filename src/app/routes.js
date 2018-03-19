@@ -1,45 +1,58 @@
-'use strict';
+import NotFound from 'pages/fallbacks/NotFound'
 
-// HOC for check auth
-import AuthCheck from 'modules/session/AuthCheck'
+import { routes as test } from 'pages/test'
 
-import AuthLogin from 'modules/session/AuthLogin'
-//import AuthRegistration from 'modules/session/AuthRegistration'
-//import AuthPasswordReset from 'modules/session/AuthPasswordReset'
+import { access } from 'common/session'
 
-import AppLayout from 'layouts/AppLayout'
-import NotFound from 'layouts/NotFound'
-import Dashboard from 'modules/dashboard/Dashboard'
-
-const routes = [
+const appRoutes =  [
   {
     path: '/',
-    component: AppLayout,
-    //indexRoute: { component: Dashboard },
-    childRoutes: [
-      { path: 'dashboard/', component: AuthCheck(Dashboard) },
+    exact: true,
+    name: 'root',
+    redirectTo: '/test',
+  },
+  {
+    path: '/',
+    routes: [
       {
-        path: 'auth',
-        childRoutes: [{
-          path: 'login/',
-          component: AuthLogin,
-          //path: 'register', component: AuthRegistration,
-          //path: 'password-reset', component: AuthPasswordReset,
-        }],
+        path: '/test',
+        routes: test,
+      },
+      {
+        component: NotFound,
       },
     ]
   },
-  { path: '*', component: NotFound }
 ]
 
-export default routes
+export default appRoutes
+export const namedRoutes = routesMap(appRoutes)
 
-/*
-  /
-  /auth/
-  /auth/registration
-  /auth/password-reset
-  /dashboard
-  /items
-  /item/:id
-*/
+function routesMap(routes, basePath = '/') {
+  return routes.reduce(function(acc, {name, path, routes}) {
+    if(!path) {
+      return acc
+    }
+
+    path = makePath(path, basePath)
+
+    if(name) {
+      acc = {
+        ...acc,
+        [name]: path
+      }
+    }
+
+    if(routes) {
+      acc = {
+        ...acc,
+        ...(routesMap(routes, path)),
+      }
+    }
+    return acc
+  }, {})
+}
+
+function makePath(path, basePath) {
+  return (basePath + path).replace(/\/+/g, '/')
+}

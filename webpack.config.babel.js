@@ -23,7 +23,7 @@ import {
   babel,
   mpa,
   postcss,
-  // react,
+  react,
   sass,
   spa,
   assets,
@@ -59,6 +59,7 @@ module.exports = createConfig([
   setEnv([
     // pass env values to compile environment
     'BACKEND_URL', 'API_URL', 'PUBLIC_PATH', 'AUTH_HEADER',
+    'CACHE_STATE_KEYS', 'STORAGE_KEY',
   ]),
 
   addPlugins([
@@ -107,7 +108,7 @@ module.exports = createConfig([
   //mpa(),
 
   babel(),
-  // react(),
+  react(),
 
   sass(),
   //postcss(),
