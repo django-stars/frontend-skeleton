@@ -5,6 +5,7 @@ import webpack from 'webpack'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
 import WriteFilePlugin from 'write-file-webpack-plugin'
 //import ReloadPlugin from 'reload-html-webpack-plugin'
+
 import {
   addPlugins,
   createConfig,
@@ -24,7 +25,8 @@ import {
   postcss,
   // react,
   sass,
-  spa
+  spa,
+  assets,
 } from './presets'
 
 
@@ -49,7 +51,7 @@ module.exports = createConfig([
     publicPath: `/${process.env.PUBLIC_PATH}/`,
     // NOTE: 'name' here is the name of entry point
     filename: '[name].js',
-    // TODO check why we need this (HMR?)
+    // TODO check are we need this (HMR?)
     // chunkFilename: '[id].chunk.js',
     pathinfo: process.env.NODE_ENV === 'development',
   }),

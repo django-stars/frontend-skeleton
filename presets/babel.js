@@ -1,7 +1,7 @@
 import { group, babel } from 'webpack-blocks'
 
 
-export default function spa(config) {
+export default function(config) {
   return group([
     babel({
       // ideally we only need set modules:false for env here, but:
@@ -21,7 +21,7 @@ export default function spa(config) {
         // we use core-decorators
         'transform-decorators-legacy',
         // some additonal `export` syntax features
-        'babel-plugin-transform-export-extensions',
+        'transform-export-extensions',
       ],
     }),
 

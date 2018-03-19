@@ -9,7 +9,7 @@ module.exports = {
     }),
     // TODO svg optimizations https://github.com/TrySound/postcss-inline-svg#how-to-optimize-svg-on-build-step
     inlineSVG({
-      removeFill: true,
+      removeFill: false,
     }),
   ],
 }

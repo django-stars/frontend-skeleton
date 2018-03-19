@@ -1,7 +1,7 @@
 {
   "name": "frontend-skeleton",
-  "version": "0.2.0",
-  "description": "Yet another boilerplate created for using Angular/React in conjunction with Django.",
+  "version": "0.4.0",
+  "description": "Yet another boilerplate created at first for using Angular/React in conjunction with Django.",
   "author": "DjangoStars <info@djangostars.com>",
   "contributors": [
     {
@@ -50,7 +50,17 @@
     "write-file-webpack-plugin": "^4.2.0"
   },
   "dependencies": {
-    "bootstrap": "4.0.0-beta.2"
+    "bootstrap": "^4.0.0",
+    "lodash": "^4.17.5",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-hot-loader": "^4.0.0",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.2.0",
+    "redux": "^3.7.2",
+    "redux-form": "^7.3.0",
+    "redux-observable": "^0.18.0",
+    "rxjs": "^5.5.7"
   },
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --progress --colors",

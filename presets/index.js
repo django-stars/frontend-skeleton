@@ -4,6 +4,7 @@ import postcss from './postcss'
 import react from './react'
 import sass from './sass'
 import spa from './spa'
+import assets from './assets'
 
 
 export {
@@ -13,4 +14,5 @@ export {
   react,
   sass,
   spa,
+  assets,
 }
