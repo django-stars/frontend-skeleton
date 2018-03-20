@@ -1,5 +1,33 @@
 {
-  "extends": ["standard"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true,
+      "globalReturn": true
+    }
+  },
+  "plugins": [
+    "react"
+  ],
+  "settings": {
+    "react": {
+      "version": "15.0",
+      "createClass": "createClass"
+    }
+  },
   "rules": {
     "curly": ["error", "all"],
     "comma-dangle": ["error", "always-multiline"],
@@ -14,6 +42,11 @@
     }],
     "space-before-function-paren": ["error", { "anonymous": "never", "named": "never", "asyncArrow": "always" }],
     "react/react-in-jsx-scope": "off",
-    "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1, "maxBOF": 0 }]
+    "react/jsx-uses-vars": [0],
+    "react/prop-types": [0],
+    "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1, "maxBOF": 0 }],
+    "no-unused-vars": [2, {"args": "none"}],
+    "react/jsx-uses-vars": [2],
+    "react/display-name": ["off", { "ignoreTranspilerName": true }]
   }
 }
