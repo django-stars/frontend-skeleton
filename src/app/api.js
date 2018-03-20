@@ -1,15 +1,15 @@
-import { Observable } from 'rxjs/Rx'
 import { push } from 'react-router-redux'
 import { SubmissionError } from 'redux-form'
 import keys from 'lodash/keys'
 import { logout } from 'modules/session'
+// import { Observable } from 'rxjs/Rx' TODO: remove commented code if it is not necessary, sebastiyan, 20.03.2018
 
 var store
 
 // FIXME make it as middleware
 export function configure(s) { store = s }
 
-export default function (endpoint) {
+export default function(endpoint) {
   return new API(endpoint)
 }
 
@@ -27,14 +27,14 @@ class API {
       Authorization,
     };
 
-    if (options.isFormData) {
+    if(options.isFormData) {
       let {
-        ['Content-Type']: toDelete, ...newHeaders
+        ['Content-Type']: toDelete, ...newHeaders // eslint-disable-line no-unused-vars
       } = headers;
       headers = newHeaders;
       var formData = new FormData();
 
-      for (var name in data) {
+      for(var name in data) {
         formData.append(name, data[name]);
       }
     }
@@ -48,23 +48,23 @@ class API {
         }
       )
       .then(response => {
-        if (response.headers.get('Content-Type') !== 'application/json') {
+        if(response.headers.get('Content-Type') !== 'application/json') {
           return '';
         }
-        if (response.status === 401) {
+        if(response.status === 401) {
           store.dispatch(logout());
           store.dispatch(push('auth/login/'));
           window.location.reload();
         }
-        if (response.status === 403) {
+        if(response.status === 403) {
           store.dispatch(push('auth/login/'));
         }
-        if (response.status === 404) {
+        if(response.status === 404) {
           return store.dispatch(push('/404/'));
         }
         return response.json()
-          .then(function (body) {
-            if (response.ok) {
+          .then(function(body) {
+            if(response.ok) {
               return body;
             }
 
@@ -72,10 +72,10 @@ class API {
             var errors = {};
             keys(body).forEach(key => {
               let eKey = key
-              if (key == 'non_field_errors' || key == 'detail' || key == 'errors') {
+              if(key == 'non_field_errors' || key == 'detail' || key == 'errors') {
                 eKey = '_error'
               }
-              if (Array.isArray(body[key])) {
+              if(Array.isArray(body[key])) {
                 errors[eKey] = body[key][0];
               } else {
                 errors[eKey] = body[key];

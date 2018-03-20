@@ -56,8 +56,6 @@ export default function RouteRecursive({ access, layout: Layout, component: Comp
       }
     >{rendered}</CheckAccess>
   )
-
-  return rendered
 }
 
 function relativePath(root = '', path = '') {

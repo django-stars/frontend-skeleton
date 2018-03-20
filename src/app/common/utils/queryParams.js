@@ -1,7 +1,6 @@
 import camelCase from 'lodash/camelCase'
 import snakeCase from 'lodash/snakeCase'
 import isEmpty from 'lodash/isEmpty'
-import toPairs from 'lodash/toPairs'
 import get from 'lodash/get'
 
 const convertValueFor = ['ordering']
@@ -98,5 +97,5 @@ function orderingEnhancer(func) {
   }
 }
 
-camelCaseParam = orderingEnhancer(camelCaseParam)
-snakeCaseParam = orderingEnhancer(snakeCaseParam)
+export const camelCaseParamStringify = orderingEnhancer(camelCaseParam)
+export const snakeCaseParamStringify = orderingEnhancer(snakeCaseParam)

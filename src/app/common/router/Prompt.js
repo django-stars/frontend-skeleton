@@ -49,13 +49,13 @@ class Prompt extends Component {
   }
 
   enable() {
-    if (this.unblock) this.unblock()
+    if(this.unblock) { this.unblock() }
 
     this.unblock = this.context.router.history.block(this.handleBlock)
   }
 
   disable() {
-    if (this.unblock) {
+    if(this.unblock) {
       this.unblock()
       this.unblock = null
     }
@@ -94,9 +94,9 @@ class Prompt extends Component {
 Prompt.contextTypes = {
   router: PropTypes.shape({
     history: PropTypes.shape({
-      block: PropTypes.func.isRequired
-    }).isRequired
-  }).isRequired
+      block: PropTypes.func.isRequired,
+    }).isRequired,
+  }).isRequired,
 }
 
 Prompt.propTypes = {
@@ -107,7 +107,7 @@ Prompt.propTypes = {
 
 Prompt.defaultProps = {
   title: 'Warning!',
-  isLocationAllowed: function(location) { return false }
+  isLocationAllowed: function(location) { return false },
 }
 
 export default Prompt
