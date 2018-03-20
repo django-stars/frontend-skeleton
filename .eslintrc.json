@@ -24,7 +24,7 @@
   ],
   "settings": {
     "react": {
-      "version": "15.0",
+      "version": "16.2",
       "createClass": "createClass"
     }
   },
