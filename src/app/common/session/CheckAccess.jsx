@@ -1,7 +1,7 @@
-import { Children } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { F_PUBLIC, userLevelSelector } from './access'
+// import { Children } from 'react'
 
 
 function CheckAccess({ access = F_PUBLIC, level, fallback = null, children }) {
