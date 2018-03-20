@@ -2,6 +2,9 @@
   "roots": ["./src/app"],
   "testRegex": ".*\\.test.(js|jsx)$",
   "unmockedModulePathPatterns": [
-      "./node_modules/react"
-  ]
+    "./node_modules/react"
+  ],
+  "moduleDirectories": ["src/app", "node_modules"],
+  "collectCoverageFrom": ["src/app/**/*.{js,jsx}"],
+	"coverageDirectory": "./coverage"
 }

@@ -58,4 +58,4 @@ function reducer(state = defaultState, { type, payload }) {
 const reducers = { session: reducer }
 //const epics = [epic]
 
-export { reducers /*, epics*/ }
+export { reducers, logout/*, epics*/ }
