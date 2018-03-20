@@ -41,12 +41,11 @@
       "block": { "exceptions": ["*"], "markers": ["/"], "balanced": true }
     }],
     "space-before-function-paren": ["error", { "anonymous": "never", "named": "never", "asyncArrow": "always" }],
-    "react/react-in-jsx-scope": "off",
-    "react/jsx-uses-vars": [0],
-    "react/prop-types": [0],
     "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1, "maxBOF": 0 }],
-    "no-unused-vars": [2, {"args": "none"}],
-    "react/jsx-uses-vars": [2],
+    "no-unused-vars": ["error", {"args": "none"}],
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": ["off"],
+    "react/jsx-uses-vars": ["error"],
     "react/display-name": ["off", { "ignoreTranspilerName": true }]
   }
 }
