@@ -6,7 +6,7 @@ import routes from './routes'
 import { RouteRecursive } from 'common/router'
 
 
-function AppProvider({store, history}) {
+function AppProvider({ store, history }) {
   return (
     <Provider store={store}>
       <ConnectedRouter history={history}>

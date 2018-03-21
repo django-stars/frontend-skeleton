@@ -26,7 +26,7 @@ function configureProxy() {
     changeOrigin: true,
     hostRewrite: true,
     protocolRewrite: true,
-    headers: {host: urlData.host},
+    headers: { host: urlData.host },
     logLevel: 'debug', // TODO verbose
   }
 

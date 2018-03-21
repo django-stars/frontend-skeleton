@@ -28,7 +28,7 @@ class Prompt extends Component {
   }
 
   @autobind
-  toggleModal({isSuccess}) {
+  toggleModal({ isSuccess }) {
     this.setState({ isModalShown: false })
     if(isSuccess) {
       this.props.onConfirm()
