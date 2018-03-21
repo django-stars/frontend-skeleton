@@ -8,7 +8,7 @@ const navigateAssync = 'routes/NAVIGATE_ASSYNC'
 export default function navigateAfter(name, actionType, state) {
   let path = namedRoutes[name]
   if(!path) {
-    throw 'no route with name: ' + name
+    throw new Error('no route with name: ' + name)
   }
 
   return {
