@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme'
 import { shallowToJson } from 'enzyme-to-json'
 
-import { TextField } from '../../common/forms'
+import { TextField } from 'common/forms'
 import Test from './Test'
 
 describe('component Test', function() {

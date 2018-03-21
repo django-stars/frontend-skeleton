@@ -6,5 +6,8 @@
   ],
   "setupFiles": [
     "./test-setup.js"
+  ],
+  "modulePaths": [
+    "src/app"
   ]
 }
