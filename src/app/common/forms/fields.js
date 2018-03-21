@@ -11,16 +11,15 @@ import TextInput from './inputs/TextInput'
 import TextAreaInput from './inputs/TextAreaInput'
 
 
-const
-  CheckboxField = BaseFieldHOC(CheckboxInput),
-  // CurrencyField = BaseFieldHOC(CurrencyInput),
-  // DateField = BaseFieldHOC(DateInput),
-  NumberField = BaseFieldHOC(NumberInput),
-  RadiosField = BaseFieldHOC(RadiosInput),
-  // SelectField = BaseFieldHOC(SelectInput),
-  // SelectRangeField = BaseFieldHOC(SelectRangeInput),
-  TextField = BaseFieldHOC(TextInput),
-  TextAreaField = BaseFieldHOC(TextAreaInput)
+const CheckboxField = BaseFieldHOC(CheckboxInput)
+// const CurrencyField = BaseFieldHOC(CurrencyInput)
+// const DateField = BaseFieldHOC(DateInput)
+const NumberField = BaseFieldHOC(NumberInput)
+const RadiosField = BaseFieldHOC(RadiosInput)
+// const SelectField = BaseFieldHOC(SelectInput)
+// const SelectRangeField = BaseFieldHOC(SelectRangeInput)
+const TextField = BaseFieldHOC(TextInput)
+const TextAreaField = BaseFieldHOC(TextAreaInput)
 
 export {
   CheckboxField,

@@ -1,30 +1,36 @@
-import PropTypes from 'prop-types';
-import { Modal } from 'react-bootstrap';
+import PropTypes from 'prop-types'
+import { Modal } from 'react-bootstrap'
 
 const propTypes = {
-    modalClassName: PropTypes.string,
-    title: PropTypes.string,
-    show: PropTypes.bool,
-    onHide: PropTypes.func,
-    ModalComponent: PropTypes.element,
-};
-
-export default function ModalWrapper(props) {
-    const { modalClassName, title, show, onHide } = props,
-        ModalComponent = props.component;
-    return (
-        <Modal show={show} onHide={onHide} className={modalClassName}>
-            <div className="modal-container">
-                <Modal.Header>
-                    <Modal.Title>{title}</Modal.Title>
-                    <div className="close-btn" onClick={onHide}>&#10005;</div>
-                </Modal.Header>
-                <Modal.Body>
-                    <ModalComponent {...props} />
-                </Modal.Body>
-            </div>
-        </Modal>
-    );
+  modalClassName: PropTypes.string,
+  title: PropTypes.string,
+  show: PropTypes.bool,
+  onHide: PropTypes.func,
+  ModalComponent: PropTypes.element,
 }
 
-ModalWrapper.propTypes = propTypes;
+export default function ModalWrapper(props) {
+  const {
+    modalClassName,
+    title,
+    show,
+    onHide,
+    component: ModalComponent,
+  } = props
+
+  return (
+    <Modal show={show} onHide={onHide} className={modalClassName}>
+      <div className="modal-container">
+        <Modal.Header>
+          <Modal.Title>{title}</Modal.Title>
+          <div className="close-btn" onClick={onHide}>&#10005;</div>
+        </Modal.Header>
+        <Modal.Body>
+          <ModalComponent {...props} />
+        </Modal.Body>
+      </div>
+    </Modal>
+  )
+}
+
+ModalWrapper.propTypes = propTypes
