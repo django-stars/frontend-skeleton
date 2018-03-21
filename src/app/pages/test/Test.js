@@ -1,4 +1,4 @@
-import { TextField, RadiosField } from 'common/forms'
+import { TextField, RadiosField } from '../../common/forms'
 
 const salutationChoices = [
   { label: 'Mrs.', value: 'mrs' },
