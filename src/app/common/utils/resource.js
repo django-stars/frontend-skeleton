@@ -38,12 +38,12 @@ export function connectResource(resource) {
     selectResource(resource),
     // actions
     (dispatch) => ({
-      fetch: () => dispatch(request(null, {type: 'GET'}, resource)),
-      remove: () => dispatch(request(null, {type: 'DELETE'}, resource)),
-      save: (payload) => dispatch(request(payload, {type: 'PATCH'}, resource)),
-      update: (payload) => dispatch(request(payload, {type: 'PATCH'}, resource)),
-      create: (payload) => dispatch(request(payload, {type: 'POST'}, resource)),
-      replace: (payload) => dispatch(request(payload, {type: 'PUT'}, resource)),
+      fetch: () => dispatch(request(null, { type: 'GET' }, resource)),
+      remove: () => dispatch(request(null, { type: 'DELETE' }, resource)),
+      save: (payload) => dispatch(request(payload, { type: 'PATCH' }, resource)),
+      update: (payload) => dispatch(request(payload, { type: 'PATCH' }, resource)),
+      create: (payload) => dispatch(request(payload, { type: 'POST' }, resource)),
+      replace: (payload) => dispatch(request(payload, { type: 'PUT' }, resource)),
     }),
     // merge
     (stateProps, dispatchProps, ownProps) => ({

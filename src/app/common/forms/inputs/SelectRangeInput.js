@@ -15,7 +15,7 @@ export default function SelectRangeInput(props) {
   const { rangeStart, rangeEnd, rangeStep, ...restProps } = props
   return (
     <SelectInput
-      options={range(rangeStart, rangeEnd, rangeStep).map((value) => { return {label: value, value} })}
+      options={range(rangeStart, rangeEnd, rangeStep).map((value) => { return { label: value, value } })}
       {...restProps}
     />
   )

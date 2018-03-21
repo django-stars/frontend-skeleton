@@ -9,5 +9,5 @@ export default function navigate(name, state) {
     throw new Error('no route with name: ' + name)
   }
 
-  return push({pathname: path, state})
+  return push({ pathname: path, state })
 }

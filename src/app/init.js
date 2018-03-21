@@ -26,7 +26,7 @@ const store = createStore(
   initialState,
   compose(
     applyMiddleware(
-      createEpicMiddleware(combineEpics(...epics), {dependencies: {API}}),
+      createEpicMiddleware(combineEpics(...epics), { dependencies: { API } }),
       routerMiddleware(history),
       cacheMiddleware,
     )

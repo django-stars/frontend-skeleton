@@ -11,7 +11,7 @@ export default function(config) {
       babelrc: false,
       compact: false,
       presets: [
-        ['env', {'modules': false}],
+        ['env', { 'modules': false }],
         // we use stage-2 for more stability
         'stage-2',
       ],

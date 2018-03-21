@@ -29,7 +29,7 @@ export default appRoutes
 export const namedRoutes = routesMap(appRoutes)
 
 function routesMap(routes, basePath = '/') {
-  return routes.reduce(function(acc, {name, path, routes}) {
+  return routes.reduce(function(acc, { name, path, routes }) {
     if(!path) {
       return acc
     }
