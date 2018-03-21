@@ -14,20 +14,20 @@ describe('TestContainer', () => {
       lastName: 'Hawking',
       salutation: 'mr',
     },
-  };
-  let store, container;
+  }
+  let store, container
 
   beforeEach(() => {
     store = mockStore(INITIAL_STATE)
-    container = shallow(<TestContainer store={store} /> );
+    container = shallow(<TestContainer store={store} />)
   })
 
   it('should render the connected TestContainer component', () => {
-    expect(container.length).toEqual(1);
-  });
+    expect(container.length).toEqual(1)
+  })
 
   it('should match props with initialState', () => {
-    expect(container.prop('form')).toEqual(INITIAL_STATE.form);
-    expect(container.prop('initialValues')).toEqual(INITIAL_STATE.initialValues);
-  });
-});
+    expect(container.prop('form')).toEqual(INITIAL_STATE.form)
+    expect(container.prop('initialValues')).toEqual(INITIAL_STATE.initialValues)
+  })
+})
