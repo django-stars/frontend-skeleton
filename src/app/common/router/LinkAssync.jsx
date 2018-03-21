@@ -4,7 +4,7 @@ import { namedRoutes } from './config'
 export default function LinkAssync({to, after, onClick, navigateAfter, ...props}) {
   let path = namedRoutes[to]
   if(!path) {
-    throw 'no route with name: ' + to
+    throw new Error('no route with name: ' + to)
   }
 
   function navigate(e) {
