@@ -1,8 +1,16 @@
-import { push } from 'react-router-redux'
 import { SubmissionError } from 'redux-form'
 import keys from 'lodash/keys'
-import { logout } from 'modules/session'
-// import { Observable } from 'rxjs/Rx' TODO: remove commented code if it is not necessary, sebastiyan, 20.03.2018
+import isEmpty from 'lodash/isEmpty'
+import isFunction from 'lodash/isFunction'
+import isString from 'lodash/isString'
+import isPlainObject from 'lodash/isPlainObject'
+import isObject from 'lodash/isObject'
+import flatMapDeep from 'lodash/flatMapDeep'
+// TODO it seems we can move all query logic to API
+import { buildQueryParams } from 'common/utils/queryParams'
+// import { logout } from 'pages/session'
+
+export const API_URL = process.env.API_URL
 
 var store
 
@@ -13,102 +21,158 @@ export default function(endpoint) {
   return new API(endpoint)
 }
 
+function deepValues(obj) {
+  // creates flat list of all `obj` values (including nested)
+  if(isPlainObject(obj) || Array.isArray(obj)) {
+    return flatMapDeep(obj, deepValues)
+  }
+  return obj
+}
+
+function hasFile(obj) {
+  // check if `obj` has at least one `File` instance
+  return deepValues(obj).some((v) => v instanceof File)
+}
+
 class API {
   constructor(endpoint) {
+    if(!/^\w[^?]+\w$/.test(endpoint)) {
+      console.error('invalid API endpoint: \'%s\'. API endpoint should not contain trailing slashes and query params', endpoint)
+    }
     this.endpoint = endpoint
   }
 
-  request(method = 'GET', data = null, options = {}) {
-    const authToken = store.getState().session.token
-    const Authorization = authToken ? 'JWT ' + authToken : ''
+  getAuthorizationHeader() {
+    let authToken = store.getState().session.token
+    return authToken ? 'JWT ' + authToken : ''
+  }
 
-    let headers = {
-      'Content-Type': 'application/json',
-      Authorization,
+  prepareBody(body, isMultipartFormData) {
+    if(isEmpty(body)) {
+      return body
     }
 
-    if(options.isFormData) {
-      let {
-        'Content-Type': toDelete, ...newHeaders // eslint-disable-line no-unused-vars
-      } = headers
-      headers = newHeaders
-      var formData = new FormData()
-
-      for(var name in data) {
-        formData.append(name, data[name])
-      }
+    if(isPlainObject(body)) {
+      // FIXME we shouldn't send file object represented by url
+      ['avatar', 'logo', 'file'].forEach(field => isString(body[field]) && delete body[field])
     }
 
-    return fetch(
-      `/api/v1/${this.endpoint}`,
-      {
-        method,
-        body: data ? (options.isFormData ? formData : JSON.stringify(data)) : undefined,
-        headers,
-      }
-    )
-      .then(response => {
-        if(response.headers.get('Content-Type') !== 'application/json') {
-          return ''
-        }
-        if(response.status === 401) {
-          store.dispatch(logout())
-          store.dispatch(push('auth/login/'))
-          window.location.reload()
-        }
-        if(response.status === 403) {
-          store.dispatch(push('auth/login/'))
-        }
-        if(response.status === 404) {
-          return store.dispatch(push('/404/'))
-        }
-        return response.json()
-          .then(function(body) {
-            if(response.ok) {
-              return body
+    if(isMultipartFormData) {
+      const formData = new FormData()
+
+      for(var name in body) {
+        if(isFunction(body[name])) {
+          // FIXME there should not be functions
+          console.warn('API detects invalid data value (function) in field:', name)
+          continue
+        } else if(Array.isArray(body[name])) {
+          body[name].forEach((value, i) => {
+            if(isObject(value)) {
+              keys(value).forEach(key => {
+                formData.append(`${name}[${i}]${key}`, value[key])
+              })
+            } else {
+              formData.append(name, value)
             }
-
-            // handle errors
-            var errors = {}
-            keys(body).forEach(key => {
-              let eKey = key
-              if(key === 'non_field_errors' || key === 'detail' || key === 'errors') {
-                eKey = '_error'
-              }
-              if(Array.isArray(body[key])) {
-                errors[eKey] = body[key][0]
-              } else {
-                errors[eKey] = body[key]
-              }
-            })
-
-            throw new SubmissionError(errors)
           })
+        } else if(isPlainObject(body[name])) {
+          keys(body[name]).forEach(key => {
+            formData.append(`${name}.${key}`, body[name][key])
+          })
+        } else {
+          if(body[name] !== null) {
+            // FIXME this shouldn't be here. check form body serialization
+            // https://github.com/erikras/redux-form/issues/701
+            formData.append(name, body[name])
+          }
+        }
+      }
+      return formData
+    } else {
+      return JSON.stringify(body)
+    }
+  }
+
+  handleResponseCallback(response) {
+    if(response.status === 401) {
+      // 401 (Unauthorized)
+      // store.dispatch(logout())
+      return
+    } else if(response.status === 204) {
+      // 204 (No Content)
+      return Promise.resolve({})
+    }
+
+    if(response.headers.get('Content-Type') !== 'application/json') {
+      return Promise.reject(response)
+    }
+
+    return response.json()
+      .then(function(body) {
+        if(response.ok) {
+          return body
+        }
+
+        // handle errors
+        var errors = {}
+        keys(body).forEach(key => {
+          let eKey = key
+          if(key === 'non_field_errors' || key === 'nonFieldErrors' || key === 'detail') {
+            eKey = '_error'
+          }
+          if(Array.isArray(body[key])) {
+            errors[eKey] = body[key][0]
+          } else {
+            errors[eKey] = body[key]
+          }
+        })
+
+        throw new SubmissionError(errors)
       })
   }
 
-  postAsFormData(data) {
-    return this.request('POST', data, { isFormData: true })
+  request(method, params = {}, body = {}) {
+    const queryParams = isEmpty(params) ? '' : '?' + buildQueryParams(params)
+    const resource = `${API_URL}${this.endpoint}/${queryParams}`
+    const headers = new Headers({
+      'Authorization': this.getAuthorizationHeader(),
+      'Content-Type': 'application/json',
+    })
+
+    const isMultipartFormData = hasFile(body)
+    isMultipartFormData && headers.delete('Content-Type')
+
+    body = this.prepareBody(body, isMultipartFormData)
+    const options = {
+      method,
+      headers,
+      body,
+    }
+    var request = new Request(resource, options)
+    return fetch(request).then(this.handleResponseCallback)
   }
 
-  patchAsFormData(data) {
-    return this.request('PATCH', data, { isFormData: true })
+  post(body = {}, params = {}) {
+    return this.request('POST', params, body)
   }
 
-  post(data) {
-    return this.request('POST', data)
-  }
-  delete(data) {
-    return this.request('DELETE', data)
-  }
-  patch(data) {
-    return this.request('PATCH', data)
-  }
-  put(data) {
-    return this.request('PUT', data)
+  get(params) {
+    return this.request('GET', params)
   }
 
-  get() {
-    return this.request()
+  put(body = {}, params = {}) {
+    return this.request('PUT', params, body)
+  }
+
+  patch(body = {}, params = {}) {
+    return this.request('PATCH', params, body)
+  }
+
+  options() {
+    return this.request('OPTIONS')
+  }
+
+  delete() {
+    return this.request('DELETE')
   }
 }

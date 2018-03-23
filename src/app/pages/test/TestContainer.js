@@ -3,6 +3,7 @@ import { Component } from 'react'
 import { compose } from 'redux'
 import { reduxForm } from 'redux-form'
 
+// import { connectResource, connectFormResource } from 'common/utils/resource'
 import Test from './Test'
 
 
@@ -16,12 +17,22 @@ class TestContainer extends Component {
     const { handleSubmit, ...props } = this.props
     return <Test
       {...props}
-      onSubmit={handleSubmit(this.onSubmit)}
+      onSubmit={handleSubmit}
     />
   }
 }
 
+/*
+let testResource = {
+  namespace: 'leads',
+  endpoint: 'leads/e4831306-9e2e-41b7-bb77-514318aa51ba',
+}
+*/
+
 export default compose(
+  // connectResource(testResource),
+  // connectFormResource(testResource),
+
   reduxForm({
     form: 'test',
     initialValues: {
