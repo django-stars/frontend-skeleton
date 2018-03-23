@@ -1,10 +1,8 @@
 import camelCase from 'lodash/camelCase'
 import snakeCase from 'lodash/snakeCase'
 import isEmpty from 'lodash/isEmpty'
-import get from 'lodash/get'
 
 const convertValueFor = ['ordering']
-const arrayQueries = ['asset_class', 'strategy', 'region', 'market', 'status']
 
 export function parseQueryParams(str) {
   if(str.length <= 2) {
@@ -18,15 +16,12 @@ export function parseQueryParams(str) {
       var paramSplit = param.split('=').map(function(chunk) {
         return decodeURIComponent(chunk.replace('+', '%20'))
       })
-      const name = paramSplit[0]
+      const name = camelCaseParam(paramSplit[0])
       let value = paramSplit[1]
       if(convertValueFor.includes(name)) {
         value = camelCaseParam(value)
       }
-      if(arrayQueries.includes(name)) {
-        value = [...get(params, name, []), value]
-      }
-      params[name] = value
+      params[name] = params.hasOwnProperty(name) ? [].concat(params[name], value) : value
       return params
     }, {})
 }
@@ -39,25 +34,30 @@ export function buildQueryParams(params) {
   return Object.keys(params).reduce(function(ret, key) {
     let value = params[key]
 
-    // TODO null should not be here, check field components
-    if(value !== null && value !== undefined && String(value).length > 0) {
-      if(arrayQueries.includes(key)) {
-        value.forEach(val => {
-          ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(val))
-        })
-      } else {
-        if(convertValueFor.includes(key)) {
-          value = snakeCaseParam(value)
+    if(value === null || value === undefined) {
+      return ret
+    }
+
+    if(!Array.isArray(value)) {
+      value = [value]
+    }
+
+    value.forEach(function(val) {
+      if(String(val).length > 0) {
+        let _key = snakeCaseParam(key)
+        if(convertValueFor.includes(_key)) {
+          val = snakeCaseParam(val)
         }
-        if(value === false) { return ret }
 
         ret.push(
-          encodeURIComponent(key) +
+          encodeURIComponent(_key) +
           '=' +
-          encodeURIComponent(value)
+          encodeURIComponent(val)
         )
       }
-    }
+    })
+    // TODO null should not be here, check field components
+
     return ret
   }, []).join('&')
 }
@@ -97,5 +97,5 @@ function orderingEnhancer(func) {
   }
 }
 
-export const camelCaseParamStringify = orderingEnhancer(camelCaseParam)
-export const snakeCaseParamStringify = orderingEnhancer(snakeCaseParam)
+camelCaseParam = orderingEnhancer(camelCaseParam) // eslint-disable-line no-func-assign
+snakeCaseParam = orderingEnhancer(snakeCaseParam) // eslint-disable-line no-func-assign

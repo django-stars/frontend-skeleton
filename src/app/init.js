@@ -8,10 +8,10 @@ import { reducer as form } from 'redux-form'
 import { createEpicMiddleware, combineEpics } from 'redux-observable'
 import { middleware as cacheMiddleware, state as initialState } from './cache'
 import { reducers, epics } from 'store'
-// import API, { configure as configureAPI } from 'api'
+import { reducer as resource, epic as resourceEpic } from 'common/utils/resource'
+import API, { configure as configureAPI } from 'api'
 
 
-const API = {}
 const history = createHistory()
 
 // support for redux dev tools
@@ -21,20 +21,21 @@ const store = createStore(
   combineReducers({
     router,
     form,
+    resource,
     ...reducers,
   }),
   initialState,
   compose(
     applyMiddleware(
-      createEpicMiddleware(combineEpics(...epics), { dependencies: { API } }),
+      createEpicMiddleware(combineEpics(...epics, resourceEpic), { dependencies: { API } }),
       routerMiddleware(history),
       cacheMiddleware,
     )
   )
 )
 
-// FIXME why API need store ?
-// configureAPI(store)
+// FIXME API should not need store
+configureAPI(store)
 
 export {
   store, history,
