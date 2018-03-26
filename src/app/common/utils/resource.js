@@ -227,6 +227,7 @@ const defaultState = {
 
 export function reducer(state = defaultState, { type, payload = {}, meta = {}, error = false }) {
   switch (type) {
+    case SET_ERRORS:
     case SET_DATA: {
       const currentData = state[meta.resource.namespace]
       const dataKey = {
