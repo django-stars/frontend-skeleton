@@ -36,6 +36,7 @@ export default function BaseFieldLayout(props) {
             {...props}
             {...props.input}
           />
+          {props.meta.error}
           {/* tooltipContent && <TooltipIcon {...props} /> */}
         </div>
       </div>
