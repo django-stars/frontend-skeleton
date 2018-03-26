@@ -147,6 +147,7 @@ export function connectResource(resource, options = {}) {
     // merge
     (stateProps, dispatchProps, ownProps) => {
       let props = ({
+        ...ownProps,
         [resource.namespace]: {
           ...stateProps,
           ...omit(dispatchProps, 'onSubmit'),
@@ -155,7 +156,6 @@ export function connectResource(resource, options = {}) {
 
       if(resource.form) {
         props = {
-          ...ownProps,
           ...props,
           initialValues: stateProps.data,
           onSubmit: (resource.list && ownProps[resource.idKey]) || (!resource.list && resource.prefetch)
