@@ -108,6 +108,63 @@ resource = {
 options = { /* доп опции, о них ниже */ }
 ```
 
+в props получим такую структуру:
+```
+props.internalResourceName = {
+  data: { /* ... resource data from API ... */ },
+  isLoading: false, // or true,
+  options: { /* parsed OPTIONS from API */ },
+  errors: null, // or object with errors { },
+  filters: {}, // TODO
+  loading: 0, // number of currently loadings, used internaly
+}
+```
+
 
 ## Options
 
+опции можно задавать как на уровне конфигурации ресурса, так и на уровне коннекта
+
+
+#### `namespace : String|Array` [required]
+
+property name for resource binding. e.g. for `namespace: 'test'` you will get resource in `props.test`
+you can set it as array with two strings. userfull for list resource. e.g for `namespace: ['books', 'book']` you will get `this.props.books` for list request, or `this.props.book` for single item request (see `list` option for details)
+
+#### `endpoint : String` [optional] [default: value of namespace option]
+
+will be set to `namespace` if ommited. resource endpoint name - where to get data from server.
+can contains placeholders (see doc for `path-to-regexp` package for additional information). all you current props will be forwarded to `path-to-regexp`, plus one additional property `id` wich will be get by `idKey` (see below)
+
+#### `list : Boolean` [optional] [default: false]
+
+mark you resource as list resource. you endpoint should conins `:id?` placeholder, e.g. `accounts/:id?`
+when you have id property (this props name can be changed via `idKey`) in props then the item resource will be binded. otherwice list. 
+
+#### `idKey : String` [optional] [default: id]
+
+name for the property that contains id for item. see `list` option for details
+
+#### `prefetch : Boolean` [optional] [default: true]
+
+should the resource be prefetched. if you set this to true you will get `props[namespace].data === null`. userfull for custom resources that are not previously created on the server.
+
+#### `refresh : Boolean` [optional] [default: false]
+
+should the resource be refreshed when you render this component and the data for this resource already exists in store
+
+#### `form : String|undefined` [optional] [default: undefined]
+
+this property doesn't make sense when ommited. in `connectFormResource` this field is required
+connect resource for redux-form. you should specify form name here for properly validation working. 
+this option means that you will also get `initialValues` and `onSubmit` props. 
+`initialValues` will be set to prefetched data from server, or empty object (when no `prefetch === false`)
+`onSubmit` will do `create` (POST) for new items (`prefetch === false` means that item is new, for list resources missed id also means that the resource item is new). for existed items `onSubmit` will do `update` (PATCH)
+
+#### `item : Boolean` [optional] [default: Boolean(form)]
+
+used only for list resources, only inside options. will be set to true when form name is specified. this property means that we working with item inside list. sometimes you need to make "create item form". 
+
+#### `options : Boolean` [optional] [default: false]
+
+prefetch OPTIONS from endpoint (userfull for geting choices for selects from API)
