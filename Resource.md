@@ -179,3 +179,27 @@ used only for list resources, only inside options. will be set to true when form
 #### `options : Boolean` [optional] [default: false]
 
 prefetch OPTIONS from endpoint (useful for geting choices for selects from API)
+
+
+### Examples
+
+```
+compose(
+  // ypu can omit this for create boook form. when id exists that ths is edit book form
+  connect(_ => ({uuid: 'e4831316-9e2a-41b7-bb77-514318ac51ba'})),
+  connectFormResource({
+    namespace: ['books', 'book'],
+    endpoint: 'books/:id?',
+    list: true,
+    options: true,
+  }, {form: 'book'}),
+  reduxForm({
+    form: 'test',
+  })
+
+  // you can mix resources inside one component
+  connectSingleResource({
+    namespace: 'config', // ommited endpoint will be set to 'config'
+  }),
+)
+```
