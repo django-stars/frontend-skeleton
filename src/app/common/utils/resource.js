@@ -27,7 +27,7 @@ import values from 'lodash/values'
 // global configuration
 // submit only dirty
 // caching (OPTIONS at least, also some resources can be cachable)
-// + isList
+// + list
 // + use uuid
 // + endpoint generation (/name/:uuid, /name-:placeholder/)
 // pagination, filters, withRouter
@@ -36,6 +36,7 @@ import values from 'lodash/values'
 // HEAD request
 // custom: actions, reducer, epics
 // allowed methods
+// lazy load
 
 const REQUEST = '@ds-resource/request'
 const SET_DATA = '@ds-resource/set-data'
@@ -111,7 +112,7 @@ export function connectResource(resource, options = {}) {
     options: false,
     item: Boolean(options.form), // disallow binding list to form
 
-    ...resource,
+    ...resource, // FIXME omit `item` here
     ...options,
   }
 
@@ -155,11 +156,16 @@ export function connectResource(resource, options = {}) {
       })
 
       if(resource.form) {
+        const isNew = !(
+          // is list resource and ID presents
+          (resource.list && ownProps[resource.idKey]) ||
+          // not list ( single enpoint resource ) and we are doing prefetch (so the resource exists)
+          (!resource.list && resource.prefetch)
+        )
         props = {
           ...props,
           initialValues: stateProps.data,
-          onSubmit: (resource.list && ownProps[resource.idKey]) || (!resource.list && resource.prefetch)
-            ? dispatchProps.update : dispatchProps.create,
+          onSubmit: isNew ? dispatchProps.create : dispatchProps.update,
         }
       }
 
@@ -183,6 +189,14 @@ export function connectFormResource(resource, options) {
     throw new Error('no form name. you must specify form name for connectFormResource')
   }
   return connectResource(resource, { ...options })
+}
+
+export function connectListResource(resource, options) {
+  return connectResource(resource, { ...options, list: true })
+}
+
+export function connectSingleResource(resource, options) {
+  return connectResource(resource, options)
 }
 
 function makePrefetchHOC(resource) {
@@ -275,13 +289,19 @@ export function epic(action$, store, { API }) { // FIXME API
     // .debounce(() => interval(100)) // FIXME: FAIL on different requests types
     .mergeMap(function({ meta, payload }) {
       const { type, props, resource } = meta
+      let endpoint = resource.endpoint
+      if(!(new RegExp(`:(id|${resource.idKey})\\W`, 'g').test(endpoint))) {
+        // automatically set '/:id?' to endpoint
+        endpoint += '/:id?'
+      }
       const toPath = pathToRegexp.compile(resource.endpoint)
-      const endpoint = toPath({ ...props, id: props[resource.idKey] })
+      endpoint = toPath({ ...props, id: props[resource.idKey] })
       const submitting = resource.form && ['POST', 'PATCH', 'PUT', 'DELETE'].includes(type)
 
       return concat(
         of(
           setLoading(+1, meta),
+          // TODO it seems we can move form-related actions to separate epic
           submitting && startSubmit(resource.form),
         ),
         fromPromise(API(endpoint).request(type, {}, payload))
