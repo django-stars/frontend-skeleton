@@ -1,0 +1,22 @@
+.wrapper {
+  height: 100%;
+  background-color: $gray-100;
+}
+
+.main {
+  height: calc(100% - #{$header-height} - #{$footer-height});
+  overflow: auto;
+}
+
+header {
+  height: $header-height;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-around;
+}
+
+footer {
+  height: $footer-height;
+  background-color: $primary;
+  color: #fff;
+}

@@ -6,6 +6,7 @@ import isString from 'lodash/isString'
 import isPlainObject from 'lodash/isPlainObject'
 import isObject from 'lodash/isObject'
 import flatMapDeep from 'lodash/flatMapDeep'
+import get from 'lodash/get'
 // TODO it seems we can move all query logic to API
 import { buildQueryParams } from 'common/utils/queryParams'
 // import { logout } from 'pages/session'
@@ -43,7 +44,7 @@ class API {
   }
 
   getAuthorizationHeader() {
-    let authToken = store.getState().session.token
+    let authToken = get(store.getState(), 'resource.session.data.token')
     return authToken ? 'JWT ' + authToken : ''
   }
 
