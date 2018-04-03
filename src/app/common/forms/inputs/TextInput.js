@@ -23,20 +23,12 @@ export default class TextInput extends Component {
     this.props.onChange(e.target.value)
   }
     render() {
-      const { inputClassName, placeholder, pattern,
-        required, disabled, readOnly, name, value } = this.props
+      const { inputClassName, inputComponent, ...restProps } = this.props
       return (
         <input
-          type="text"
-          name={name}
+          {...restProps}
           className={inputClassName}
-          placeholder={placeholder}
-          pattern={pattern}
           onChange={this.handleChange}
-          required={required}
-          disabled={disabled}
-          readOnly={readOnly}
-          value={value}
         />
       )
     }

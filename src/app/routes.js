@@ -17,6 +17,7 @@ const appRoutes = [
       {
         path: '/test',
         routes: test,
+        name: 'test',
       },
       {
         component: NotFound,
