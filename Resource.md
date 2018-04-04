@@ -124,10 +124,13 @@ props.internalResourceName = {
   fetchOptions: func, // OPTIONS request
   setData: func, // you can update data in store manually, but please be carefull with this action
   setErrors: func, // you can updates errors in store manually, but please be carefull with this action
+  setFilters: func, // you can updates current filters in store manually, but please be carefull with this action
   
-  // filtering (query) TODO
   filters: {}, // current applied filters
-  filter: func, // action to set new filter query,
+  filter: func, // action to re-fetch resource with new filters
+
+  // filtering (using browser query) TODO
+  withRouter: false, // or true
   navigate: func, // the same as filter({offset: newOffset})
 }
 ```
@@ -184,6 +187,10 @@ prefetch OPTIONS from endpoint (useful for geting choices for selects from API)
 #### `async : Boolean` [optional] [default: false]
 
 should the component be rendered without data
+
+#### `filters : Object` [optional] [default: {}]
+
+used with list resources. representing initial query for fetch request.
 
 
 ### Examples

@@ -2,6 +2,7 @@ import { Component } from 'react'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { startSubmit, stopSubmit, setSubmitSucceeded, setSubmitFailed } from 'redux-form'
+import { combineEpics } from 'redux-observable'
 
 import { fromPromise } from 'rxjs/observable/fromPromise'
 import { concat } from 'rxjs/observable/concat'
@@ -16,7 +17,6 @@ import 'rxjs/add/operator/filter'
 
 import pathToRegexp from 'path-to-regexp'
 
-import omit from 'lodash/omit'
 import merge from 'lodash/merge'
 import values from 'lodash/values'
 
@@ -37,10 +37,12 @@ import values from 'lodash/values'
 // custom: actions, reducer, epics
 // allowed methods
 
-const REQUEST = '@ds-resource/request'
-const SET_DATA = '@ds-resource/set-data'
-const SET_ERRORS = '@ds-resource/set-errors'
-const SET_LOADING = '@ds-resource/set-loading'
+export const REQUEST = '@ds-resource/request'
+export const FILTER = '@ds-resource/filter'
+export const SET_DATA = '@ds-resource/set-data'
+export const SET_ERRORS = '@ds-resource/set-errors'
+export const SET_LOADING = '@ds-resource/set-loading'
+export const SET_FILTERS = '@ds-resource/set-filters'
 
 export function request(payload, meta) {
   return {
@@ -74,6 +76,21 @@ export function setLoading(payload, meta) {
   }
 }
 
+export function setFilters(payload, meta) {
+  return {
+    type: SET_FILTERS,
+    meta,
+    payload,
+  }
+}
+
+export function filter(payload, meta) {
+  return {
+    type: FILTER,
+    meta,
+    payload,
+  }
+}
 
 export function selectResource(resource) {
   return function(state) {
@@ -84,6 +101,7 @@ export function selectResource(resource) {
       isLoading: false,
       errors: null,
       loading: 0,
+      filters: {...resource.filters},
       ...state.resource[resource.namespace],
     }
 
@@ -110,6 +128,7 @@ export function connectResource(resource, options = {}) {
     list: false,
     options: false,
     async: false,
+    // pagination: Boolean(resource.list), // TODO is pagination enabled ?
     item: Boolean(options.form), // disallow binding list to form
 
     ...resource, // FIXME omit `item` here
@@ -133,8 +152,10 @@ export function connectResource(resource, options = {}) {
         replace: makeRequestAction('PUT', meta),
         fetchOptions: makeRequestAction('OPTIONS', meta),
 
+        filter: (payload, reset = false) => filter(payload, {...meta, reset}),
         setData: payload => setData(payload, meta),
         setErrors: payload => setErrors(payload, meta),
+        setFilters: payload => setFilters(payload, meta),
       }
 
       actions = {
@@ -152,7 +173,7 @@ export function connectResource(resource, options = {}) {
         ...ownProps,
         [resource.namespace]: {
           ...stateProps,
-          ...omit(dispatchProps, 'onSubmit'),
+          ...dispatchProps,
         },
       })
 
@@ -254,10 +275,17 @@ export function reducer(state = defaultState, { type, payload = {}, meta = {}, e
         payload = parseOptions(payload)
       }
 
+      let count
+      if(dataKey === 'data' && meta.resource.list) {
+        count = payload.results ? payload.count : payload.length
+        payload = payload.results || payload
+      }
+
       return {
         ...state,
         [meta.resource.namespace]: {
           ...currentData,
+          count,
           [dataKey]: payload,
         },
       }
@@ -280,12 +308,27 @@ export function reducer(state = defaultState, { type, payload = {}, meta = {}, e
         },
       }
     }
+
+    case SET_FILTERS: {
+      const currentData = state[meta.resource.namespace] || {}
+      // FIXME we need INIT action
+      //const filters = meta.reset ? {} : currentData.filters
+      const filters = meta.reset ? {} : selectResource(meta.resource)({resource: state}).filters
+
+      return {
+        ...state,
+        [meta.resource.namespace]: {
+          ...currentData,
+          filters: {...filters, ...payload},
+        },
+      }
+    }
   }
 
   return state
 }
 
-export function epic(action$, store, { API }) { // FIXME API
+function requestEpic(action$, store, { API }) { // FIXME API
   return action$.ofType(REQUEST)
     // .debounce(() => interval(100)) // FIXME: FAIL on different requests types
     .mergeMap(function({ meta, payload }) {
@@ -299,13 +342,16 @@ export function epic(action$, store, { API }) { // FIXME API
       endpoint = toPath({ ...props, id: props[resource.idKey] })
       const submitting = resource.form && ['POST', 'PATCH', 'PUT', 'DELETE'].includes(type)
 
+      // FIXME need to find another way to get current filters
+      const query = selectResource(resource)(store.getState()).filters
+
       return concat(
         of(
           setLoading(+1, meta),
           // TODO it seems we can move form-related actions to separate epic
           submitting && startSubmit(resource.form),
         ),
-        fromPromise(API(endpoint).request(type, {}, payload))
+        fromPromise(API(endpoint).request(type, query, payload))
           .switchMap(response => of(
             setData(response, meta),
             setLoading(-1, meta),
@@ -319,6 +365,18 @@ export function epic(action$, store, { API }) { // FIXME API
             submitting && setSubmitFailed(resource.form), // TODO fields list
           ))
       ).filter(Boolean)
+    })
+}
+
+function filterEpic(action$, store) {
+  return action$.ofType(FILTER)
+    .mergeMap(function({ meta, payload }) {
+      return (// concat(
+        of(
+          setFilters(payload, meta),
+          request(undefined, {...meta, type: 'GET'}),
+        )
+      )
     })
 }
 
@@ -343,3 +401,8 @@ function makeRequestAction(type, meta) {
 function parseOptions(options) {
   return merge.apply(null, values(options.actions))
 }
+
+export const epic = combineEpics(
+  requestEpic,
+  filterEpic,
+)
