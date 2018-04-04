@@ -123,6 +123,7 @@ props.internalResourceName = {
   replace: func, // PUT request if you need it
   fetchOptions: func, // OPTIONS request
   setData: func, // you can update data in store manually, but please be carefull with this action
+  setErrors: func, // you can updates errors in store manually, but please be carefull with this action
   
   // filtering (query) TODO
   filters: {}, // current applied filters
@@ -179,6 +180,10 @@ used only for list resources, only inside options. will be set to true when form
 #### `options : Boolean` [optional] [default: false]
 
 prefetch OPTIONS from endpoint (useful for geting choices for selects from API)
+
+#### `async : Boolean` [optional] [default: false]
+
+should the component be rendered without data
 
 
 ### Examples

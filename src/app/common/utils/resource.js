@@ -36,7 +36,6 @@ import values from 'lodash/values'
 // HEAD request
 // custom: actions, reducer, epics
 // allowed methods
-// lazy load
 
 const REQUEST = '@ds-resource/request'
 const SET_DATA = '@ds-resource/set-data'
@@ -110,6 +109,7 @@ export function connectResource(resource, options = {}) {
     form: false,
     list: false,
     options: false,
+    async: false,
     item: Boolean(options.form), // disallow binding list to form
 
     ...resource, // FIXME omit `item` here
@@ -134,6 +134,7 @@ export function connectResource(resource, options = {}) {
         fetchOptions: makeRequestAction('OPTIONS', meta),
 
         setData: payload => setData(payload, meta),
+        setErrors: payload => setErrors(payload, meta),
       }
 
       actions = {
@@ -225,7 +226,7 @@ function makePrefetchHOC(resource) {
         const hasData = this.props[resource.namespace].data !== null
         const hasOptions = this.props[resource.namespace].options !== null
 
-        if(!hasData || (resource.options && !hasOptions)) {
+        if(!resource.async && (!hasData || (resource.options && !hasOptions))) {
           return null // TODO loading
         }
 
