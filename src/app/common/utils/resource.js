@@ -14,11 +14,15 @@ import 'rxjs/add/operator/switchMap'
 import 'rxjs/add/operator/mergeMap'
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/filter'
+import 'rxjs/add/operator/takeUntil'
 
 import pathToRegexp from 'path-to-regexp'
 
 import merge from 'lodash/merge'
 import values from 'lodash/values'
+
+import navigateAfter from 'common/router/navigateAfter'
+import navigate from 'common/router'
 
 // TODO
 // + OPTIONS request
@@ -101,7 +105,7 @@ export function selectResource(resource) {
       isLoading: false,
       errors: null,
       loading: 0,
-      filters: {...resource.filters},
+      filters: { ...resource.filters },
       ...state.resource[resource.namespace],
     }
 
@@ -152,7 +156,7 @@ export function connectResource(resource, options = {}) {
         replace: makeRequestAction('PUT', meta),
         fetchOptions: makeRequestAction('OPTIONS', meta),
 
-        filter: (payload, reset = false) => filter(payload, {...meta, reset}),
+        filter: (payload, reset = false) => filter(payload, { ...meta, reset }),
         setData: payload => setData(payload, meta),
         setErrors: payload => setErrors(payload, meta),
         setFilters: payload => setFilters(payload, meta),
@@ -162,6 +166,7 @@ export function connectResource(resource, options = {}) {
         ...actions,
         // aliases // TODO
         save: actions.update,
+        navigateAfter,
       }
 
       return bindActionCreators(actions, dispatch)
@@ -312,14 +317,14 @@ export function reducer(state = defaultState, { type, payload = {}, meta = {}, e
     case SET_FILTERS: {
       const currentData = state[meta.resource.namespace] || {}
       // FIXME we need INIT action
-      //const filters = meta.reset ? {} : currentData.filters
-      const filters = meta.reset ? {} : selectResource(meta.resource)({resource: state}).filters
+      // const filters = meta.reset ? {} : currentData.filters
+      const filters = meta.reset ? {} : selectResource(meta.resource)({ resource: state }).filters
 
       return {
         ...state,
         [meta.resource.namespace]: {
           ...currentData,
-          filters: {...filters, ...payload},
+          filters: { ...filters, ...payload },
         },
       }
     }
@@ -355,6 +360,7 @@ function requestEpic(action$, store, { API }) { // FIXME API
           .switchMap(response => of(
             setData(response, meta),
             setLoading(-1, meta),
+            meta.resource.navigateAfter && navigate(meta.resource.navigateAfter),
             submitting && stopSubmit(resource.form),
             submitting && setSubmitSucceeded(resource.form),
           ))
@@ -374,7 +380,7 @@ function filterEpic(action$, store) {
       return (// concat(
         of(
           setFilters(payload, meta),
-          request(undefined, {...meta, type: 'GET'}),
+          request(undefined, { ...meta, type: 'GET' }),
         )
       )
     })
