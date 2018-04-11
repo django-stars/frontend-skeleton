@@ -1,22 +1,40 @@
 import NotFound from 'pages/fallbacks/NotFound'
+import AppLayout from 'layouts/AppLayout'
 
+import { routes as auth } from 'pages/auth'
+import { routes as dashboard } from 'pages/dashboard'
 import { routes as test } from 'pages/test'
 
-// import { access } from 'common/session'
+import { access } from 'common/session'
 
 const appRoutes = [
   {
     path: '/',
     exact: true,
     name: 'root',
-    redirectTo: '/test',
+    redirectTo: '/dashboard',
   },
   {
     path: '/',
+    layout: AppLayout,
     routes: [
+      {
+        path: '/auth',
+        routes: auth,
+        access: access.F_UNAUTHRORIZED,
+        accessRedirectTo: '/dashboard',
+      },
+      {
+        path: '/dashboard',
+        routes: dashboard,
+        access: access.F_PROTECTED,
+        accessRedirectTo: '/auth',
+        name: 'dashboard',
+      },
       {
         path: '/test',
         routes: test,
+        access: access.F_PUBLIC,
         name: 'test',
       },
       {
