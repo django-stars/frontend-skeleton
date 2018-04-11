@@ -142,7 +142,7 @@ class API {
     const isMultipartFormData = hasFile(body)
     isMultipartFormData && headers.delete('Content-Type')
 
-    body = this.prepareBody(body, isMultipartFormData)
+    body = method === 'GET' ? undefined : this.prepareBody(body, isMultipartFormData)
     const options = {
       method,
       headers,
