@@ -20,6 +20,8 @@ import pathToRegexp from 'path-to-regexp'
 import merge from 'lodash/merge'
 import values from 'lodash/values'
 
+import { push } from 'react-router-redux'
+
 // TODO
 // + OPTIONS request
 // + errors handling
@@ -101,14 +103,13 @@ export function selectResource(resource) {
       isLoading: false,
       errors: null,
       loading: 0,
-      filters: {...resource.filters},
+      filters: { ...resource.filters },
       ...state.resource[resource.namespace],
     }
 
     return resourceState
   }
 }
-
 
 // configuration:
 // 1. GLOBAL
@@ -152,7 +153,7 @@ export function connectResource(resource, options = {}) {
         replace: makeRequestAction('PUT', meta),
         fetchOptions: makeRequestAction('OPTIONS', meta),
 
-        filter: (payload, reset = false) => filter(payload, {...meta, reset}),
+        filter: (payload, reset = false) => filter(payload, { ...meta, reset }),
         setData: payload => setData(payload, meta),
         setErrors: payload => setErrors(payload, meta),
         setFilters: payload => setFilters(payload, meta),
@@ -312,14 +313,14 @@ export function reducer(state = defaultState, { type, payload = {}, meta = {}, e
     case SET_FILTERS: {
       const currentData = state[meta.resource.namespace] || {}
       // FIXME we need INIT action
-      //const filters = meta.reset ? {} : currentData.filters
-      const filters = meta.reset ? {} : selectResource(meta.resource)({resource: state}).filters
+      // const filters = meta.reset ? {} : currentData.filters
+      const filters = meta.reset ? {} : selectResource(meta.resource)({ resource: state }).filters
 
       return {
         ...state,
         [meta.resource.namespace]: {
           ...currentData,
-          filters: {...filters, ...payload},
+          filters: { ...filters, ...payload },
         },
       }
     }
@@ -343,7 +344,10 @@ function requestEpic(action$, store, { API }) { // FIXME API
       const submitting = resource.form && ['POST', 'PATCH', 'PUT', 'DELETE'].includes(type)
 
       // FIXME need to find another way to get current filters
-      const query = selectResource(resource)(store.getState()).filters
+      const hasId = Boolean(props[resource.idKey])
+      const query = resource.list && !hasId
+        ? selectResource(resource)(store.getState()).filters
+        : undefined
 
       return concat(
         of(
@@ -357,6 +361,7 @@ function requestEpic(action$, store, { API }) { // FIXME API
             setLoading(-1, meta),
             submitting && stopSubmit(resource.form),
             submitting && setSubmitSucceeded(resource.form),
+            submitting && meta.resource.navigateAfterSubmit && push(meta.resource.navigateAfterSubmit),
           ))
           .catch(err => of(
             setErrors(err.errors || err, meta),
@@ -374,7 +379,7 @@ function filterEpic(action$, store) {
       return (// concat(
         of(
           setFilters(payload, meta),
-          request(undefined, {...meta, type: 'GET'}),
+          request(undefined, { ...meta, type: 'GET' }),
         )
       )
     })
@@ -389,12 +394,15 @@ function getNamespace({ list, item, namespace }) {
 }
 
 function makeRequestAction(type, meta) {
-  return function(payload) {
+  return function(payload, options) {
     if(type === 'GET' && payload !== undefined) {
       // TODO assert here
       console.warn('GET action should not contain request body')
     }
-    return request(payload, { ...meta, type })
+    const passMeta = options === undefined
+      ? meta
+      : { ...meta, resource: { ...meta.resource, ...options }}
+    return request(payload, { ...passMeta, type })
   }
 }
 
