@@ -1,6 +1,6 @@
-import { push } from 'react-router-redux'
+import { push, LOCATION_CHANGE } from 'react-router-redux'
 import { of } from 'rxjs/observable/of'
-import get from 'lodash/get'
+import 'rxjs/add/operator/takeUntil'
 
 import { namedRoutes } from 'routes'
 
@@ -24,13 +24,10 @@ export default function navigateAfter(name, actionType, state) {
 
 export function navigateAfterEpic(action$, store, { API }) {
   return action$.ofType(navigateAssync)
-    .switchMap(function({ payload, meta, type }) {
+    .switchMap(function({ payload }) {
       const { actionType, path, state } = payload
-      return action$.filter(action => {
-        return action.type === actionType && (!get(state, 'namespace') || get(action, 'meta.resource.namespace') === get(state, 'namespace'))
-      })
-        // TODO stop navigation on manual navigate
-        .takeUntil(action$.ofType(get(state.takeUntil, '@@No_action@@')))
+      return action$.ofType(actionType)
+        .takeUntil(action$.ofType(LOCATION_CHANGE))
         .switchMap(_ => {
           return of(
             push({ pathname: path, state })

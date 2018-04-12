@@ -14,15 +14,13 @@ import 'rxjs/add/operator/switchMap'
 import 'rxjs/add/operator/mergeMap'
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/filter'
-import 'rxjs/add/operator/takeUntil'
 
 import pathToRegexp from 'path-to-regexp'
 
 import merge from 'lodash/merge'
 import values from 'lodash/values'
 
-import navigateAfter from 'common/router/navigateAfter'
-import navigate from 'common/router'
+import { push } from 'react-router-redux'
 
 // TODO
 // + OPTIONS request
@@ -113,7 +111,6 @@ export function selectResource(resource) {
   }
 }
 
-
 // configuration:
 // 1. GLOBAL
 // 2. RESOURCE
@@ -166,7 +163,6 @@ export function connectResource(resource, options = {}) {
         ...actions,
         // aliases // TODO
         save: actions.update,
-        navigateAfter,
       }
 
       return bindActionCreators(actions, dispatch)
@@ -348,7 +344,10 @@ function requestEpic(action$, store, { API }) { // FIXME API
       const submitting = resource.form && ['POST', 'PATCH', 'PUT', 'DELETE'].includes(type)
 
       // FIXME need to find another way to get current filters
-      const query = selectResource(resource)(store.getState()).filters
+      const hasId = Boolean(props[resource.idKey])
+      const query = resource.list && !hasId
+        ? selectResource(resource)(store.getState()).filters
+        : undefined
 
       return concat(
         of(
@@ -360,9 +359,9 @@ function requestEpic(action$, store, { API }) { // FIXME API
           .switchMap(response => of(
             setData(response, meta),
             setLoading(-1, meta),
-            meta.resource.navigateAfter && navigate(meta.resource.navigateAfter),
             submitting && stopSubmit(resource.form),
             submitting && setSubmitSucceeded(resource.form),
+            submitting && meta.resource.navigateAfterSubmit && push(meta.resource.navigateAfterSubmit),
           ))
           .catch(err => of(
             setErrors(err.errors || err, meta),
@@ -395,12 +394,15 @@ function getNamespace({ list, item, namespace }) {
 }
 
 function makeRequestAction(type, meta) {
-  return function(payload) {
+  return function(payload, options) {
     if(type === 'GET' && payload !== undefined) {
       // TODO assert here
       console.warn('GET action should not contain request body')
     }
-    return request(payload, { ...meta, type })
+    const passMeta = options === undefined
+      ? meta
+      : { ...meta, resource: { ...meta.resource, ...options }}
+    return request(payload, { ...passMeta, type })
   }
 }
 
