@@ -334,18 +334,22 @@ function requestEpic(action$, store, { API }) { // FIXME API
     // .debounce(() => interval(100)) // FIXME: FAIL on different requests types
     .mergeMap(function({ meta, payload }) {
       const { type, props, resource } = meta
+
+      const isListItem = resource.list && ['PATCH', 'REPLACE', 'DELETE'].includes(type)
+      let itemId = (isListItem ? payload : props)[resource.idKey]
+
       let endpoint = resource.endpoint
-      if(!(new RegExp(`:(id|${resource.idKey})\\W`, 'g').test(endpoint))) {
+      if(!(new RegExp(`:(${resource.idKey})\\W`, 'g').test(endpoint))) {
         // automatically set '/:id?' to endpoint
-        endpoint += '/:id?'
+        endpoint += `/:${resource.idKey}?`
       }
       const toPath = pathToRegexp.compile(resource.endpoint)
-      endpoint = toPath({ ...props, id: props[resource.idKey] })
+      endpoint = toPath({ ...props, [resource.idKey]: itemId })
       const submitting = resource.form && ['POST', 'PATCH', 'PUT', 'DELETE'].includes(type)
 
       // FIXME need to find another way to get current filters
       const hasId = Boolean(props[resource.idKey])
-      const query = resource.list && !hasId
+      const query = resource.list && !hasId && !isListItem
         ? selectResource(resource)(store.getState()).filters
         : undefined
 
@@ -357,7 +361,9 @@ function requestEpic(action$, store, { API }) { // FIXME API
         ),
         fromPromise(API(endpoint).request(type, query, payload))
           .switchMap(response => of(
-            setData(response, meta),
+            isListItem
+              ? request(undefined, { ...meta, type: 'GET' })
+              : setData(response, meta),
             setLoading(-1, meta),
             submitting && stopSubmit(resource.form),
             submitting && setSubmitSucceeded(resource.form),
