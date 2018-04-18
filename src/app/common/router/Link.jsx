@@ -1,5 +1,7 @@
 import { Link as RouterLink, NavLink as RouterNavLink } from 'react-router-dom'
 
+import pathToRegexp from 'path-to-regexp'
+
 import { namedRoutes } from 'routes'
 
 function NamedLink(LinkComponent) {
@@ -8,7 +10,9 @@ function NamedLink(LinkComponent) {
     if(!path) {
       throw new Error('no route with name: ' + to)
     }
-
+    if(path.search(/\/:/)) {
+      path = pathToRegexp.complite(path)(props)
+    }
     return <LinkComponent to={{ pathname: path, state }} {...props} />
   }
 }
