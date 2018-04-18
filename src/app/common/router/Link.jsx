@@ -8,7 +8,9 @@ function NamedLink(LinkComponent) {
     if(!path) {
       throw new Error('no route with name: ' + to)
     }
-
+	if(path.search(/\/:/)){
+		path = pathToRegexp.complite(path)(props)
+	}
     return <LinkComponent to={{ pathname: path, state }} {...props} />
   }
 }
