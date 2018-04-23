@@ -358,7 +358,7 @@ function requestEpic(action$, store, { API }) { // FIXME API
     .mergeMap(function({ meta, payload }) {
       const { type, props, resource } = meta
 
-      const isListItem = !resource.item && resource.list && ['PATCH', 'REPLACE', 'DELETE'].includes(type)
+      const isListItem = !resource.item && resource.list && ['PATCH', 'PUT', 'DELETE'].includes(type)
       let itemId = (isListItem ? payload : props)[resource.idKey]
 
       let endpoint = resource.endpoint
@@ -382,10 +382,12 @@ function requestEpic(action$, store, { API }) { // FIXME API
         ),
         fromPromise(API(endpoint).request(type, query, payload))
           .switchMap(response => of(
+            // TODO update list after create new item (GET after POST)
             isListItem
               ? request(undefined, { ...meta, type: 'GET' })
               : setData(response, meta),
             setLoading(-1, meta),
+            submitting && meta.resource.navigateAfterSubmit && push(meta.resource.navigateAfterSubmit),
             requestSuccess(response, meta),
           ))
           .catch(err => of(
