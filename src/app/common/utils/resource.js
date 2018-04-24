@@ -368,11 +368,11 @@ function requestEpic(action$, store, { API }) { // FIXME API
       let itemId = (isListItem ? payload : props)[resource.idKey]
 
       let endpoint = resource.endpoint
-      if(!(new RegExp(`:(${resource.idKey})\\W`, 'g').test(endpoint))) {
+      if(!(new RegExp(`(:${resource.idKey})\\W`, 'g').test(endpoint))) {
         // automatically set '/:id?' to endpoint
         endpoint += `/:${resource.idKey}?`
       }
-      const toPath = pathToRegexp.compile(resource.endpoint)
+      const toPath = pathToRegexp.compile(endpoint)
       endpoint = toPath({ ...props, [resource.idKey]: itemId })
       const submitting = resource.form && ['POST', 'PATCH', 'PUT', 'DELETE'].includes(type)
 
