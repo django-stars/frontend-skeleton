@@ -18,8 +18,9 @@ import pathToRegexp from 'path-to-regexp'
 
 import merge from 'lodash/merge'
 import values from 'lodash/values'
+import isEmpty from 'lodash/isEmpty'
 
-import { push } from 'react-router-redux'
+import { push, replace } from 'react-router-redux'
 
 // TODO
 // + OPTIONS request
@@ -254,6 +255,12 @@ function makePrefetchHOC(resource) {
         const hasId = Boolean(this.props[resource.idKey])
 
         if((!hasData || resource.refresh) && (!resource.list || !resource.item || hasId)) {
+          if(resource.useRouter) {
+            this.props[resource.namespace].setFilters({
+              ...resource.filters, // default filters
+              ...parseQueryParams(location.search),
+            })
+          }
           // fetch item
           this.props[resource.namespace].fetch()
         } else if(!hasData) {
@@ -336,8 +343,7 @@ export function reducer(state = defaultState, { type, payload = {}, meta = {}, e
     case SET_FILTERS: {
       const currentData = state[meta.resource.namespace] || {}
       // FIXME we need INIT action
-      // const filters = meta.reset ? {} : currentData.filters
-      const filters = meta.reset ? {} : selectResource(meta.resource)({ resource: state }).filters
+      const filters = meta.reset ? meta.resource.filters : selectResource(meta.resource)({ resource: state }).filters
 
       return {
         ...state,
@@ -402,10 +408,27 @@ function requestEpic(action$, store, { API }) { // FIXME API
 function filterEpic(action$, store) {
   return action$.ofType(FILTER)
     .mergeMap(function({ meta, payload }) {
-      return (// concat(
+      return (
         of(
           setFilters(payload, meta),
           request(undefined, { ...meta, type: 'GET' }),
+        )
+      )
+    })
+}
+
+function navigateEpic(action$, store) {
+  return action$.ofType(SET_FILTERS)
+    .filter(({meta}) => meta.resource.useRouter)
+    .mergeMap(function({ meta, payload }) {
+      return (
+        of(
+          replace({
+            pathname: store.getState().router.location.pathname,
+            search: buildQueryParams(
+              selectResource(meta.resource)(store.getState()).filters
+            )
+          }),
         )
       )
     })
@@ -473,5 +496,58 @@ function parseOptions(options) {
 export const epic = combineEpics(
   requestEpic,
   filterEpic,
+  navigateEpic,
   promiseResolveEpic,
 )
+
+// NOTE we use own copy of query utils here, because of camelCase dependency
+// TODO we can use something like 'query-string' instead
+function parseQueryParams(str) {
+  if(str.length <= 2) {
+    return {} // '' || '?'
+  }
+
+  return str
+    .substr(1) // symbol '?'
+    .split('&')
+    .reduce(function(params, param) {
+      var paramSplit = param.split('=').map(function (chunk) {
+        return decodeURIComponent(chunk.replace('+', '%20'))
+      });
+      const name = paramSplit[0]
+      const value = paramSplit[1]
+      params[name] = params.hasOwnProperty(name) ? [].concat(params[name], value) : value
+      return params;
+    }, {})
+}
+
+function buildQueryParams(params) {
+  if(isEmpty(params)) {
+    return ''
+  }
+
+  return Object.keys(params).reduce(function(ret, key) {
+    let value = params[key]
+
+    if (value == null || value == undefined) {
+      return ret
+    }
+
+    if (!Array.isArray(value)) {
+      value = [value]
+    }
+
+    value.forEach(function (val) {
+      if(String(val).length > 0) {
+        ret.push(
+          encodeURIComponent(key)
+          + '='
+          + encodeURIComponent(val)
+        )
+      }
+
+    })
+
+    return ret
+  }, []).join('&')
+}
