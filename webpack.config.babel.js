@@ -45,7 +45,7 @@ let envConfig = dotenv.config({path: envFile})
 
 module.exports = createConfig([
   entryPoint({
-    app: 'app.js',
+    app: './src/app/app.js',
     //styles: './src/sass/app.sass',
     // you can add you own entries here (also check CommonsChunkPlugin)
   }),
@@ -61,7 +61,7 @@ module.exports = createConfig([
   }),
 
   setOutput({
-    path: path.resolve(`${process.env.OUTPUT_PATH}/${process.env.PUBLIC_PATH}`),
+    path: path.resolve(__dirname, `${process.env.OUTPUT_PATH}/${process.env.PUBLIC_PATH}`),
     publicPath: '/' + process.env.PUBLIC_PATH + '/',
     filename: '[name].js',
     // TODO check why we need this (HMR?)
@@ -123,7 +123,7 @@ module.exports = createConfig([
 
   env('development', [
     devServer({
-      contentBase: path.resolve(`${process.env.OUTPUT_PATH}`),
+      contentBase: path.join(__dirname, `./${process.env.OUTPUT_PATH}`),
       port: process.env.DEV_SERVER_PORT || 3000,
       setup: function(app) {
         app.use(morgan('dev'))
@@ -161,10 +161,10 @@ function configureProxy() {
     return []
   }
   // Proxy API requests to backend
-  var urlData = url.parse(process.env.BACKEND_URL)
-  var backendBaseURL = urlData.protocol + '//' + urlData.host
+  let urlData = url.parse(process.env.BACKEND_URL)
+  let backendBaseURL = urlData.protocol + '//' + urlData.host
 
-  var options = {
+  let options = {
     changeOrigin: true,
     target: backendBaseURL,
     secure: false,
@@ -175,11 +175,9 @@ function configureProxy() {
     options.auth = urlData.auth
   }
 
-  var context = [process.env.API_URL].concat(JSON.parse(process.env.PROXY))
+  let context = [process.env.API_URL].concat(JSON.parse(process.env.PROXY))
 
-  var ret = [Object.assign({}, options, {
+  return [Object.assign({}, options, {
     context: context,
   })]
-
-  return ret
 }
