@@ -364,7 +364,7 @@ function requestEpic(action$, store, { API }) { // FIXME API
     .mergeMap(function({ meta, payload }) {
       const { type, props, resource } = meta
 
-      const isListItem = !resource.item && resource.list && ['PATCH', 'PUT', 'DELETE'].includes(type)
+      const isListItem = !resource.item && resource.list && ['PATCH', 'PUT', 'DELETE', 'POST'].includes(type)
       let itemId = (isListItem ? payload : props)[resource.idKey]
 
       let endpoint = resource.endpoint
