@@ -21,7 +21,7 @@ const appRoutes = [
       {
         path: '/auth',
         routes: auth,
-        access: access.F_UNAUTHRORIZED,
+        access: access.F_UNAUTHORISED,
         accessRedirectTo: '/dashboard',
       },
       {
