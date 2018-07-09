@@ -324,7 +324,7 @@ export function reducer(state = defaultState, { type, payload = {}, meta = {}, e
 
     case SET_LOADING: {
       const currentData = state[meta.resource.namespace] || { loading: 0 }
-      const loading = currentData.loading + payload
+      const loading = (currentData.loading === undefined ? 0 : currentData.loading) + payload
 
       if(loading < 0) {
         console.warn('loading counter actions are inconsistent')
@@ -419,7 +419,7 @@ function filterEpic(action$, store) {
 
 function navigateEpic(action$, store) {
   return action$.ofType(SET_FILTERS)
-    .filter(({meta}) => meta.resource.useRouter)
+    .filter(({ meta }) => meta.resource.useRouter)
     .mergeMap(function({ meta, payload }) {
       return (
         of(
@@ -427,7 +427,7 @@ function navigateEpic(action$, store) {
             pathname: store.getState().router.location.pathname,
             search: buildQueryParams(
               selectResource(meta.resource)(store.getState()).filters
-            )
+            ),
           }),
         )
       )
@@ -441,7 +441,7 @@ function promiseResolveEpic(action$, store) {
         const callback = type === REQUEST_SUCCESS ? 'resolve' : 'reject'
         meta.requestPromise[callback](payload)
       }
-      return of({type: '@@NONE'})
+      return of({ type: '@@NONE' })
     })
 }
 
@@ -461,7 +461,7 @@ function makeRequestAction(type, meta) {
     }
     const passMeta = options === undefined
       ? meta
-      : { ...meta, resource: { ...meta.resource, ...options }}
+      : { ...meta, resource: { ...meta.resource, ...options } }
     return request(payload, { ...passMeta, type })
   }
 }
@@ -473,15 +473,15 @@ function makePromisableRequestAction(type, meta, dispatch) {
 
 function makePromisableAction(actionCreator, dispatch) {
   return function() {
-    const {type, meta, payload} = actionCreator.apply(this, arguments)
+    const { type, meta, payload } = actionCreator.apply(this, arguments)
     return new Promise((resolve, reject) => {
       const action = {
         type,
         payload,
         meta: {
           ...meta,
-          requestPromise: {resolve, reject},
-        }
+          requestPromise: { resolve, reject },
+        },
       }
 
       dispatch(action)
@@ -511,13 +511,13 @@ function parseQueryParams(str) {
     .substr(1) // symbol '?'
     .split('&')
     .reduce(function(params, param) {
-      var paramSplit = param.split('=').map(function (chunk) {
+      var paramSplit = param.split('=').map(function(chunk) {
         return decodeURIComponent(chunk.replace('+', '%20'))
-      });
+      })
       const name = paramSplit[0]
       const value = paramSplit[1]
       params[name] = params.hasOwnProperty(name) ? [].concat(params[name], value) : value
-      return params;
+      return params
     }, {})
 }
 
@@ -529,23 +529,22 @@ function buildQueryParams(params) {
   return Object.keys(params).reduce(function(ret, key) {
     let value = params[key]
 
-    if (value == null || value == undefined) {
+    if(value == null || value == undefined) {
       return ret
     }
 
-    if (!Array.isArray(value)) {
+    if(!Array.isArray(value)) {
       value = [value]
     }
 
-    value.forEach(function (val) {
+    value.forEach(function(val) {
       if(String(val).length > 0) {
         ret.push(
-          encodeURIComponent(key)
-          + '='
-          + encodeURIComponent(val)
+          encodeURIComponent(key) +
+          '=' +
+          encodeURIComponent(val)
         )
       }
-
     })
 
     return ret
