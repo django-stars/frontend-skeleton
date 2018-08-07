@@ -27,6 +27,7 @@ export function navigateAfterEpic(action$, store, { API }) {
     .switchMap(function({ payload }) {
       const { actionType, path, state } = payload
       return action$.ofType(actionType)
+        .take(1) // wait only one action
         .takeUntil(action$.ofType(LOCATION_CHANGE))
         .switchMap(_ => {
           return of(
