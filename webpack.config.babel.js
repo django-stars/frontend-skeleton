@@ -83,6 +83,7 @@ module.exports = createConfig([
       overlay: true,
       clientLogLevel: 'info', // FIXME move to VERBOSE mode (add loglevel/verbose option)
       stats: 'minimal',
+      host: process.env.DEV_SERVER_HOST,
       /*
       setup: function(app) {
         app.use(morgan('dev'))
