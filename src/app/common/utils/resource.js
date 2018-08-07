@@ -399,7 +399,7 @@ function requestEpic(action$, store, { API }) { // FIXME API
           .catch(err => of(
             setErrors(err.errors || err, meta),
             setLoading(-1, meta),
-            requestError(err.errors || err, meta),
+            submitting ? requestError(err, meta) : requestError(err.errors || err, meta),
           ))
       ).filter(Boolean)
     })
