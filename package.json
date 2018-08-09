@@ -18,7 +18,7 @@
   "repository": "github:django-stars/frontend-skeleton",
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --progress --colors",
-    "build": "NODE_ENV=production webpack",
+    "build": "NODE_ENV=production webpack --progress",
     "lint": "node linter --verbose | snazzy",
     "lint:fix": "node linter --fix --verbose | snazzy",
     "test": "jest --config jest.conf.json -u"
