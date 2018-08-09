@@ -1,185 +1,122 @@
-import webpack from 'webpack'
+import './init-env' // SHOULD BE FIRST
 
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import WriteFilePlugin from 'write-file-webpack-plugin'
-import CopyWebpackPlugin from 'copy-webpack-plugin'
-import CleanWebpackPlugin from 'clean-webpack-plugin'
-
-import morgan from 'morgan'
 import path from 'path'
-import url from 'url'
+import webpack from 'webpack'
+import CleanWebpackPlugin from 'clean-webpack-plugin'
+import WriteFilePlugin from 'write-file-webpack-plugin'
+// import ReloadPlugin from 'reload-html-webpack-plugin'
 
 import {
-  createConfig,
-  entryPoint,
-  setOutput,
-  customConfig,
-  env,
-  sourceMaps,
-  setDevTool,
   addPlugins,
-} from '@webpack-blocks/webpack2'
+  createConfig,
+  devServer,
+  env,
+  entryPoint,
+  resolve,
+  setEnv,
+  setOutput,
+  sourceMaps,
+  uglify,
+  when,
+} from 'webpack-blocks'
 
-import babel from '@webpack-blocks/babel6'
-import devServer from '@webpack-blocks/dev-server2'
-import extractText from '@webpack-blocks/extract-text2'
-
-import pug from './webpack-blocks/pug'
-import sass from './webpack-blocks/sass'
-
-// import ng2 from './webpack-blocks/ng2'
-import react from './webpack-blocks/react'
-
-// configure environment
-import dotenv from 'dotenv'
-import fs from 'fs'
-
-let envFile = process.env.ENVFILE || '.env/local'
-if(!fs.existsSync(envFile)) {
-  envFile = process.env.ENVFILE || '.env/dev'
-}
-if(!fs.existsSync(envFile)) {
-  throw 'no env file' // eslint-disable-line no-throw-literal
-}
-let envConfig = dotenv.config({path: envFile})
+import {
+  babel,
+  // postcss,
+  react,
+  sass,
+  spa,
+  assets,
+  proxy,
+} from './presets'
 
 module.exports = createConfig([
+
   entryPoint({
-    app: 'app.js',
-    //styles: './src/sass/app.sass',
+    bundle: 'index.js',
+    // styles: './src/sass/app.sass',
     // you can add you own entries here (also check CommonsChunkPlugin)
   }),
 
-  customConfig({
-    resolve: {
-      modules: [
-        path.resolve('./src/app'),
-        'node_modules',
-      ],
-      extensions: ['.js', '.jsx', '.json', '.pug', '.css', '.sass', '.scss'],
-    },
+  resolve({
+    modules: [
+      path.resolve(`${process.env.SOURCES_PATH}/app`),
+      'node_modules',
+    ],
+    extensions: ['.js', '.jsx', '.json', '.css', '.sass', '.scss'],
   }),
 
   setOutput({
-    path: path.resolve(`${process.env.OUTPUT_PATH}/${process.env.PUBLIC_PATH}`),
-    publicPath: '/' + process.env.PUBLIC_PATH + '/',
+    path: path.resolve(`${process.env.OUTPUT_PATH}${process.env.PUBLIC_PATH}`),
+    publicPath: process.env.PUBLIC_PATH,
+    // NOTE: 'name' here is the name of entry point
     filename: '[name].js',
-    // TODO check why we need this (HMR?)
-    chunkFilename: '[id].chunk.js',
+    // TODO check are we need this (HMR?)
+    // chunkFilename: '[id].chunk.js',
     pathinfo: process.env.NODE_ENV === 'development',
   }),
 
-  babel(),
-  pug(envConfig),
-  sass(),
-
-  // angular specific configuration
-  ///ng2(),
-  react(),
+  setEnv([
+    // pass env values to compile environment
+    'API_URL', 'AUTH_HEADER', 'MAIN_HOST',
+    'CACHE_STATE_KEYS', 'STORAGE_KEY',
+  ]),
 
   addPlugins([
-    // Injects bundles in your index file instead of wiring all manually.
-    // you can use chunks option to exclude some bundles and add separate entry point
-    // TODO entry for tests?
-    new HtmlWebpackPlugin({
-      template: 'src/index.pug',
-      inject: 'body',
-      hash: true,
-      filename: path.resolve(`${process.env.OUTPUT_PATH}/index.html`),
-    }),
-
-    // FIXME it seems we don't need this, instead use right resolve rules
-    new CopyWebpackPlugin([
-      {
-        context: path.resolve('./src'),
-        from: 'img/**/*',
-        to: '',
-      },
-      /*{
-        context: path.resolve('./src'),
-        from: 'fonts/** /*',
-        to: ''
-      }*/
-    ], {
-      ignore: [
-        'img/sprites/**/*',
-      ],
-    }),
-
-    // common code
-    // Automatically move all modules defined outside of application directory to vendor bundle.
+    // move all modules defined outside of application directory to vendor bundle
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'vendor.js',
+      name: 'vundle',
+      filename: '[name].js',
       minChunks: function(module, count) {
         return module.resource && module.resource.indexOf(path.resolve(__dirname, 'src')) === -1
       },
     }),
 
-    new CleanWebpackPlugin(['dist'], {
-      root: __dirname,
-    }),
+    // clean distribution folder before compile
+    new CleanWebpackPlugin([process.env.OUTPUT_PATH], { root: __dirname }),
   ]),
 
   env('development', [
     devServer({
       contentBase: path.resolve(`${process.env.OUTPUT_PATH}`),
       port: process.env.DEV_SERVER_PORT || 3000,
+      overlay: true,
+      clientLogLevel: 'info', // FIXME move to VERBOSE mode (add loglevel/verbose option)
+      stats: 'minimal',
+      host: process.env.DEV_SERVER_HOST,
+
+      /*
       setup: function(app) {
         app.use(morgan('dev'))
       },
-      hot: true,
-      disableHostCheck: true,
+      */
+
+      allowedHosts: [
+        '.localhost',
+        `.${process.env.MAIN_HOST}`,
+      ],
     }),
-    devServer.proxy(configureProxy()),
-    sourceMaps(),
-    setDevTool('eval'),
-    // perfect but so slow
-    //setDevTool('source-map'),
+    sourceMaps('eval-source-map'),
+
     addPlugins([
       // write generated files to filesystem (for debug)
+      // FIXME are we realy need this???
       new WriteFilePlugin(),
-
+      // new ReloadPlugin(),
     ]),
   ]),
 
   env('production', [
-    extractText('app.[contenthash:8].css'),
-    extractText('app.[contenthash:8].css', 'text/x-sass'),
-
-    addPlugins([
-      // FIXME we need to enable it!
-      new webpack.optimize.UglifyJsPlugin({
-        //compress: { warnings: true }, // TODO remove this
-      }),
-    ]),
+    uglify(),
   ]),
+
+  when(!process.env.SSR, [spa()]),
+  proxy(),
+
+  babel(),
+  react(),
+
+  sass(),
+  // postcss(),
+  assets(),
 ])
-
-function configureProxy() {
-  if(process.env.NODE_ENV !== 'development') {
-    return []
-  }
-  // Proxy API requests to backend
-  var urlData = url.parse(process.env.BACKEND_URL)
-  var backendBaseURL = urlData.protocol + '//' + urlData.host
-
-  var options = {
-    changeOrigin: true,
-    target: backendBaseURL,
-    secure: false,
-    //logLevel: 'debug',
-  }
-
-  if(urlData.auth) {
-    options.auth = urlData.auth
-  }
-
-  var context = [process.env.API_URL].concat(JSON.parse(process.env.PROXY))
-
-  var ret = [Object.assign({}, options, {
-    context: context,
-  })]
-
-  return ret
-}

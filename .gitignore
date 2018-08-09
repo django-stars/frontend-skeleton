@@ -18,5 +18,5 @@ static*
 npm-debug.log
 yarn-error.log
 
-.env/local
+.env
 dist/
