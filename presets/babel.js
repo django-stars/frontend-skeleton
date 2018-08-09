@@ -16,7 +16,6 @@ export default function(config) {
         'stage-2',
       ],
 
-      // FIXME skeleton still based on react, but should be more abstract
       plugins: [
         // we use core-decorators
         'transform-decorators-legacy',
