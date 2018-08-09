@@ -15,6 +15,7 @@ export default function(config) {
         showErrors: true,
         // index.html should be outside assets folder
         filename: path.resolve(`${process.env.OUTPUT_PATH}/index.html`),
+        env.process.env,
       }),
     ]),
   ])
