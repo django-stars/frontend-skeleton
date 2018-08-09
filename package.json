@@ -1,29 +1,45 @@
 {
   "name": "frontend-skeleton",
-  "version": "0.4.0",
+  "version": "0.6.0",
   "description": "Yet another boilerplate created at first for using Angular/React in conjunction with Django.",
-  "author": "DjangoStars <info@djangostars.com>",
+  "author": "DjangoStars <info@djangostars.com> (https://github.com/django-stars/)",
   "contributors": [
-    {
-      "name": "Yaroslav Shulika",
-      "email": "legendar@gmail.com"
-    },
-    {
-      "name": "Alexander Vilko",
-      "email": "alexander.vilko@djangostars.com"
-    },
-    {
-      "name": "Denis Podlesniy",
-      "email": "denis.podlesniy@djangostars.com"
-    }
+    "Alexander Vilko <vilkoalexander@gmail.com> (https://github.com/vilkoalexander)",
+    "Alyona Pysarenko (https://github.com/ned-alyona)",
+    "Denis Podlesniy <haos616@gmail.com> (https://github.com/haos616)",
+    "Eugene Bespaly <e.bespaly@gmail.com> (https://github.com/kosmos342)",
+    "Oleksii Onyshchenko (https://github.com/Asfalot)",
+    "Taras Dihtenko (https://github.com/h0m1c1de)",
+    "Vyacheslav Binetsky <vyacheslav.binetsky@gmail.com> (https://github.com/38Slava)",
+    "Yaroslav Shulika <legendar@gmail.com> (https://github.com/legendar)"
   ],
-  "bugs": {
-    "url": "https://github.com/django-stars/frontend-skeleton/issues"
-  },
+  "bugs": "https://github.com/django-stars/frontend-skeleton/issues",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/django-stars/frontend-skeleton.git"
+  "repository": "github:django-stars/frontend-skeleton",
+  "scripts": {
+    "start": "NODE_ENV=development webpack-dev-server --progress --colors",
+    "build": "NODE_ENV=production webpack",
+    "lint": "node linter --verbose | snazzy",
+    "lint:fix": "node linter --fix --verbose | snazzy",
+    "test": "jest --config jest.conf.json -u"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "bootstrap": "^4.0.0",
+    "core-decorators": "^0.20.0",
+    "lodash": "^4.17.5",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-hot-loader": "^4.0.0",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "redux": "^3.7.2",
+    "redux-form": "^7.3.0",
+    "redux-observable": "^0.18.0",
+    "reselect": "^3.0.1",
+    "rxjs": "^5.5.7"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -57,34 +73,8 @@
     "snazzy": "^7.0.0",
     "standard-engine": "^7.2.0",
     "webpack": "^3.8.1",
-    "webpack-blocks": "^1.0.0-rc.2",
+    "webpack-blocks": "^1.0.0",
     "webpack-dev-server": "^2.9.4",
     "write-file-webpack-plugin": "^4.2.0"
-  },
-  "dependencies": {
-    "babel-polyfill": "^6.26.0",
-    "bootstrap": "^4.0.0",
-    "core-decorators": "^0.20.0",
-    "dotenv-expand": "^4.2.0",
-    "lodash": "^4.17.5",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-hot-loader": "^4.0.0",
-    "react-redux": "^5.0.7",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-router-redux": "^5.0.0-alpha.9",
-    "redux": "^3.7.2",
-    "redux-form": "^7.3.0",
-    "redux-observable": "^0.18.0",
-    "reselect": "^3.0.1",
-    "rxjs": "^5.5.7"
-  },
-  "scripts": {
-    "start": "NODE_ENV=development webpack-dev-server --progress --colors",
-    "build": "NODE_ENV=production webpack",
-    "lint": "node linter --verbose | snazzy",
-    "lint:fix": "node linter --fix --verbose | snazzy",
-    "test": "jest --config jest.conf.json -u"
   }
 }

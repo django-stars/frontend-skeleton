@@ -17,18 +17,18 @@ import {
   setOutput,
   sourceMaps,
   uglify,
+  when,
 } from 'webpack-blocks'
 
 import {
   babel,
-  // mpa,
   // postcss,
   react,
   sass,
   spa,
   assets,
+  proxy,
 } from './presets'
-
 
 module.exports = createConfig([
 
@@ -47,8 +47,8 @@ module.exports = createConfig([
   }),
 
   setOutput({
-    path: path.resolve(`${process.env.OUTPUT_PATH}/${process.env.PUBLIC_PATH}`),
-    publicPath: `/${process.env.PUBLIC_PATH}/`,
+    path: path.resolve(`${process.env.OUTPUT_PATH}${process.env.PUBLIC_PATH}`),
+    publicPath: process.env.PUBLIC_PATH,
     // NOTE: 'name' here is the name of entry point
     filename: '[name].js',
     // TODO check are we need this (HMR?)
@@ -58,7 +58,7 @@ module.exports = createConfig([
 
   setEnv([
     // pass env values to compile environment
-    'BACKEND_URL', 'API_URL', 'PUBLIC_PATH', 'AUTH_HEADER',
+    'API_URL', 'AUTH_HEADER', 'MAIN_HOST',
     'CACHE_STATE_KEYS', 'STORAGE_KEY',
   ]),
 
@@ -84,12 +84,17 @@ module.exports = createConfig([
       clientLogLevel: 'info', // FIXME move to VERBOSE mode (add loglevel/verbose option)
       stats: 'minimal',
       host: process.env.DEV_SERVER_HOST,
+
       /*
       setup: function(app) {
         app.use(morgan('dev'))
       },
       */
-      // disableHostCheck: true,
+
+      allowedHosts: [
+        '.localhost',
+        `.${process.env.MAIN_HOST}`,
+      ],
     }),
     sourceMaps('eval-source-map'),
 
@@ -105,8 +110,8 @@ module.exports = createConfig([
     uglify(),
   ]),
 
-  spa(),
-  // mpa(),
+  when(!process.env.SSR, [spa()]),
+  proxy(),
 
   babel(),
   react(),
