@@ -12,7 +12,7 @@ export const F_UNAUTHORISED = 2 ** 2
 
 export const userLevelSelector = createSelector(
   // base permissions
-  (state) => isEmpty(state.user) ? F_UNAUTHORISED : F_PROTECTED,
+  (state) => isEmpty(state.resource.session) ? F_UNAUTHORISED : F_PROTECTED,
 
   // collect all user permissions
   (...args) => args.reduce((level, flag) => level | flag, F_PUBLIC)
