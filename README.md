@@ -64,6 +64,8 @@ yarn lint:fix
 
 [.env.default](.env.default)
 
+please do not modify `.env.default` file. you can create `.env` file near `.env.default` and rewrite options that you need
+
 ## Recipes
 
 
