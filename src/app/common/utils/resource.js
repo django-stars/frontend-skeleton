@@ -529,7 +529,7 @@ function buildQueryParams(params) {
   return Object.keys(params).reduce(function(ret, key) {
     let value = params[key]
 
-    if(value == null || value == undefined) {
+    if(value === null || value === undefined) {
       return ret
     }
 

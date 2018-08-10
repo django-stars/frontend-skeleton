@@ -2,6 +2,7 @@ import { autobind } from 'core-decorators'
 import { Component } from 'react'
 import PropTypes from 'prop-types'
 
+
 const propTypes = {
   inputClassName: PropTypes.string,
   placeholder: PropTypes.string,
@@ -12,26 +13,26 @@ const propTypes = {
   name: PropTypes.string,
   value: PropTypes.string,
 }
+
 const defaultProps = {
   inputClassName: 'input-custom',
   readOnly: false,
 }
 
 export default class TextInput extends Component {
-    @autobind
+  @autobind
   handleChange(e) {
     this.props.onChange(e.target.value)
   }
-    render() {
-      const { inputClassName, inputComponent, ...restProps } = this.props
-      return (
-        <input
-          {...restProps}
-          className={inputClassName}
-          onChange={this.handleChange}
-        />
-      )
-    }
+
+  render() {
+    return (
+      <input
+        {...this.props}
+        onChange={this.handleChange}
+      />
+    )
+  }
 }
 
 TextInput.propTypes = propTypes
