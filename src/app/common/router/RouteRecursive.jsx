@@ -12,12 +12,7 @@ export default function RouteRecursive({ access, layout: Layout, component: Comp
           {routes.map((r, i) => (
             <RouteRecursive key={i} {...r} path={relativePath(route.path, r.path)} />
           ))}
-          {
-            // fallback
-            Component
-              ? <Route><Component {...props} /></Route>
-              : <Redirect to="/404" />
-          }
+          <Redirect path="*" to="/404" />
         </Switch>
       )
     }
