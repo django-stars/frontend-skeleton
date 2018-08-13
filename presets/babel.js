@@ -19,7 +19,7 @@ export default function(config) {
       plugins: [
         // we use core-decorators
         'transform-decorators-legacy',
-        // some additonal `export` syntax features
+        // some additional `export` syntax features
         'transform-export-extensions',
       ],
     }),
