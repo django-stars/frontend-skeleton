@@ -1,5 +1,13 @@
 {
-  "compact": false,
-  "presets": ["es2015", "stage-0", "react"],
-  "plugins": ["react-require"]
+  'compact': false,
+  'presets': ['env', 'stage-2'],
+  'env': {
+    'test': {
+      'presets': [['env'], 'react'],
+      'plugins': [
+        'react-require',
+        'transform-decorators-legacy',
+      ],
+    }
+  }
 }

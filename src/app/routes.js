@@ -1,45 +1,77 @@
-'use strict';
-
-// HOC for check auth
-import AuthCheck from 'modules/session/AuthCheck'
-
-import AuthLogin from 'modules/session/AuthLogin'
-//import AuthRegistration from 'modules/session/AuthRegistration'
-//import AuthPasswordReset from 'modules/session/AuthPasswordReset'
-
+import NotFound from 'pages/fallbacks/NotFound'
 import AppLayout from 'layouts/AppLayout'
-import NotFound from 'layouts/NotFound'
-import Dashboard from 'modules/dashboard/Dashboard'
 
-const routes = [
+import { routes as auth } from 'pages/auth'
+import { routes as dashboard } from 'pages/dashboard'
+import { routes as test } from 'pages/test'
+
+import { access } from 'common/session'
+
+const appRoutes = [
   {
     path: '/',
-    component: AppLayout,
-    //indexRoute: { component: Dashboard },
-    childRoutes: [
-      { path: 'dashboard/', component: AuthCheck(Dashboard) },
-      {
-        path: 'auth',
-        childRoutes: [{
-          path: 'login/',
-          component: AuthLogin,
-          //path: 'register', component: AuthRegistration,
-          //path: 'password-reset', component: AuthPasswordReset,
-        }],
-      },
-    ]
+    exact: true,
+    name: 'root',
+    redirectTo: '/dashboard',
   },
-  { path: '*', component: NotFound }
+  {
+    path: '/',
+    layout: AppLayout,
+    routes: [
+      {
+        path: '/auth',
+        routes: auth,
+        access: access.F_UNAUTHORISED,
+        accessRedirectTo: '/dashboard',
+      },
+      {
+        path: '/dashboard',
+        routes: dashboard,
+        access: access.F_PROTECTED,
+        accessRedirectTo: '/auth',
+        name: 'dashboard',
+      },
+      {
+        path: '/test',
+        routes: test,
+        access: access.F_PUBLIC,
+        name: 'test',
+      },
+      {
+        component: NotFound,
+      },
+    ],
+  },
 ]
 
-export default routes
+export default appRoutes
+export const namedRoutes = routesMap(appRoutes)
 
-/*
-  /
-  /auth/
-  /auth/registration
-  /auth/password-reset
-  /dashboard
-  /items
-  /item/:id
-*/
+function routesMap(routes, basePath = '/') {
+  return routes.reduce(function(acc, { name, path, routes }) {
+    if(!path) {
+      return acc
+    }
+
+    path = makePath(path, basePath)
+
+    if(name) {
+      acc = {
+        ...acc,
+        [name]: path,
+      }
+    }
+
+    if(routes) {
+      acc = {
+        ...acc,
+        ...(routesMap(routes, path)),
+      }
+    }
+    return acc
+  }, {})
+}
+
+function makePath(path, basePath) {
+  return (basePath + path).replace(/\/+/g, '/')
+}

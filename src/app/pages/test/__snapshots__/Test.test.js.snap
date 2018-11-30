@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component Test should match snapshot 1`] = `
+<form>
+  <Component
+    name="firstName"
+  />
+  <Component
+    name="lastName"
+  />
+  <Component
+    name="salutation"
+    options={
+      Array [
+        Object {
+          "label": "Mrs.",
+          "value": "mrs",
+        },
+        Object {
+          "label": "Mr.",
+          "value": "mr",
+        },
+      ]
+    }
+  />
+  <button
+    className="btn btn-defaut"
+    type="submit"
+  >
+    submit to console
+  </button>
+</form>
+`;

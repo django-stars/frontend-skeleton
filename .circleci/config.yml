@@ -1,0 +1,34 @@
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+version: 2
+jobs:
+  build:
+    docker:
+      # legacy node
+      - image: circleci/node:8.11.3
+
+    working_directory: ~/frontend-skeleton
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "yarn.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: check code style
+          command: yarn lint
+
+      - run:
+          name: run tests
+          command: yarn test
