@@ -4,7 +4,7 @@ import path from 'path'
 export default function(config) {
   return group([
     match(['*.css', '*.sass', '*.scss'], { exclude: path.resolve('node_modules') }, [
-      css(),
+      css.modules({ camelCase: true }),
       sass({
         includePaths: [
           path.resolve('./src/styles'),
