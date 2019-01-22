@@ -231,11 +231,7 @@ export function connectResource(resource, options = {}) {
 }
 
 export function connectFormResource(resource, options) {
-  if(!options.form) {
-    // TODO assert
-    throw new Error('no form name. you must specify form name for connectFormResource')
-  }
-  return connectResource(resource, { ...options })
+  return connectResource(resource, { ...options, form: true })
 }
 
 export function connectListResource(resource, options) {
@@ -307,7 +303,7 @@ export function reducer(state = defaultState, { type, payload = {}, meta = {}, e
       }
 
       let count
-      if(dataKey === 'data' && meta.resource.list) {
+      if(dataKey === 'data' && meta.resource.list && !meta.resource.item) {
         count = payload.results ? payload.count : payload.length
         payload = payload.results || payload
       }
