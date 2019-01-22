@@ -73,7 +73,10 @@ module.exports = createConfig([
     }),
 
     // clean distribution folder before compile
-    new CleanWebpackPlugin([process.env.OUTPUT_PATH], { root: __dirname }),
+    new CleanWebpackPlugin([process.env.OUTPUT_PATH], {
+      root: __dirname,
+      beforeEmit: true,
+    }),
   ]),
 
   env('development', [
