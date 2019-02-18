@@ -22,6 +22,11 @@ Boilerplate for fast start frontend project with React/Redux, Babel, Webpack, Sa
 
 ## Usage
 
+#### Requirements
+- node ^8.9.0
+- npm ^5.0.3
+- yarn ^1.13.0
+
 ### Start
 
 ```

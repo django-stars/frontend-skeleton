@@ -1,9 +1,21 @@
-@import "functions";
+
+// // Required
+// // @import "bo";
+// @import "variables";
+// @import "mixins";
+// // / @import "variables";
+// // @import "./_variables.scss";
+// @import "functions";
+// @import "functions";
+// @import "mixins";
+// @import "reboot";
+// @import "type";
+
+@import "node_modules/bootstrap/scss/functions"; // Doesn't work
+@import "variables";
 @import "variables";
 @import "mixins";
 @import "root";
-@import "reboot";
-@import "type";
 @import "images";
 @import "code";
 @import "grid";
@@ -23,7 +35,6 @@
 @import "badge";
 @import "jumbotron";
 @import "alert";
-@import "progress";
 @import "media";
 @import "list-group";
 @import "close";
