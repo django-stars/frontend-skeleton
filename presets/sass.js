@@ -8,8 +8,8 @@ export default function(config) {
       sass({
         includePaths: [
           path.resolve('./src/styles'),
-          path.resolve('./node_modules/bootstrap/scss'),
           path.resolve('./node_modules'),
+          path.resolve('./node_modules/bootstrap/scss'),
         ],
       }),
       env('production', [

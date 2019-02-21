@@ -1,7 +1,6 @@
 import './init-env' // SHOULD BE FIRST
 
 import path from 'path'
-import webpack from 'webpack'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
 import WriteFilePlugin from 'write-file-webpack-plugin'
 // import ReloadPlugin from 'reload-html-webpack-plugin'
@@ -64,16 +63,19 @@ module.exports = createConfig([
 
   addPlugins([
     // move all modules defined outside of application directory to vendor bundle
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vundle',
-      filename: '[name].js',
-      minChunks: function(module, count) {
-        return module.resource && module.resource.indexOf(path.resolve(__dirname, 'src')) === -1
-      },
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'vundle',
+    //   filename: '[name].js',
+    //   minChunks: function(module, count) {
+    //     return module.resource && module.resource.indexOf(path.resolve(__dirname, 'src')) === -1
+    //   },
+    // }),
 
     // clean distribution folder before compile
-    new CleanWebpackPlugin([process.env.OUTPUT_PATH], { root: __dirname }),
+    new CleanWebpackPlugin([process.env.OUTPUT_PATH], {
+      root: __dirname,
+      beforeEmit: true,
+    }),
   ]),
 
   env('development', [
