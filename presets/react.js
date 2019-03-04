@@ -5,11 +5,12 @@ export default function(config) {
   return group([
     babel({
       presets: [
-        'react',
+        '@babel/preset-react',
+        '@babel/preset-flow',
       ],
 
       plugins: [
-        'react-require',
+        'babel-plugin-react-require',
         // need for react HMR
         // 'extract-hoc/babel',
         'react-hot-loader/babel',

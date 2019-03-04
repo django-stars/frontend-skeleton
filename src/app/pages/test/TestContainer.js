@@ -17,7 +17,7 @@ class TestContainer extends Component {
     const { handleSubmit, ...props } = this.props
     return <Test
       {...props}
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(this.onSubmit)}
     />
   }
 }

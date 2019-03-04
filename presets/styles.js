@@ -1,10 +1,17 @@
-import { css, env, extractText, group, match, sass } from 'webpack-blocks'
+import { css, env, extractText, group, match, sass, postcss } from 'webpack-blocks'
 import path from 'path'
 
 export default function(config) {
   return group([
+    match(['*node_modules*.css'], [
+      css({
+        styleLoader: {
+          insertAt: 'top',
+        },
+      }),
+    ]),
     match(['*.css', '*.sass', '*.scss'], { exclude: path.resolve('node_modules') }, [
-      css(),
+      css.modules({ camelCase: true }),
       sass({
         includePaths: [
           path.resolve('./src/styles'),
@@ -12,6 +19,7 @@ export default function(config) {
           path.resolve('./node_modules'),
         ],
       }),
+      postcss(),
       env('production', [
         extractText('bundle.css'),
       ]),

@@ -15,15 +15,16 @@ import {
   setEnv,
   setOutput,
   sourceMaps,
-  uglify,
   when,
+  customConfig,
+  babel,
 } from 'webpack-blocks'
 
 import {
-  babel,
   // postcss,
   react,
-  sass,
+  // sass,
+  styles,
   spa,
   assets,
   proxy,
@@ -34,7 +35,9 @@ module.exports = createConfig([
   entryPoint({
     bundle: 'index.js',
     // styles: './src/sass/app.sass',
-    // you can add you own entries here (also check CommonsChunkPlugin)
+    // you can add you own entries here (also check SplitChunksPlugin)
+    // code splitting guide: https://webpack.js.org/guides/code-splitting/
+    // SplitChunksPlugin: https://webpack.js.org/plugins/split-chunks-plugin/
   }),
 
   resolve({
@@ -47,7 +50,7 @@ module.exports = createConfig([
 
   setOutput({
     path: path.resolve(`${process.env.OUTPUT_PATH}${process.env.PUBLIC_PATH}`),
-    publicPath: process.env.PUBLIC_PATH,
+    publicPath: process.env.PUBLIC_URL,
     // NOTE: 'name' here is the name of entry point
     filename: '[name].js',
     // TODO check are we need this (HMR?)
@@ -62,21 +65,30 @@ module.exports = createConfig([
   ]),
 
   addPlugins([
-    // move all modules defined outside of application directory to vendor bundle
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'vundle',
-    //   filename: '[name].js',
-    //   minChunks: function(module, count) {
-    //     return module.resource && module.resource.indexOf(path.resolve(__dirname, 'src')) === -1
-    //   },
-    // }),
-
     // clean distribution folder before compile
     new CleanWebpackPlugin([process.env.OUTPUT_PATH], {
       root: __dirname,
-      beforeEmit: true,
+      // can't use `true` here (see: https://github.com/johnagan/clean-webpack-plugin/issues/92)
+      beforeEmit: process.env.NODE_ENV !== 'development',
     }),
   ]),
+
+  customConfig({
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          // move all modules defined outside of application directory to vendor bundle
+          vendors: {
+            test: function(module, chunk) {
+              return module.resource && module.resource.indexOf(path.resolve(__dirname, 'src')) === -1
+            },
+            name: 'vundle',
+            chunks: 'all'
+          }
+        }
+      },
+    }
+  }),
 
   env('development', [
     devServer({
@@ -108,17 +120,14 @@ module.exports = createConfig([
     ]),
   ]),
 
-  env('production', [
-    uglify(),
-  ]),
-
   when(!process.env.SSR, [spa()]),
   proxy(),
 
   babel(),
   react(),
 
-  sass(),
+  // sass(),
+  styles(),
   // postcss(),
   assets(),
 ])
