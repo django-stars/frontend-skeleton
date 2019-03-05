@@ -1,5 +1,5 @@
 const reducers = {}
-const epics = {}
+const epics = []
 
 export {
   reducers,
