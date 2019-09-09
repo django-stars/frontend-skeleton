@@ -3,6 +3,8 @@ import './init-env' // SHOULD BE FIRST
 import path from 'path'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
 import WriteFilePlugin from 'write-file-webpack-plugin'
+import SentryWebpackPlugin from '@sentry/webpack-plugin'
+
 // import ReloadPlugin from 'reload-html-webpack-plugin'
 
 import {
@@ -61,7 +63,7 @@ module.exports = createConfig([
   setEnv([
     // pass env values to compile environment
     'API_URL', 'AUTH_HEADER', 'MAIN_HOST',
-    'CACHE_STATE_KEYS', 'STORAGE_KEY',
+    'CACHE_STATE_KEYS', 'STORAGE_KEY', 'SENTRY_DNS',
   ]),
 
   addPlugins([
@@ -83,12 +85,25 @@ module.exports = createConfig([
               return module.resource && module.resource.indexOf(path.resolve(__dirname, 'src')) === -1
             },
             name: 'vundle',
-            chunks: 'all'
-          }
-        }
+            chunks: 'all',
+          },
+        },
       },
-    }
+    },
   }),
+
+
+  env('production', [
+    addPlugins([
+      new SentryWebpackPlugin({
+        include: '.',
+        ignoreFile: '.sentrycliignore',
+        ignore: ['node_modules', 'webpack.config.babel.js', 'presets'],
+        configFile: 'sentry.properties',
+      }),
+    ]),
+  ]),
+
 
   env('development', [
     devServer({

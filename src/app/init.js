@@ -6,11 +6,18 @@ import { routerReducer as router, routerMiddleware } from 'react-router-redux'
 import { createStore, applyMiddleware, combineReducers, compose as reduxCompose } from 'redux'
 import { reducer as form } from 'redux-form'
 import { createEpicMiddleware, combineEpics } from 'redux-observable'
+import omit from 'lodash/omit'
 import { middleware as cacheMiddleware, state as initialState } from './cache'
 import { reducers, epics } from 'store'
 import { reducer as resource, epic as resourceEpic } from 'common/utils/resource'
 import API, { configure as configureAPI } from 'api'
+import * as Sentry from '@sentry/browser'
+import createSentryMiddleware from 'redux-sentry-middleware'
 
+
+if(process.env.SENTRY_DNS) {
+  Sentry.init({ dsn: process.env.SENTRY_DNS })
+}
 
 const history = createHistory()
 
@@ -26,11 +33,14 @@ const store = createStore(
   }),
   initialState,
   compose(
-    applyMiddleware(
+    applyMiddleware(...[
       createEpicMiddleware(combineEpics(...epics, resourceEpic), { dependencies: { API } }),
       routerMiddleware(history),
       cacheMiddleware,
-    )
+      process.env.SENTRY_DNS && createSentryMiddleware(Sentry, {
+        stateTransformer: (state) => { return omit(state, 'session') },
+      }),
+    ].filter(Boolean))
   )
 )
 
