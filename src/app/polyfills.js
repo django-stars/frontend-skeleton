@@ -1,12 +1,14 @@
-import 'babel-polyfill'
+import '@babel/polyfill'
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
 import smoothScroll from 'smoothscroll-polyfill'
 smoothScroll.polyfill()
 
 // should be after React import for IE11
 // 'require' used because inside condition
 if(!!window.MSInputMethodContext && !!document.documentMode) { // IE11 check
-  require('core-js/modules/es6.symbol')
   require('whatwg-fetch')
+  require('abortcontroller-polyfill/dist/polyfill-patch-fetch')
 
   // classList.toggle polyfill for IE
   DOMTokenList.prototype.toggle = function(token, force) {
@@ -16,6 +18,8 @@ if(!!window.MSInputMethodContext && !!document.documentMode) { // IE11 check
 
     return this[force ? 'add' : 'remove'](token)
   }
+} else {
+  require('abortcontroller-polyfill/dist/polyfill-patch-fetch')
 }
 
 // node.remove polyfill fro IE
