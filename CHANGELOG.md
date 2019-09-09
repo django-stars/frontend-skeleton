@@ -6,3 +6,6 @@ All notable changes to this project will be documented in this file.
 - add stylelint
 - add circular dependencie validation
 - add git hooks
+- fix recursive import from router
+- remove roter redux connection
+- add with withNamedRouter HOC  
