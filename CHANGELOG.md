@@ -8,4 +8,5 @@ All notable changes to this project will be documented in this file.
 - add git hooks
 - fix recursive import from router
 - remove roter redux connection
-- add with withNamedRouter HOC  
+- add with withNamedRouter HOC
+- fix polyfills
