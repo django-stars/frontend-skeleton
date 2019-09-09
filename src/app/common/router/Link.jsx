@@ -1,13 +1,15 @@
 import { Link as RouterLink, NavLink as RouterNavLink } from 'react-router-dom'
-
+import isEmpty from 'lodash/isEmpty'
+import get from 'lodash/get'
 import pathToRegexp from 'path-to-regexp'
+import { getRoterConfigs } from './routerConfigs'
 
-import { namedRoutes } from 'routes'
 
 function NamedLink(LinkComponent) {
   return function({ to, state = {}, ...props }) {
-    let path = namedRoutes[to]
-    if(!path) {
+    const namedRoutes = getRoterConfigs()
+    let path = get(namedRoutes, to, '')
+    if(!path && !isEmpty(namedRoutes)) {
       throw new Error('no route with name: ' + to)
     }
     if(path.search(/\/:/)) {

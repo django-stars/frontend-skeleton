@@ -61,13 +61,10 @@ class Prompt extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.enable()
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.enable()
-  }
 
   componentWillUnmount() {
     this.disable()
