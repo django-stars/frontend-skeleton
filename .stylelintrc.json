@@ -1,7 +1,6 @@
 {
   "extends": [
-    "stylelint-config-standard",
-    "stylelint-config-prettier"
+    "stylelint-config-standard"
   ],
   "fix": true,
   "formatter": "verbose",
@@ -9,20 +8,34 @@
     "stylelint-scss"
   ],
   "rules": {
-    "indentation": 2,
-    "selector-list-comma-newline-after": "never-multi-line",
-    "rule-empty-line-before": "always",
-    "at-rule-whitelist": ["include", "import", "keyframes", "mixin", "extend"],
+    "selector-list-comma-newline-after": "always",
+    "selector-type-case": "lower",
     "at-rule-no-unknown": null,
     "scss/at-rule-no-unknown": true,
     "declaration-empty-line-before": "never",
-    "no-missing-end-of-source-newline": true,
-    "no-descending-specificity": null,
-    "color-hex-case": "lower",
-    "color-hex-length": "short",
-    "declaration-block-no-duplicate-properties": null,
-    "no-duplicate-selectors": null,
-    "declaration-colon-space-after": "always-single-line"
+    "rule-empty-line-before": [ "always-multi-line", {
+      "except": ["inside-block"],
+      "ignore": ["after-comment"]
+    }],
+    "no-descending-specificity": true,
+    "declaration-block-no-duplicate-properties": true,
+    "declaration-colon-space-after": "always-single-line",
+    "at-rule-whitelist": ["include", "import", "keyframes", "mixin", "extend"],
+    "string-quotes": "double",
+    "no-duplicate-selectors": true,
+    "color-named": "never",
+    "selector-attribute-quotes": "always",
+    "declaration-block-trailing-semicolon": "always",
+    "declaration-colon-space-before": "never",
+    "property-no-vendor-prefix": true,
+    "value-no-vendor-prefix": true,
+    "number-leading-zero": "always",
+    "function-url-quotes": "always",
+    "font-family-name-quotes": "always-unless-keyword",
+    "at-rule-no-vendor-prefix": true,
+    "selector-no-vendor-prefix": true,
+    "media-feature-name-no-vendor-prefix": true,
+    "max-empty-lines": 2
   },
   "syntax": "scss"
 }
