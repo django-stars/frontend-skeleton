@@ -3,6 +3,6 @@ import App from './App'
 import { store, history } from './init'
 
 render(
-  <App store={store} history={history} />,
+  <App />,
   document.getElementById('root'),
 )

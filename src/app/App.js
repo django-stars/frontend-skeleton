@@ -3,8 +3,9 @@ import { Router } from 'common/router'
 import { hot } from 'react-hot-loader'
 import routes from './routes'
 
+const history = createBrowserHistory()
 
-function AppProvider({ store, history }) {
+function AppProvider() {
   return (
     <Provider store={store}>
       <Router history={history} routes={routes}/>
