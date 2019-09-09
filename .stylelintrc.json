@@ -1,0 +1,28 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-prettier"
+  ],
+  "fix": true,
+  "formatter": "verbose",
+  "plugins": [
+    "stylelint-scss"
+  ],
+  "rules": {
+    "indentation": 2,
+    "selector-list-comma-newline-after": "never-multi-line",
+    "rule-empty-line-before": "always",
+    "at-rule-whitelist": ["include", "import", "keyframes", "mixin", "extend"],
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": true,
+    "declaration-empty-line-before": "never",
+    "no-missing-end-of-source-newline": true,
+    "no-descending-specificity": null,
+    "color-hex-case": "lower",
+    "color-hex-length": "short",
+    "declaration-block-no-duplicate-properties": null,
+    "no-duplicate-selectors": null,
+    "declaration-colon-space-after": "always-single-line"
+  },
+  "syntax": "scss"
+}
