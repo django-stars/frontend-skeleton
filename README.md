@@ -19,6 +19,7 @@ Boilerplate for fast start frontend project with React/Redux, Babel, Webpack, Sa
 - Linter via ESLint
 - Tests via Jest/Enzyme
 - Easy webpack configuration via webpack-blocks
+- Sentry
 
 ## Usage
 

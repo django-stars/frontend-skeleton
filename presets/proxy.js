@@ -1,5 +1,4 @@
 import { devServer, env, group } from 'webpack-blocks'
-import url from 'url'
 
 
 export default function(config) {
@@ -32,8 +31,7 @@ function configureProxy() {
 }
 
 function makeProxyContext(paths, targetUrl) {
-  const urlData = url.parse(targetUrl)
-
+  const urlData = new URL(targetUrl)
   return {
     secure: false,
     // TODO we need verbose logs for proxy (full request/response data)
