@@ -1,7 +1,8 @@
 import { render } from 'react-dom'
 import App from './App'
+import { store, history } from './init'
 
 render(
-  <App />,
+  <App store={store} history={history} />,
   document.getElementById('root'),
 )

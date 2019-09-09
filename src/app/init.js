@@ -3,6 +3,7 @@ import '../styles/index.scss'
 import { createStore, applyMiddleware, combineReducers, compose as reduxCompose } from 'redux'
 import { reducer as form } from 'redux-form'
 import { createEpicMiddleware, combineEpics } from 'redux-observable'
+import { createBrowserHistory } from 'history'
 import omit from 'lodash/omit'
 import { middleware as cacheMiddleware, state as initialState } from './cache'
 import { reducers, epics } from 'store'
@@ -39,5 +40,9 @@ const store = createStore(
 
 // FIXME API should not need store
 configureAPI(store)
+const history = createBrowserHistory()
 
-export default store
+export {
+  store,
+  history,
+}

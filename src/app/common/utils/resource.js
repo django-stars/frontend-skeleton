@@ -20,7 +20,6 @@ import merge from 'lodash/merge'
 import values from 'lodash/values'
 import isEmpty from 'lodash/isEmpty'
 
-import { push, replace } from 'react-router-redux'
 
 // TODO
 // + OPTIONS request
@@ -389,7 +388,6 @@ function requestEpic(action$, store, { API }) { // FIXME API
               ? request(undefined, { ...meta, type: 'GET' })
               : setData(response, meta),
             setLoading(-1, meta),
-            submitting && meta.resource.navigateAfterSubmit && push(meta.resource.navigateAfterSubmit),
             requestSuccess(response, meta),
           ))
           .catch(err => of(

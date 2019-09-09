@@ -7,7 +7,7 @@ import { CheckAccess } from 'common/session'
 export default function RouteRecursive({ access, layout: Layout, component: Component, routes, redirectTo, ...route }) {
   let renderRoute = null
   if(Array.isArray(routes) && !isEmpty(routes)) {
-    renderRoute = function RecusiveRoutes(props) {
+    renderRoute = function(props) {
       return (
         <Switch>
           {routes.map((r, i) => (<RouteRecursive key={i} {...r} path={relativePath(route.path, r.path)} />))}
@@ -23,7 +23,7 @@ export default function RouteRecursive({ access, layout: Layout, component: Comp
   }
 
   if(redirectTo) {
-    renderRoute = function RedirectTo(props) {
+    renderRoute = function(props) {
       let newPath = props.location.pathname
       if(newPath.startsWith(props.match.path)) {
         newPath = redirectTo + newPath.substr(props.match.path.length)

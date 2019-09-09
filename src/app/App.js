@@ -1,19 +1,13 @@
 import { Provider } from 'react-redux'
-import { Router } from 'react-router'
+import { Router } from 'common/router'
 import { hot } from 'react-hot-loader'
-import { createBrowserHistory } from 'history'
 import routes from './routes'
-import { RouteRecursive } from 'common/router'
-import store from './init'
 
-const history = createBrowserHistory()
 
-function AppProvider() {
+function AppProvider({ store, history }) {
   return (
     <Provider store={store}>
-      <Router history={history}>
-        <RouteRecursive routes={routes} />
-      </Router>
+      <Router history={history} routes={routes}/>
     </Provider>
   )
 }
