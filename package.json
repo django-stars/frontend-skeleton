@@ -39,6 +39,7 @@
     "@sentry/browser": "^5.6.1",
     "bootstrap": "^4.0.0",
     "core-decorators": "^0.20.0",
+    "core-js": "^3.1.4",
     "lodash": "^4.17.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
