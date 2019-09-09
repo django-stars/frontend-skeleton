@@ -16,7 +16,7 @@ Boilerplate for fast start frontend project with React/Redux, Babel, Webpack, Sa
 - SVG icons via postcss-inline-svg
 - HMR of course
 - Sass, Postcss, Bootstrap, React, Redux
-- Linter via ESLint
+- Linter via ESLint & StyleLint
 - Tests via Jest/Enzyme
 - Easy webpack configuration via webpack-blocks
 - Sentry
