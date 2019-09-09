@@ -5,3 +5,4 @@ All notable changes to this project will be documented in this file.
 - add sentry
 - add stylelint
 - add circular dependencie validation
+- add git hooks
