@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 CheckboxInput.propTypes = {
@@ -15,8 +16,15 @@ CheckboxInput.defaultProps = {
   inputClassName: 'custom-checkbox',
 }
 
-export default function CheckboxInput(props) {
-  const { inputClassName, value, checkboxLabel, disabled, required } = props
+export default function CheckboxInput({
+  inputClassName,
+  value,
+  checkboxLabel,
+  disabled,
+  required,
+  onChange,
+}) {
+  const handleChange = useCallback((e) => onChange(e.target.checked), [onChange])
   return (
     <div className='input-wrapper'>
       {
@@ -25,7 +33,7 @@ export default function CheckboxInput(props) {
             type='checkbox'
             checked={value === true}
             value={value}
-            onChange={e => props.onChange(e.target.checked)}
+            onChange={handleChange}
             required={required}
             disabled={disabled}
           />

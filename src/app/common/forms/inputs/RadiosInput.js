@@ -1,8 +1,7 @@
-import { autobind } from 'core-decorators'
-import { Component } from 'react'
+import { useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-const propTypes = {
+RadiosInput.propTypes = {
   inputClassName: PropTypes.string,
   value: PropTypes.string,
   valueKey: PropTypes.string,
@@ -11,44 +10,43 @@ const propTypes = {
   disabled: PropTypes.bool,
   name: PropTypes.string,
 }
-const defaultProps = {
+RadiosInput.defaultProps = {
   inputClassName: 'radio-custom',
   valueKey: 'value',
   labelKey: 'label',
 }
 
-export default class RadiosInput extends Component {
-    @autobind
-  handleChange(e) {
-    this.props.onChange(e.target.value)
-  }
-    render() {
-      const { inputClassName, value, valueKey, labelKey,
-        options, disabled, name } = this.props
-      return (
-        <div className='radio-wrapper'>
-          {
-            options.map((option) => (
-              <label
-                className={inputClassName}
-                key={option[valueKey]}>
-                <input
-                  type='radio'
-                  name={name}
-                  onChange={this.handleChange}
-                  checked={value === option[valueKey]}
-                  value={option[valueKey]}
-                  disabled={disabled}
-                />
-                <i></i> {/* empty tag for applying custom styles */}
-                { option[labelKey] }
-              </label>
-            ))
-          }
-        </div>
-      )
-    }
+function RadiosInput({
+  onChange,
+  inputClassName,
+  value,
+  valueKey,
+  labelKey,
+  options,
+  disabled,
+  name,
+}) {
+  const handleChange = useCallback((e) => onChange(e.target.value), [onChange])
+  return (
+    <div className='radio-wrapper'>
+      {
+        options.map((option) => (
+          <label
+            className={inputClassName}
+            key={option[valueKey]}>
+            <input
+              type='radio'
+              name={name}
+              onChange={handleChange}
+              checked={value === option[valueKey]}
+              value={option[valueKey]}
+              disabled={disabled}
+            />
+            <i></i> {/* empty tag for applying custom styles */}
+            { option[labelKey] }
+          </label>
+        ))
+      }
+    </div>
+  )
 }
-
-RadiosInput.propTypes = propTypes
-RadiosInput.defaultProps = defaultProps

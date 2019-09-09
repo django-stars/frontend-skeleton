@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types'
-// import TooltipIcon from 'shared/widgets/TooltipIcon'
 
 BaseFieldLayout.propTypes = {
   icon: PropTypes.node,
   label: PropTypes.string,
   prefix: PropTypes.string,
-  // tooltipContent: PropTypes.string,
   required: PropTypes.bool,
   InputComponent: PropTypes.element,
 }
@@ -15,7 +13,6 @@ export default function BaseFieldLayout(props) {
     icon,
     label,
     prefix,
-    // tooltipContent,
     required,
     inputComponent: InputComponent,
   } = props
@@ -37,7 +34,6 @@ export default function BaseFieldLayout(props) {
             {...props.input}
           />
           {props.meta.error}
-          {/* tooltipContent && <TooltipIcon {...props} /> */}
         </div>
       </div>
     </div>

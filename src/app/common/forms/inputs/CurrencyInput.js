@@ -1,9 +1,8 @@
-import { autobind } from 'core-decorators'
-import { Component } from 'react'
+import { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import NumberFormat from 'react-number-format'
 
-const propTypes = {
+CurrencyInput.propTypes = {
   inputClassName: PropTypes.string,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
@@ -13,33 +12,34 @@ const propTypes = {
     PropTypes.number,
     PropTypes.string,
   ]),
+  thousandSeparator: PropTypes.string,
 }
-const defaultProps = {
+CurrencyInput.defaultProps = {
   inputClassName: 'input-custom',
+  thousandSeparator: "'",
 }
 
-export default class CurrencyInput extends Component {
-    @autobind
-  handleChange(e) {
-    this.props.onChange(e.target.value)
-  }
-    render() {
-      const { inputClassName, placeholder, required,
-        disabled, name, value } = this.props
-      return (
-        <NumberFormat
-          className={inputClassName}
-          placeholder={placeholder}
-          onChange={this.handleChange}
-          required={required}
-          disabled={disabled}
-          name={name}
-          value={value}
-          thousandSeparator="'"
-        />
-      )
-    }
+export default function CurrencyInput({
+  onChange,
+  inputClassName,
+  placeholder,
+  required,
+  disabled,
+  name,
+  value,
+  thousandSeparator,
+}) {
+  const handleChange = useCallback((e) => onChange(e.target.value), [onChange])
+  return (
+    <NumberFormat
+      className={inputClassName}
+      placeholder={placeholder}
+      onChange={handleChange}
+      required={required}
+      disabled={disabled}
+      name={name}
+      value={value}
+      thousandSeparator={thousandSeparator}
+    />
+  )
 }
-
-CurrencyInput.propTypes = propTypes
-CurrencyInput.defaultProps = defaultProps

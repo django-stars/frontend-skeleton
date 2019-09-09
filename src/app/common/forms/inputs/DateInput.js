@@ -1,9 +1,10 @@
+import { useCallback } from 'react'
 import DatePicker from 'react-datepicker'
 import PropTypes from 'prop-types'
 import valueToDate from 'shared/utils/valueToDate'
 import dateToValue from 'shared/utils/dateToValue'
 
-const propTypes = {
+DateInput.propTypes = {
   inputClassName: PropTypes.string,
   monthsShown: PropTypes.number,
   placeholder: PropTypes.string,
@@ -12,22 +13,29 @@ const propTypes = {
   dateFormat: PropTypes.string,
   value: PropTypes.string,
 }
-const defaultProps = {
+DateInput.defaultProps = {
   inputClassName: 'input-custom',
   monthsShown: 1,
   dateFormat: 'DD.MM.YYYY',
 }
 
-export default function DateInput(props) {
-  const { inputClassName, monthsShown, placeholder, disabled, name, value, dateFormat } = props
+export default function DateInput({
+  inputClassName,
+  monthsShown,
+  placeholder,
+  disabled,
+  name,
+  value,
+  dateFormat,
+  onChange,
+}) {
+  const handleChange = useCallback((value) => onChange(dateToValue(value, dateFormat)), [onChange])
   return (
     <div className='datepicker'>
       <DatePicker
         name={name}
         selected={valueToDate(value, dateFormat)}
-        onChange={(value) => {
-          props.onChange(dateToValue(value, dateFormat))
-        }}
+        onChange={handleChange}
         disabled={disabled}
         className={inputClassName}
         dateFormat={dateFormat}
@@ -37,6 +45,3 @@ export default function DateInput(props) {
     </div>
   )
 }
-
-DateInput.propTypes = propTypes
-DateInput.defaultProps = defaultProps
