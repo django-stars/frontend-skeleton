@@ -10,3 +10,6 @@ All notable changes to this project will be documented in this file.
 - remove roter redux connection
 - add with withNamedRouter HOC
 - fix polyfills
+- clear form elements examples
+- useCallback for onchange
+- replace cache

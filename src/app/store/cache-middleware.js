@@ -10,7 +10,11 @@ const middleware = store => next => action => {
   let nextState = store.getState()
 
   cacheState(
-    CACHE_STATE_KEYS ? pick(nextState, CACHE_STATE_KEYS) : nextState
+    CACHE_STATE_KEYS
+      ? Object.entries(
+        pick(nextState, CACHE_STATE_KEYS))
+        .reduce((res, [key, val]) => ({ ...res, [key]: pick(val, 'data') }), {})
+      : nextState
   )
 
   return result

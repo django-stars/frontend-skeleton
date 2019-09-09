@@ -4,7 +4,7 @@ import { createStore, applyMiddleware, combineReducers, compose as reduxCompose 
 import { reducer as form } from 'redux-form'
 import { createEpicMiddleware, combineEpics } from 'redux-observable'
 import omit from 'lodash/omit'
-import { middleware as cacheMiddleware, state as initialState } from './cache'
+import { middleware as cacheMiddleware, state as initialState } from 'store/cache-middleware'
 import { reducers, epics } from 'store'
 import { reducer as resource, epic as resourceEpic } from 'common/utils/resource'
 import API, { configure as configureAPI } from 'api'
