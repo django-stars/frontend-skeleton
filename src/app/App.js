@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux'
 import { Router } from 'react-router'
-import { hot } from 'react-hot-loader'
+import { hot } from 'react-hot-loader/root'
 import { createBrowserHistory } from 'history'
 import routes from './routes'
 import { RouteRecursive } from 'common/router'
@@ -18,4 +18,4 @@ function AppProvider() {
   )
 }
 
-export default hot(module)(AppProvider)
+export default hot(AppProvider)
