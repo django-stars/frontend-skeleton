@@ -37,7 +37,11 @@ const store = createStore(
       createEpicMiddleware(combineEpics(...epics, resourceEpic), { dependencies: { API } }),
       routerMiddleware(history),
       cacheMiddleware,
+<<<<<<< HEAD
       process.env.SENTRY_DSN && createSentryMiddleware(Sentry, {
+=======
+      process.env.SENTRY_DNS && createSentryMiddleware(Sentry, {
+>>>>>>> add sentry
         stateTransformer: (state) => { return omit(state, 'session') },
       }),
     ].filter(Boolean))

@@ -1,6 +1,6 @@
 {
   "name": "frontend-skeleton",
-  "version": "3.0.0-beta",
+  "version": "4.0.0-beta",
   "description": "Yet another boilerplate created at first for using Angular/React in conjunction with Django.",
   "author": "DjangoStars <info@djangostars.com> (https://github.com/django-stars/)",
   "contributors": [
