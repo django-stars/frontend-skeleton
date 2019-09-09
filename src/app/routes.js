@@ -1,4 +1,3 @@
-import { routesMap } from 'common/router/routerConfigs'
 import NotFound from 'pages/fallbacks/NotFound'
 import AppLayout from 'layouts/AppLayout'
 

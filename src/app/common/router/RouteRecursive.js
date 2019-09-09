@@ -23,7 +23,7 @@ export default function RouteRecursive({ access, layout: Layout, component: Comp
   }
 
   if(redirectTo) {
-    renderRoute = function RedirectTo(props) {
+    renderRoute = function(props) {
       let newPath = props.location.pathname
       if(newPath.startsWith(props.match.path)) {
         newPath = redirectTo + newPath.substr(props.match.path.length)

@@ -16,6 +16,7 @@ if(process.env.SENTRY_DSN) {
   Sentry.init({ dsn: process.env.SENTRY_DSN, environment: process.env.SENTRY_ENVIRONMENT })
 }
 
+
 // support for redux dev tools
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose
 
