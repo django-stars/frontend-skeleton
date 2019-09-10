@@ -1,24 +1,24 @@
-import { PureComponent } from 'react'
+import { Component } from 'react'
 import { compose } from 'redux'
 import { reduxForm } from 'redux-form'
 import LoginForm from './LoginForm'
-import { connectFormResource } from 'common/utils/resource'
+import connectResouces from 'djangostars/resources'
 
-class LoginFormContainer extends PureComponent {
+class LoginFormContainer extends Component {
+  onSubmit = (data) => this.props.session.create(data)
+
+
   render() {
-    return <LoginForm {...this.props} />
+    return <LoginForm {...this.props} onSubmit ={this.onSubmit}/>
   }
 }
 
-let loginResource = {
-  prefetch: false,
-  namespace: 'session',
-  endpoint: 'auth',
-}
-
 export default compose(
-  connectFormResource(loginResource, { form: 'login' }),
+  connectResouces({
+    namespace: 'session',
+    endpoint: 'accounts/login',
+  }),
   reduxForm({
     form: 'login',
-  }),
+  })
 )(LoginFormContainer)

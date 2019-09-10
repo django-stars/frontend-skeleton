@@ -36,6 +36,7 @@
     "@sentry/browser": "^5.6.1",
     "bootstrap": "^4.0.0",
     "core-decorators": "^0.20.0",
+    "djangostars": "https://github.com/django-stars/frontend-skeleton-contrib.git",
     "lodash": "^4.17.5",
     "prop-types": "^15.7.2",
     "react": "^16.2.0",
@@ -46,10 +47,8 @@
     "react-router-dom": "^5.0.1",
     "redux": "^3.7.2",
     "redux-form": "^7.3.0",
-    "redux-observable": "^0.18.0",
     "redux-sentry-middleware": "^0.0.15",
     "reselect": "^3.0.1",
-    "rxjs": "^5.5.7",
     "smoothscroll-polyfill": "^0.4.3",
     "whatwg-fetch": "^3.0.0"
   },

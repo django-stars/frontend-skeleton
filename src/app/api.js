@@ -7,19 +7,15 @@ import isPlainObject from 'lodash/isPlainObject'
 import isObject from 'lodash/isObject'
 import flatMapDeep from 'lodash/flatMapDeep'
 import get from 'lodash/get'
-// TODO it seems we can move all query logic to API
 import { buildQueryParams } from 'common/utils/queryParams'
 // import { logout } from 'pages/session'
 
 export const API_URL = process.env.API_URL
 
-var store
-
-// FIXME make it as middleware
-export function configure(s) { store = s }
-
-export default function(endpoint) {
-  return new API(endpoint)
+export default function(store) {
+  return function(endpoint, signal) {
+    return new API(store, endpoint, signal)
+  }
 }
 
 function deepValues(obj) {
@@ -36,15 +32,17 @@ function hasFile(obj) {
 }
 
 class API {
-  constructor(endpoint) {
+  constructor(store, endpoint, signal) {
     if(!/^\w[^?]+\w$/.test(endpoint)) {
       console.error('invalid API endpoint: \'%s\'. API endpoint should not contain trailing slashes and query params', endpoint)
     }
+    this.store = store
     this.endpoint = endpoint
+    this.signal = signal
   }
 
   getAuthorizationHeader() {
-    let authToken = get(store.getState(), 'resource.session.data.token')
+    let authToken = get(this.store.getState(), 'session.data.token')
     return authToken ? 'JWT ' + authToken : ''
   }
 
@@ -97,14 +95,14 @@ class API {
   handleResponseCallback(response) {
     if(response.status === 401) {
       // 401 (Unauthorized)
-      // store.dispatch(logout())
+      // this.store.dispatch(logout())
       return
     } else if(response.status === 204) {
       // 204 (No Content)
       return Promise.resolve({})
     }
 
-    if(response.headers.get('Content-Type') !== 'application/json') {
+    if(!response.headers.get('Content-Type').includes('application/json')) {
       return Promise.reject(response)
     }
 
@@ -148,9 +146,17 @@ class API {
       method,
       headers,
       body,
+      signal: this.signal,
     }
     var request = new Request(resource, options)
-    return fetch(request).then(this.handleResponseCallback)
+    return fetch(request)
+      .then(this.handleResponseCallback)
+      .catch(err => {
+        if(err.code === 20 && err.name === 'AbortError') {
+          throw new Error('Canceled by user')
+        }
+        throw err
+      })
   }
 
   post(body = {}, params = {}) {

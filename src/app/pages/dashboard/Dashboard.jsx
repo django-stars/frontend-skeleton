@@ -1,3 +1,8 @@
-export default function Dashboard(props) {
-  return <h1>{props.text}</h1>
+export default function Dashboard({ logout, text }) {
+  return (
+    <div>
+      <h1>{text}</h1>
+      <button onClick={logout}>Logout</button>
+    </div>
+  )
 }

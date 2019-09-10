@@ -1,36 +1,46 @@
 import 'polyfills' // should be first
 import '../styles/index.scss'
-import { createStore, applyMiddleware, combineReducers, compose as reduxCompose } from 'redux'
-import { reducer as form } from 'redux-form'
-import { createEpicMiddleware, combineEpics } from 'redux-observable'
+import { resources } from 'djangostars/resources'
+import persistReducer from 'djangostars/persist'
+import { composeReducers, combineReducers } from 'djangostars/redux-helpers'
+import thunkMiddleware from 'djangostars/thunk'
 import { createBrowserHistory } from 'history'
-import omit from 'lodash/omit'
-import { middleware as cacheMiddleware, state as initialState } from './cache'
-import { reducers, epics } from 'store'
-import { reducer as resource, epic as resourceEpic } from 'common/utils/resource'
-import API, { configure as configureAPI } from 'api'
+import { createStore, applyMiddleware, compose as reduxCompose } from 'redux'
+import { reducer as form } from 'redux-form'
+import cacheMiddleware from 'djangostars/cache-middleware'
+import { reducers } from 'store'
 import * as Sentry from '@sentry/browser'
 import createSentryMiddleware from 'redux-sentry-middleware'
+import API from 'api'
+import omit from 'lodash/omit'
+
 
 if(process.env.SENTRY_DSN) {
   Sentry.init({ dsn: process.env.SENTRY_DSN, environment: process.env.SENTRY_ENVIRONMENT })
 }
 
-
 // support for redux dev tools
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose
 
 const store = createStore(
-  combineReducers({
-    form,
-    resource,
-    ...reducers,
-  }),
-  initialState,
+  composeReducers(
+    {},
+    combineReducers({
+      form,
+      ...reducers,
+    }),
+    persistReducer(JSON.parse(process.env.PERSIST_WHITE_LIST)),
+    resources,
+  ),
+  {},
   compose(
     applyMiddleware(...[
-      createEpicMiddleware(combineEpics(...epics, resourceEpic), { dependencies: { API } }),
-      cacheMiddleware,
+      thunkMiddleware({ API }),
+      cacheMiddleware({
+        storeKey: process.env.STORAGE_KEY,
+        cacheKeys: JSON.parse(process.env.CACHE_STATE_KEYS),
+        storage: localStorage,
+      }),
       process.env.SENTRY_DSN && createSentryMiddleware(Sentry, {
         stateTransformer: (state) => { return omit(state, 'session') },
       }),
@@ -38,8 +48,6 @@ const store = createStore(
   )
 )
 
-// FIXME API should not need store
-configureAPI(store)
 const history = createBrowserHistory()
 
 export {

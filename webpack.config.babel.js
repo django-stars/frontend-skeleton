@@ -62,7 +62,7 @@ module.exports = createConfig([
   setEnv([
     // pass env values to compile environment
     'API_URL', 'AUTH_HEADER', 'MAIN_HOST',
-    'CACHE_STATE_KEYS', 'STORAGE_KEY', 'SENTRY_DSN', 'SENTRY_ENVIRONMENT',
+    'CACHE_STATE_KEYS', 'STORAGE_KEY', 'SENTRY_DSN', 'SENTRY_ENVIRONMENT', 'PERSIST_WHITE_LIST', 'LIMIT',
   ]),
 
   addPlugins([
