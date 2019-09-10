@@ -86,14 +86,16 @@ export function snakeCaseParam(name) {
 
 function orderingEnhancer(func) {
   return function(name) {
-    let prefix = ''
+    return name.split(',').map(function(name) {
+      let prefix = ''
 
-    if(/^-\w/.test(name)) {
-      prefix = '-'
-      name = name.substr(1)
-    }
+      if(/^-\w/.test(name)) {
+        prefix = '-'
+        name = name.substr(1)
+      }
 
-    return prefix + func(name)
+      return prefix + func(name)
+    }).join(',')
   }
 }
 
