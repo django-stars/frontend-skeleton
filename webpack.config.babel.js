@@ -46,6 +46,9 @@ module.exports = createConfig([
       path.resolve(`${process.env.SOURCES_PATH}/app`),
       'node_modules',
     ],
+    alias: {
+      'react-dom': process.env.NODE_ENV !== 'development' ? 'react-dom' : '@hot-loader/react-dom',
+    },
     extensions: ['.js', '.jsx', '.json', '.css', '.sass', '.scss'],
   }),
 
