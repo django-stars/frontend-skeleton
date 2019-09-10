@@ -11,7 +11,7 @@ export default function(config) {
       }),
     ]),
     match(['*.css', '*.sass', '*.scss'], { exclude: path.resolve('node_modules') }, [
-      css.modules({ camelCase: true }),
+      process.env.SSR ? css() : css.modules({ camelCase: true }),
       sass({
         includePaths: [
           path.resolve('./src/styles'),
