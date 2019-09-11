@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "@sentry/browser": "^5.6.1",
     "bootstrap": "^4.0.0",
     "core-decorators": "^0.20.0",
     "lodash": "^4.17.5",
@@ -43,6 +44,7 @@
     "redux": "^3.7.2",
     "redux-form": "^7.3.0",
     "redux-observable": "^0.18.0",
+    "redux-sentry-middleware": "^0.0.15",
     "reselect": "^3.0.1",
     "rxjs": "^5.5.7",
     "smoothscroll-polyfill": "^0.4.3",
@@ -63,6 +65,7 @@
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
+    "@sentry/webpack-plugin": "^1.8.0",
     "autoprefixer": "^9.4.9",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",

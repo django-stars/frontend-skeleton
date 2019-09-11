@@ -6,7 +6,7 @@ import spa from './spa'
 import styles from './styles'
 import assets from './assets'
 import proxy from './proxy'
-
+import sentry from './sentry'
 
 export {
   babel,
@@ -17,4 +17,5 @@ export {
   spa,
   assets,
   proxy,
+  sentry,
 }

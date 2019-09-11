@@ -28,6 +28,7 @@ import {
   spa,
   assets,
   proxy,
+  sentry,
 } from './presets'
 
 module.exports = createConfig([
@@ -61,7 +62,7 @@ module.exports = createConfig([
   setEnv([
     // pass env values to compile environment
     'API_URL', 'AUTH_HEADER', 'MAIN_HOST',
-    'CACHE_STATE_KEYS', 'STORAGE_KEY',
+    'CACHE_STATE_KEYS', 'STORAGE_KEY', 'SENTRY_DSN', 'SENTRY_ENVIRONMENT',
   ]),
 
   addPlugins([
@@ -83,11 +84,11 @@ module.exports = createConfig([
               return module.resource && module.resource.indexOf(path.resolve(__dirname, 'src')) === -1
             },
             name: 'vundle',
-            chunks: 'all'
-          }
-        }
+            chunks: 'all',
+          },
+        },
       },
-    }
+    },
   }),
 
   env('development', [
@@ -125,7 +126,7 @@ module.exports = createConfig([
 
   babel(),
   react(),
-
+  sentry(),
   // sass(),
   styles(),
   // postcss(),
