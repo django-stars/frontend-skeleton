@@ -7,7 +7,7 @@ export default function RouteRecursive({ access, layout: Layout, component: Comp
   let renderRoute = null
   if(routes && routes.length > 0) {
     renderRoute = function(props) {
-      return (
+      let ret = (
         <Switch>
           {routes.map((r, i) => (
             <RouteRecursive key={i} {...r} path={relativePath(route.path, r.path)} />
@@ -20,6 +20,8 @@ export default function RouteRecursive({ access, layout: Layout, component: Comp
           }
         </Switch>
       )
+
+      return Layout ? <Layout {...props}>{ret}</Layout> : ret
     }
   }
 
@@ -40,13 +42,17 @@ export default function RouteRecursive({ access, layout: Layout, component: Comp
     set(route, 'location.state.name', route.name)
   }
 
+  if(Layout && !routes) {
+    renderRoute = function(props) {
+      return (
+        <Layout {...props}><Component {...props} /></Layout>
+      )
+    }
+  }
+
   let rendered = (
     <Route {...route} component={renderRoute ? null : Component} render={renderRoute} />
   )
-
-  if(Layout) {
-    rendered = <Layout>{rendered}</Layout>
-  }
 
   return (
     <CheckAccess
