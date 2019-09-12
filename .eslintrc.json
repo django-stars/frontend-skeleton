@@ -45,7 +45,8 @@
     "no-unused-vars": ["error", {"args": "none"}],
     "object-curly-spacing": ["error", "always"],
     "react/react-in-jsx-scope": "off",
-    "react/prop-types": ["off"],
+    "react/prop-types": ["error"],
+    "react/require-default-props": ["error"],
     "react/jsx-uses-vars": ["error"],
     "react/display-name": ["off", { "ignoreTranspilerName": true }]
   }
