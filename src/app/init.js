@@ -1,11 +1,9 @@
 import 'polyfills' // should be first
 import '../styles/index.scss'
-
-import createHistory from 'history/createBrowserHistory'
-import { routerReducer as router, routerMiddleware } from 'react-router-redux'
 import { createStore, applyMiddleware, combineReducers, compose as reduxCompose } from 'redux'
 import { reducer as form } from 'redux-form'
 import { createEpicMiddleware, combineEpics } from 'redux-observable'
+import { createBrowserHistory } from 'history'
 import omit from 'lodash/omit'
 import { middleware as cacheMiddleware, state as initialState } from './cache'
 import { reducers, epics } from 'store'
@@ -14,19 +12,16 @@ import API, { configure as configureAPI } from 'api'
 import * as Sentry from '@sentry/browser'
 import createSentryMiddleware from 'redux-sentry-middleware'
 
-
 if(process.env.SENTRY_DSN) {
   Sentry.init({ dsn: process.env.SENTRY_DSN, environment: process.env.SENTRY_ENVIRONMENT })
 }
 
-const history = createHistory()
 
 // support for redux dev tools
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose
 
 const store = createStore(
   combineReducers({
-    router,
     form,
     resource,
     ...reducers,
@@ -35,7 +30,6 @@ const store = createStore(
   compose(
     applyMiddleware(...[
       createEpicMiddleware(combineEpics(...epics, resourceEpic), { dependencies: { API } }),
-      routerMiddleware(history),
       cacheMiddleware,
       process.env.SENTRY_DSN && createSentryMiddleware(Sentry, {
         stateTransformer: (state) => { return omit(state, 'session') },
@@ -46,7 +40,9 @@ const store = createStore(
 
 // FIXME API should not need store
 configureAPI(store)
+const history = createBrowserHistory()
 
 export {
-  store, history,
+  store,
+  history,
 }

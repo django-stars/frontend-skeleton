@@ -3,15 +3,8 @@ import { compose } from 'redux'
 import { reduxForm } from 'redux-form'
 import LoginForm from './LoginForm'
 import { connectFormResource } from 'common/utils/resource'
-import { connect } from 'react-redux'
-import navigate from 'common/router/navigate'
 
 class LoginFormContainer extends PureComponent {
-  componentWillReceiveProps({ submitting, submitSucceeded, navigate }) {
-    if(!submitting && submitSucceeded) {
-      navigate('dashboard')
-    }
-  }
   render() {
     return <LoginForm {...this.props} />
   }
@@ -28,5 +21,4 @@ export default compose(
   reduxForm({
     form: 'login',
   }),
-  connect(null, { navigate }),
 )(LoginFormContainer)

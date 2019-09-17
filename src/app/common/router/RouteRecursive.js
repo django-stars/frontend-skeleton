@@ -1,17 +1,16 @@
 import { Route, Redirect, Switch } from 'react-router-dom'
 import set from 'lodash/set'
+import isEmpty from 'lodash/isEmpty'
 import { CheckAccess } from 'common/session'
 
 
 export default function RouteRecursive({ access, layout: Layout, component: Component, routes, redirectTo, ...route }) {
   let renderRoute = null
-  if(routes && routes.length > 0) {
+  if(Array.isArray(routes) && !isEmpty(routes)) {
     renderRoute = function(props) {
       return (
         <Switch>
-          {routes.map((r, i) => (
-            <RouteRecursive key={i} {...r} path={relativePath(route.path, r.path)} />
-          ))}
+          {routes.map((r, i) => (<RouteRecursive key={i} {...r} path={relativePath(route.path, r.path)} />))}
           {
             // fallback
             Component
@@ -31,7 +30,6 @@ export default function RouteRecursive({ access, layout: Layout, component: Comp
       } else {
         newPath = redirectTo
       }
-
       return <Redirect to={newPath} />
     }
   }

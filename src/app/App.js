@@ -1,17 +1,13 @@
 import { Provider } from 'react-redux'
-import { ConnectedRouter } from 'react-router-redux'
+import { Router } from 'common/router'
 import { hot } from 'react-hot-loader'
-
 import routes from './routes'
-import { RouteRecursive } from 'common/router'
 
 
 function AppProvider({ store, history }) {
   return (
     <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <RouteRecursive routes={routes} />
-      </ConnectedRouter>
+      <Router history={history} routes={routes}/>
     </Provider>
   )
 }
