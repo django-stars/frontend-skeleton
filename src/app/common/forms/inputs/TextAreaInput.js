@@ -1,8 +1,7 @@
-import { autobind } from 'core-decorators'
-import { Component } from 'react'
+import { useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-const propTypes = {
+TextAreaInput.propTypes = {
   inputClassName: PropTypes.string,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
@@ -12,33 +11,34 @@ const propTypes = {
   name: PropTypes.string,
   value: PropTypes.string,
 }
-const defaultProps = {
+TextAreaInput.defaultProps = {
   inputClassName: 'input-custom',
 }
 
-export default class TextAreaInput extends Component {
-    @autobind
-  handleChange(e) {
-    this.props.onChange(e.target.value)
-  }
-    render() {
-      const { inputClassName, placeholder, disabled,
-        required, rows, cols, name, value } = this.props
-      return (
-        <textarea
-          name={name}
-          className={inputClassName}
-          placeholder={placeholder}
-          disabled={disabled}
-          required={required}
-          rows={rows}
-          cols={cols}
-          value={value}
-          onChange={this.handleChange}
-        ></textarea>
-      )
-    }
-}
 
-TextAreaInput.propTypes = propTypes
-TextAreaInput.defaultProps = defaultProps
+export default function TextAreaInput({
+  onChange,
+  inputClassName,
+  placeholder,
+  disabled,
+  required,
+  rows,
+  cols,
+  name,
+  value,
+}) {
+  const handleChange = useCallback((e) => onChange(e.target.value), [onChange])
+  return (
+    <textarea
+      name={name}
+      className={inputClassName}
+      placeholder={placeholder}
+      disabled={disabled}
+      required={required}
+      rows={rows}
+      cols={cols}
+      value={value}
+      onChange={handleChange}
+    ></textarea>
+  )
+}

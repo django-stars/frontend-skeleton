@@ -1,9 +1,8 @@
-import { autobind } from 'core-decorators'
-import { Component } from 'react'
+import { useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 
-const propTypes = {
+TextInput.propTypes = {
   inputClassName: PropTypes.string,
   placeholder: PropTypes.string,
   pattern: PropTypes.string,
@@ -14,26 +13,17 @@ const propTypes = {
   value: PropTypes.string,
 }
 
-const defaultProps = {
+TextInput.defaultProps = {
   inputClassName: 'input-custom',
   readOnly: false,
 }
 
-export default class TextInput extends Component {
-  @autobind
-  handleChange(e) {
-    this.props.onChange(e.target.value)
-  }
-
-  render() {
-    return (
-      <input
-        {...this.props}
-        onChange={this.handleChange}
-      />
-    )
-  }
+export default function TextInput({ inputComponent, onChange, inputClassName, input, meta, label, ...props }) {
+  const handleChange = useCallback((e) => onChange(e.target.value), [onChange])
+  return (
+    <input
+      {...props}
+      onChange={handleChange}
+    />
+  )
 }
-
-TextInput.propTypes = propTypes
-TextInput.defaultProps = defaultProps

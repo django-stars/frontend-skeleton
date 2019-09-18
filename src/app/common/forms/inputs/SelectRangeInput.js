@@ -2,17 +2,16 @@ import range from 'lodash/range'
 import PropTypes from 'prop-types'
 import SelectInput from 'shared/forms/inputs/SelectInput'
 
-const propTypes = {
+SelectRangeInput.propTypes = {
   rangeStart: PropTypes.number,
   rangeEnd: PropTypes.number,
   rangeStep: PropTypes.number,
 }
-const defaultProps = {
+SelectRangeInput.defaultProps = {
   rangeStart: null,
 }
 
-export default function SelectRangeInput(props) {
-  const { rangeStart, rangeEnd, rangeStep, ...restProps } = props
+export default function SelectRangeInput({ rangeStart, rangeEnd, rangeStep, ...restProps }) {
   return (
     <SelectInput
       options={range(rangeStart, rangeEnd, rangeStep).map((value) => { return { label: value, value } })}
@@ -20,6 +19,3 @@ export default function SelectRangeInput(props) {
     />
   )
 }
-
-SelectRangeInput.propTypes = propTypes
-SelectRangeInput.defaultProps = defaultProps
