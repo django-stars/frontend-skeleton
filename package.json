@@ -34,7 +34,6 @@
   },
   "dependencies": {
     "@sentry/browser": "^5.6.1",
-    "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.0.0",
     "core-decorators": "^0.20.0",
     "lodash": "^4.17.5",
