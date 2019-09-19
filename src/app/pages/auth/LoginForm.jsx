@@ -1,4 +1,5 @@
 import { TextField } from 'common/forms'
+import classNames from './styles.scss'
 
 export default function LoginForm({ handleSubmit }) {
   return (
@@ -6,7 +7,7 @@ export default function LoginForm({ handleSubmit }) {
       <h2>Login</h2>
       <TextField name="email" label="Email" type="email" />
       <TextField name="password" label="Password" type="password" />
-      <button>Login</button>
+      <button className={classNames.btn}>Login</button>
     </form>
   )
 }

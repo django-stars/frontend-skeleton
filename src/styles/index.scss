@@ -1,9 +1,10 @@
 @import "bootstrap";
-@import "./layout";
 
-html,
-body,
-#root {
-  height: 100%;
-  display: block;
+:global {
+  html,
+  body,
+  #root {
+    height: 100%;
+    display: block;
+  }
 }
