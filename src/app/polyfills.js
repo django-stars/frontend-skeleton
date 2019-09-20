@@ -4,8 +4,6 @@ smoothScroll.polyfill()
 // should be after React import for IE11
 // 'require' used because inside condition
 if(!!window.MSInputMethodContext && !!document.documentMode) { // IE11 check
-  require('whatwg-fetch')
-
   // classList.toggle polyfill for IE
   DOMTokenList.prototype.toggle = function(token, force) {
     if(force === undefined) {
