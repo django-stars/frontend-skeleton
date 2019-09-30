@@ -1,24 +1,25 @@
 import { Component } from 'react'
-import { compose } from 'redux'
-import { reduxForm } from 'redux-form'
 import LoginForm from './LoginForm'
-import connectResouces from 'djangostars/resources'
+import { ResourceType } from 'ds-resource'
+import { withReduxForm } from 'common/hocs'
 
 class LoginFormContainer extends Component {
-  onSubmit = (data) => this.props.session.create(data)
-
-
   render() {
-    return <LoginForm {...this.props} onSubmit ={this.onSubmit}/>
+    return <LoginForm {...this.props}/>
   }
 }
 
-export default compose(
-  connectResouces({
+
+LoginFormContainer.propTypes = {
+  session: ResourceType,
+}
+
+export default withReduxForm({
+  form: {
+    form: 'login',
+  },
+  resource: {
     namespace: 'session',
     endpoint: 'accounts/login',
-  }),
-  reduxForm({
-    form: 'login',
-  })
-)(LoginFormContainer)
+  },
+})(LoginFormContainer)

@@ -1,11 +1,7 @@
-import withResources from './GetResources'
-import withModal from './withModal'
-import withLists from './withLists'
-import prefetchListsData from './PrefetchLists'
+import prefetchResources from './prefetchResources'
+import withReduxForm from './withReduxForm'
 
 export {
-  withResources,
-  withModal,
-  withLists,
-  prefetchListsData,
+  prefetchResources,
+  withReduxForm,
 }

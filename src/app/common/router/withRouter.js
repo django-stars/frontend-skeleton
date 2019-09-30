@@ -4,7 +4,7 @@ import get from 'lodash/get'
 import pathToRegexp from 'path-to-regexp'
 import { __RouterContext as RouterContext } from 'react-router'
 import { RouterConfigContext } from './RouterConfig'
-import { buildQueryParams } from 'common/utils/queryParams'
+import { QS } from 'api'
 
 
 export default function withNamedRouter(ChildComponent) {
@@ -23,7 +23,7 @@ export default function withNamedRouter(ChildComponent) {
   }
 }
 
-function namedHistory(location, namedRoutes) {
+function namedHistory(location = {}, namedRoutes) {
   return {
     ...location,
     push: (path, state) => location.push(custonNavigation(makePath(path, namedRoutes), state), state),
@@ -36,7 +36,7 @@ function custonNavigation(path, state) {
     path.pathname = pathToRegexp.compile(path.pathname)(state)
   }
   if(!!path.search && typeof path.search === 'object') {
-    path.search = buildQueryParams(path.search)
+    path.search = QS.buildQueryParams(path.search)
   }
   return path
 }
