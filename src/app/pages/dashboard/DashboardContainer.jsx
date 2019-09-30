@@ -1,7 +1,7 @@
 import { PureComponent } from 'react'
 import Dashboard from './Dashboard'
 import { connect } from 'react-redux'
-import { reset as logout } from 'djangostars/persist'
+import { logout } from 'common/session'
 
 class DashboardContainer extends PureComponent {
   render() {

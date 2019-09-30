@@ -1,6 +1,6 @@
 import { createContext, Component } from 'react'
 
-const RouterConfigContext = React.createContext({})
+const RouterConfigContext = createContext({})
 
 export default class RouterConfig extends Component {
   render() {
