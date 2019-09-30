@@ -12,11 +12,7 @@ import * as Sentry from '@sentry/browser'
 import createSentryMiddleware from 'redux-sentry-middleware'
 import authMiddleware from 'common/session/authMiddleware'
 import omit from 'lodash/omit'
-import axios from 'axios'
-import 'common/utils/transformRequest'
 
-axios.defaults.baseURL = `${window.location.origin}${process.env.API_URL}`
-axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 if(process.env.SENTRY_DSN) {
   Sentry.init({ dsn: process.env.SENTRY_DSN, environment: process.env.SENTRY_ENVIRONMENT })
@@ -46,7 +42,6 @@ const store = createStore(
         cacheKeys: JSON.parse(process.env.CACHE_STATE_KEYS),
         storage: localStorage,
       }),
-      authMiddleware,
       process.env.SENTRY_DSN && createSentryMiddleware(Sentry, {
         stateTransformer: (state) => { return omit(state, 'session') },
       }),
