@@ -13,7 +13,7 @@ function NamedLink(LinkComponent) {
     if(!path && !isEmpty(namedRoutes)) {
       throw new Error('no route with name: ' + to)
     }
-    if(path.search(/\/:/)) {
+    if(path.includes(':')) {
       path = pathToRegexp.compile(path)(props)
     }
     return <LinkComponent to={{ pathname: path, state }} {...props} />

@@ -26,13 +26,13 @@ export default function withNamedRouter(ChildComponent) {
 function namedHistory(location, namedRoutes) {
   return {
     ...location,
-    push: (path, state) => location.push(custonNavigation(makePath(path, namedRoutes), state), state),
-    replace: (path, state) => location.replace(custonNavigation(makePath(path, namedRoutes), state), state),
+    push: (path, state) => location.push(customNavigation(makePath(path, namedRoutes), state), state),
+    replace: (path, state) => location.replace(customNavigation(makePath(path, namedRoutes), state), state),
   }
 }
 
-function custonNavigation(path, state) {
-  if(path.pathname.search(/\/:/) > -1) {
+function customNavigation(path, state) {
+  if(path.pathname && path.pathname.includes(':')) {
     path.pathname = pathToRegexp.compile(path.pathname)(state)
   }
   if(!!path.search && typeof path.search === 'object') {
