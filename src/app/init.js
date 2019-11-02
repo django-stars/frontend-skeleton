@@ -3,7 +3,7 @@ import '../styles/index.scss'
 import API from './api'
 import { resourcesReducer } from 'ds-resource'
 import { cacheMiddleware, persistReducer } from 'ds-cache'
-import { thunkMiddleware, composeReducers, combineReducers } from 'ds-thunk'
+import { promisableActionMiddleware, composeReducers, combineReducers } from 'ds-redux-helpers'
 import { createBrowserHistory } from 'history'
 import { createStore, applyMiddleware, compose as reduxCompose } from 'redux'
 import { reducer as form } from 'redux-form'
@@ -36,7 +36,7 @@ const store = createStore(
   compose(
     applyMiddleware(...[
       authMiddleware,
-      thunkMiddleware({ API }),
+      promisableActionMiddleware({ API }),
       cacheMiddleware({
         storeKey: process.env.STORAGE_KEY,
         cacheKeys: JSON.parse(process.env.CACHE_STATE_KEYS),
