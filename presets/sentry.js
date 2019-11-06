@@ -6,6 +6,10 @@ const isSentryConfigured = process.env.SENTRY_ORG &&
   process.env.SENTRY_AUTH_TOKEN &&
   process.env.SENTRY_DSN
 
+if(isSentryConfigured) {
+  process.env.SENTRY_URL = new URL(process.env.SENTRY_DSN).origin
+}
+
 export default function(config) {
   return group([
     env('production', [
