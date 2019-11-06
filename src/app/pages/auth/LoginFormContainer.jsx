@@ -1,24 +1,27 @@
-import { PureComponent } from 'react'
-import { compose } from 'redux'
-import { reduxForm } from 'redux-form'
+import { Component } from 'react'
 import LoginForm from './LoginForm'
-import { connectFormResource } from 'common/utils/resource'
+import { withReduxForm, ResourceType } from 'ds-resource'
 
-class LoginFormContainer extends PureComponent {
+class LoginFormContainer extends Component {
   render() {
-    return <LoginForm {...this.props} />
+    return <LoginForm {...this.props}/>
   }
 }
 
-let loginResource = {
-  prefetch: false,
-  namespace: 'session',
-  endpoint: 'auth',
+
+LoginFormContainer.propTypes = {
+  session: ResourceType,
 }
 
-export default compose(
-  connectFormResource(loginResource, { form: 'login' }),
-  reduxForm({
+export default withReduxForm(
+  {
     form: 'login',
-  }),
+  },
+  {
+    namespace: 'session',
+    endpoint: 'accounts/login',
+  },
+  {
+    prefetch: false,
+  }
 )(LoginFormContainer)

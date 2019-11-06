@@ -1,5 +1,7 @@
 import { PureComponent } from 'react'
 import Dashboard from './Dashboard'
+import { connect } from 'react-redux'
+import { logout } from 'common/session'
 
 class DashboardContainer extends PureComponent {
   render() {
@@ -7,10 +9,4 @@ class DashboardContainer extends PureComponent {
   }
 }
 
-// let dashboardResource = {
-//   prefetch: false,
-//   namespace: 'dashboard',
-//   endpoint: 'dashboard',
-// }
-
-export default DashboardContainer
+export default connect(null, { logout })(DashboardContainer)

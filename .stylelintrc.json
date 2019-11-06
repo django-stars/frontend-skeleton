@@ -35,7 +35,10 @@
     "at-rule-no-vendor-prefix": true,
     "selector-no-vendor-prefix": true,
     "media-feature-name-no-vendor-prefix": true,
-    "max-empty-lines": 2
+    "max-empty-lines": 2,
+    "property-no-unknown": [true, {
+      "ignoreProperties": ["composes"]
+    }]
   },
   "syntax": "scss"
 }

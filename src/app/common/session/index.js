@@ -1,15 +1,7 @@
 import CheckAccess from './CheckAccess'
+import { logout } from './authMiddleware'
 export * as access from './access'
 
-const logout = function() {
-  return {
-    type: '@ds-resource/set-data',
-    meta: {
-      resource: { namespace: 'session' },
-    },
-    payload: {},
-  }
-}
 
 export {
   CheckAccess,
