@@ -1,8 +1,7 @@
 import api from 'api'
-import { reset } from 'ds-cache'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
-const LOGOUT_ACTION = 'LOGOUT_ACTION'
+import { LOGOUT_ACTION } from 'store/session'
 
 export default function authMiddleware(store) {
   api.interceptors.response.use({
@@ -42,15 +41,5 @@ export default function authMiddleware(store) {
       })
     }
     return next(action)
-  }
-}
-
-
-export function logout() {
-  return function(dispatch) {
-    dispatch({
-      type: LOGOUT_ACTION,
-    })
-    dispatch(reset())
   }
 }

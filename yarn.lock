@@ -2824,13 +2824,13 @@ dotenv@^6.0.0:
   version "1.0.0"
   resolved "https://github.com/django-stars/ds-fe-cache#e19e609e2c065bbaba0907d4d352f5706c0f6256"
 
-"ds-resource@https://github.com/django-stars/frontend-skeleton-contrib":
+"ds-redux-helpers@https://github.com/django-stars/ds-redux-helpers":
   version "1.0.0"
-  resolved "https://github.com/django-stars/frontend-skeleton-contrib#17036cf7a378fa70857c612507f5f7e5340781b4"
+  resolved "https://github.com/django-stars/ds-redux-helpers#191c8800b72c5cb179f36b5f8c24d9553f92d740"
 
-"ds-thunk@https://github.com/django-stars/ds-thunk":
+"ds-resource@https://github.com/django-stars/ds-frontend-resource":
   version "1.0.0"
-  resolved "https://github.com/django-stars/ds-thunk#7b370e72be0e48c995bb778f7d57013902b84a2b"
+  resolved "https://github.com/django-stars/ds-frontend-resource#aa8385deacf6d9e358a53f6e936d0c60179f9577"
 
 duplexify@^3.4.2, duplexify@^3.6.0:
   version "3.7.1"
@@ -5699,11 +5699,6 @@ mem@^4.0.0:
     map-age-cleaner "^0.1.1"
     mimic-fn "^1.0.0"
     p-is-promise "^2.0.0"
-
-memoize-one@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.1.1.tgz#047b6e3199b508eaec03504de71229b8eb1d75c0"
-  integrity sha512-HKeeBpWvqiVJD57ZUAsJNm71eHTykffzcLZVYWiVfQeI1rJtuEaS7hQiEpWfVVk18donPwJEcFKIkCmPJNOhHA==
 
 memory-fs@^0.4.0, memory-fs@^0.4.1, memory-fs@~0.4.1:
   version "0.4.1"

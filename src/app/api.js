@@ -1,6 +1,7 @@
 import API, { QueryParams } from 'ds-api'
 
-const QS = new QueryParams()
+
+export const QS = new QueryParams()
 
 const api = new API({
   baseURL: `${process.env.API_URL}`,
@@ -8,6 +9,3 @@ const api = new API({
 })
 
 export default api
-export {
-  QS,
-}
