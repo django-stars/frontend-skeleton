@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux'
 import { Router } from 'common/router'
 import { CheckCache } from 'ds-cache'
-import { hot } from 'react-hot-loader'
+import { hot } from 'react-hot-loader/root'
 import routes from './routes'
 
 
@@ -15,4 +15,4 @@ function AppProvider({ store, history }) {
   )
 }
 
-export default hot(module)(AppProvider)
+export default hot(AppProvider)
