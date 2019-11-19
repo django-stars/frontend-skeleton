@@ -2822,7 +2822,7 @@ dotenv@^6.0.0:
 
 "ds-cache@https://github.com/django-stars/ds-fe-cache":
   version "1.0.0"
-  resolved "https://github.com/django-stars/ds-fe-cache#e19e609e2c065bbaba0907d4d352f5706c0f6256"
+  resolved "https://github.com/django-stars/ds-fe-cache#c027dbf110991c8fb07b6036d9052098d4196c19"
 
 "ds-redux-helpers@https://github.com/django-stars/ds-redux-helpers":
   version "1.0.0"
