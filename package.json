@@ -42,6 +42,7 @@
     "ds-redux-helpers": "https://github.com/django-stars/ds-redux-helpers",
     "ds-resource": "https://github.com/django-stars/ds-frontend-resource",
     "lodash": "^4.17.5",
+    "path-to-regexp": "^1.7.0",
     "prop-types": "^15.7.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
