@@ -1,7 +1,7 @@
 import api from 'api'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
-import { LOGOUT_ACTION } from 'store/session'
+import { logout, LOGOUT_ACTION } from 'store/session'
 
 export default function authMiddleware(store) {
   api.interceptors.response.use({

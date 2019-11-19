@@ -1,12 +1,20 @@
 import PropTypes from 'prop-types'
 import { Modal } from 'react-bootstrap'
 
-const propTypes = {
+ModalWrapper.propTypes = {
   modalClassName: PropTypes.string,
   title: PropTypes.string,
   show: PropTypes.bool,
   onHide: PropTypes.func,
-  ModalComponent: PropTypes.element,
+  component: PropTypes.element,
+}
+
+ModalWrapper.defaultProps = {
+  modalClassName: '',
+  title: '',
+  show: false,
+  onHide: undefined,
+  component: null,
 }
 
 export default function ModalWrapper(props) {
@@ -32,5 +40,3 @@ export default function ModalWrapper(props) {
     </Modal>
   )
 }
-
-ModalWrapper.propTypes = propTypes

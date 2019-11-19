@@ -9,20 +9,28 @@ TextInput.propTypes = {
   required: PropTypes.bool,
   disabled: PropTypes.bool,
   readOnly: PropTypes.bool,
-  name: PropTypes.string,
   value: PropTypes.string,
+  name: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
 }
 
 TextInput.defaultProps = {
   inputClassName: 'input-custom',
   readOnly: false,
+  placeholder: '',
+  pattern: undefined,
+  required: undefined,
+  disabled: undefined,
+  value: '',
+  name: undefined,
 }
 
-export default function TextInput({ inputComponent, onChange, inputClassName, input, meta, label, ...props }) {
+export default function TextInput({ onChange, inputClassName, ...props }) {
   const handleChange = useCallback((e) => onChange(e.target.value), [onChange])
   return (
     <input
       {...props}
+      className={inputClassName}
       onChange={handleChange}
     />
   )

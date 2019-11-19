@@ -1,25 +1,35 @@
 import PropTypes from 'prop-types'
 
 BaseFieldLayout.propTypes = {
-  icon: PropTypes.node,
-  label: PropTypes.string,
-  prefix: PropTypes.string,
+  label: PropTypes.node,
   required: PropTypes.bool,
-  InputComponent: PropTypes.element,
+  inputComponent: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.elementType,
+    PropTypes.func,
+  ]).isRequired,
+  meta: PropTypes.object.isRequired,
+  input: PropTypes.object.isRequired,
+  prefix: PropTypes.node,
 }
 
-export default function BaseFieldLayout(props) {
-  const {
-    icon,
-    label,
-    prefix,
-    required,
-    inputComponent: InputComponent,
-  } = props
+BaseFieldLayout.defaultProps = {
+  label: null,
+  required: false,
+  prefix: undefined,
+}
 
+export default function BaseFieldLayout({
+  label,
+  required,
+  inputComponent: InputComponent,
+  meta,
+  input,
+  prefix,
+  ...rest
+}) {
   return (
     <div className='form-group'>
-      {icon}
       {label && (
         <label className='control-label'>
           {label}
@@ -30,10 +40,11 @@ export default function BaseFieldLayout(props) {
         <div className='control-element'>
           {prefix && <div className='control-prefix'>{prefix}</div>}
           <InputComponent
-            {...props}
-            {...props.input}
+            required={required}
+            {...rest}
+            {...input}
           />
-          {props.meta.error}
+          {meta.error}
         </div>
       </div>
     </div>

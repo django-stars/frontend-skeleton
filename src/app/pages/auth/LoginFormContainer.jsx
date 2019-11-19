@@ -2,6 +2,11 @@ import { Component } from 'react'
 import LoginForm from './LoginForm'
 import { withReduxForm, ResourceType } from 'ds-resource'
 
+const propTypes = {
+  session: ResourceType.isRequired,
+}
+
+
 class LoginFormContainer extends Component {
   render() {
     return <LoginForm {...this.props}/>
@@ -9,9 +14,7 @@ class LoginFormContainer extends Component {
 }
 
 
-LoginFormContainer.propTypes = {
-  session: ResourceType,
-}
+LoginFormContainer.propTypes = propTypes
 
 export default withReduxForm(
   {
