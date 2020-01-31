@@ -23,8 +23,8 @@ function NamedLink(LinkComponent) {
     if(!path && !isEmpty(namedRoutes)) {
       throw new Error('no route with name: ' + to)
     }
-    if(path.includes(':')) {
-      path = pathToRegexp.compile(path)(props)
+    if(path.search(/\/:/)) {
+      path = compile(path)(props)
     }
     const omitProps = useMemo(() => parse(get(namedRoutes, to, '')).filter(item => item.name).map(({ name }) => name), [path])
     return <LinkComponent to={{ pathname: path, state }} {...omit(props, omitProps)} />
