@@ -79,7 +79,7 @@
     "babel-loader": "^8.0.5",
     "babel-plugin-react-require": "^3.1.1",
     "clean-webpack-plugin": "^1.0.1",
-    "core-js": "2",
+    "core-js": "3",
     "dotenv": "^6.0.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.10.0",
