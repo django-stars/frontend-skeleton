@@ -1,19 +1,6 @@
-import PropTypes from 'prop-types'
+import DashboardView from './DashboardView'
+import { connect } from 'react-redux'
+import { logout } from 'store/session'
 
-Dashboard.propTypes = {
-  logout: PropTypes.func.isRequired,
-  text: PropTypes.string,
-}
 
-Dashboard.defaultProps = {
-  text: '',
-}
-
-export default function Dashboard({ logout, text }) {
-  return (
-    <div>
-      <h1>{text}</h1>
-      <button onClick={logout}>Logout</button>
-    </div>
-  )
-}
+export default connect(null, { logout })(DashboardView)

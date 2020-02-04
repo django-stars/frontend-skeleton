@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux'
 import { Router } from 'common/router'
-import { CheckCache } from 'ds-cache'
+import { CheckCache } from '@ds-frontend/cache'
 import { hot } from 'react-hot-loader/root'
 import routes from './routes'
 import PropTypes from 'prop-types'

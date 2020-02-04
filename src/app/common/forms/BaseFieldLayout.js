@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 BaseFieldLayout.propTypes = {
@@ -14,20 +15,29 @@ BaseFieldLayout.propTypes = {
 }
 
 BaseFieldLayout.defaultProps = {
-  label: null,
+  label: undefined,
   required: false,
   prefix: undefined,
 }
 
 export default function BaseFieldLayout({
   label,
+  prefix,
   required,
   inputComponent: InputComponent,
   meta,
   input,
-  prefix,
   ...rest
 }) {
+  const error = useMemo(() => {
+    if(meta.submitError && !meta.dirtySinceLastSubmit) {
+      return meta.submitError
+    }
+    if(meta.error && meta.touched) {
+      return meta.error
+    }
+  }, [meta.error, meta.touched, meta.dirtySinceLastSubmit, meta.submitError])
+
   return (
     <div className='form-group'>
       {label && (
@@ -44,7 +54,7 @@ export default function BaseFieldLayout({
             {...rest}
             {...input}
           />
-          {meta.error}
+          <p>{error}</p>
         </div>
       </div>
     </div>

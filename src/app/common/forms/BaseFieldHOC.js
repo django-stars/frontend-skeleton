@@ -1,4 +1,4 @@
-import { Field } from 'redux-form'
+import { Field } from 'react-final-form'
 import BaseFieldLayout from './BaseFieldLayout'
 
 export default function BaseFieldHOC(Component) {
