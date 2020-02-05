@@ -5,8 +5,27 @@ import { Modal, ModalBody } from 'reactstrap'
 import { ModalConfirmation } from 'common/widgets'
 
 // TODO onBeforeUnload
+const propTypes = {
+  onConfirm: PropTypes.func.isRequired,
+  isLocationAllowed: PropTypes.func,
+  title: PropTypes.string,
+  message: PropTypes.string.isRequired,
+}
 
-class Prompt extends Component {
+const defaultProps = {
+  title: 'Warning!',
+  isLocationAllowed: function(location) { return false },
+}
+
+const contextTypes = {
+  router: PropTypes.shape({
+    history: PropTypes.shape({
+      block: PropTypes.func.isRequired,
+    }).isRequired,
+  }).isRequired,
+}
+
+export default class Prompt extends Component {
   constructor(...args) {
     super(...args)
     this.state = {
@@ -91,23 +110,6 @@ class Prompt extends Component {
   }
 }
 
-Prompt.contextTypes = {
-  router: PropTypes.shape({
-    history: PropTypes.shape({
-      block: PropTypes.func.isRequired,
-    }).isRequired,
-  }).isRequired,
-}
-
-Prompt.propTypes = {
-  isLocationAllowed: PropTypes.func,
-  title: PropTypes.string,
-  message: PropTypes.string.isRequired,
-}
-
-Prompt.defaultProps = {
-  title: 'Warning!',
-  isLocationAllowed: function(location) { return false },
-}
-
-export default Prompt
+Prompt.contextTypes = contextTypes
+Prompt.propTypes = propTypes
+Prompt.defaultProps = defaultProps

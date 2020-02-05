@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { Component } from 'react'
 import { compose } from 'redux'
@@ -6,6 +7,10 @@ import { reduxForm } from 'redux-form'
 // import { connectResource, connectFormResource } from 'common/utils/resource'
 import Test from './Test'
 
+
+const propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+}
 
 class TestContainer extends Component {
   @autobind
@@ -21,6 +26,8 @@ class TestContainer extends Component {
     />
   }
 }
+
+TestContainer.propTypes = propTypes
 
 /*
 let testResource = {

@@ -1,4 +1,9 @@
+import PropTypes from 'prop-types'
 import { TextField } from 'common/forms'
+
+LoginForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+}
 
 export default function LoginForm({ handleSubmit }) {
   return (

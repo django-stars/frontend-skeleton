@@ -9,14 +9,20 @@ DateInput.propTypes = {
   monthsShown: PropTypes.number,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
-  name: PropTypes.string,
   dateFormat: PropTypes.string,
   value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  name: PropTypes.string,
 }
 DateInput.defaultProps = {
   inputClassName: 'input-custom',
   monthsShown: 1,
   dateFormat: 'DD.MM.YYYY',
+  placeholder: '',
+  required: false,
+  disabled: false,
+  value: '',
+  name: undefined,
 }
 
 export default function DateInput({
@@ -24,16 +30,15 @@ export default function DateInput({
   monthsShown,
   placeholder,
   disabled,
-  name,
   value,
   dateFormat,
   onChange,
+  name,
 }) {
   const handleChange = useCallback((value) => onChange(dateToValue(value, dateFormat)), [onChange])
   return (
     <div className='datepicker'>
       <DatePicker
-        name={name}
         selected={valueToDate(value, dateFormat)}
         onChange={handleChange}
         disabled={disabled}
@@ -41,6 +46,7 @@ export default function DateInput({
         dateFormat={dateFormat}
         monthsShown={monthsShown}
         placeholderText={placeholder}
+        name={name}
       />
     </div>
   )

@@ -1,4 +1,9 @@
+import PropTypes from 'prop-types'
 import { TextField } from 'common/forms'
+
+Test.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+}
 
 export default function Test({ onSubmit }) {
   return (

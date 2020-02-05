@@ -8,37 +8,30 @@ TextAreaInput.propTypes = {
   required: PropTypes.bool,
   rows: PropTypes.number,
   cols: PropTypes.number,
-  name: PropTypes.string,
   value: PropTypes.string,
+  name: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
 }
+
 TextAreaInput.defaultProps = {
   inputClassName: 'input-custom',
+  placeholder: '',
+  disabled: false,
+  required: false,
+  rows: undefined,
+  cols: undefined,
+  value: '',
+  name: undefined,
 }
 
 
 export default function TextAreaInput({
   onChange,
   inputClassName,
-  placeholder,
-  disabled,
-  required,
-  rows,
-  cols,
-  name,
-  value,
+  ...props
 }) {
   const handleChange = useCallback((e) => onChange(e.target.value), [onChange])
   return (
-    <textarea
-      name={name}
-      className={inputClassName}
-      placeholder={placeholder}
-      disabled={disabled}
-      required={required}
-      rows={rows}
-      cols={cols}
-      value={value}
-      onChange={handleChange}
-    ></textarea>
+    <textarea {...props} onChange={handleChange} className={inputClassName}></textarea>
   )
 }
