@@ -1,5 +1,4 @@
 import { Route, Redirect, Switch } from 'react-router-dom'
-import set from 'lodash/set'
 import isEmpty from 'lodash/isEmpty'
 import { CheckAccess } from 'common/session'
 import PropTypes from 'prop-types'
@@ -55,10 +54,6 @@ export default function RouteRecursive({ access, layout: Layout, component: Comp
       }
       return <Redirect to={newPath} />
     }
-  }
-
-  if(route.name) {
-    set(route, 'location.state.name', route.name)
   }
 
   let rendered = (

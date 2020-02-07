@@ -1,6 +1,8 @@
 import { useContext, useMemo } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
+import findKey from 'lodash/findKey'
+import matches from 'lodash/matches'
 import pathToRegexp from 'path-to-regexp'
 import { __RouterContext as RouterContext } from 'react-router'
 import { RouterConfigContext } from './RouterConfig'
@@ -11,12 +13,19 @@ export default function withNamedRouter(ChildComponent) {
   return function NamedRouter(props) {
     const routerValue = useContext(RouterContext)
     const namedRoutes = useContext(RouterConfigContext)
+    const location = {
+      ...routerValue.location,
+      state: {
+        ...(get(routerValue.location, 'state', {})),
+        name: findKey(namedRoutes, matches(routerValue.location.pathname)),
+      },
+    }
     const history = useMemo(() => namedHistory(routerValue.history, namedRoutes), [routerValue])
     return (
       <ChildComponent
         {...props}
         history={history}
-        location={routerValue.location}
+        location={location}
         match={routerValue.match}
       />
     )
