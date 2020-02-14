@@ -10,7 +10,12 @@ export default function(config) {
         },
       }),
     ]),
-    match(['*.css', '*.sass', '*.scss'], { exclude: path.resolve('node_modules') }, [
+    // NOTE we can't use path.resolve for exclude
+    // path.resolve doesn't resolve symlinks
+    // in docker containers node_modules folder usually placed in separate symlinked directories
+    // path.resolve will provide incorrect string, so we need to use RegExp here
+    // more documentation here: https://webpack.js.org/configuration/module/#condition
+    match(['*.css', '*.sass', '*.scss'], { exclude: /node_modules/ }, [
       process.env.SSR ? css() : css.modules({ camelCase: true }),
       sass({
         includePaths: [
