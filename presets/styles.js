@@ -10,7 +10,7 @@ export default function(config) {
         },
       }),
     ]),
-    match(['*.css', '*.sass', '*.scss'], { exclude: path.resolve('node_modules') }, [
+    match(['*.css', '*.sass', '*.scss'], { exclude: /node_modules/ }, [
       process.env.SSR ? css() : css.modules({ camelCase: true }),
       sass({
         includePaths: [
