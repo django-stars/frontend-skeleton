@@ -4,7 +4,10 @@
     '@babel/preset-env', 
     {
       'useBuiltIns': 'usage',
-      'targets': '> 0.25%, last 2 versions, Firefox ESR, not dead'
+      'corejs': {
+        version: 3,
+        proposals: true
+      }
     }
   ]],
   'plugins': [

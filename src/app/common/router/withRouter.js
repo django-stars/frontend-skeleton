@@ -3,7 +3,7 @@ import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import findKey from 'lodash/findKey'
 import matches from 'lodash/matches'
-import pathToRegexp from 'path-to-regexp'
+import { compile } from 'path-to-regexp'
 import { __RouterContext as RouterContext } from 'react-router'
 import { RouterConfigContext } from './RouterConfig'
 import { QS } from 'api'
@@ -42,7 +42,7 @@ function namedHistory(location = {}, namedRoutes) {
 
 function custonNavigation(path, state) {
   if(path.pathname.search(/\/:/) > -1) {
-    path.pathname = pathToRegexp.compile(path.pathname)(state)
+    path.pathname = compile(path.pathname)(state)
   }
   if(!!path.search && typeof path.search === 'object') {
     path.search = QS.buildQueryParams(path.search)

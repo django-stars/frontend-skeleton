@@ -5,13 +5,14 @@ import { resourcesReducer } from 'ds-resource'
 import { cacheMiddleware, persistReducer } from 'ds-cache'
 import { promisableActionMiddleware, composeReducers, combineReducers } from 'ds-redux-helpers'
 import { createBrowserHistory } from 'history'
-import { createStore, applyMiddleware, compose as reduxCompose } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { reducer as form } from 'redux-form'
 import { reducers } from 'store'
 import * as Sentry from '@sentry/browser'
 import createSentryMiddleware from 'redux-sentry-middleware'
 import authMiddleware from 'common/session/authMiddleware'
 import omit from 'lodash/omit'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 
 if(process.env.SENTRY_DSN) {
@@ -20,7 +21,9 @@ if(process.env.SENTRY_DSN) {
 
 
 // support for redux dev tools
-const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose
+const compose = composeWithDevTools({
+  name: 'ds-app',
+})
 
 const store = createStore(
   composeReducers(
