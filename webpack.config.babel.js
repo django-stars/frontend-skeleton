@@ -49,6 +49,12 @@ module.exports = createConfig([
     ],
     alias: {
       'react-dom': process.env.NODE_ENV !== 'development' ? 'react-dom' : '@hot-loader/react-dom',
+      '@ds-frontend/cache': 'ds-frontend/packages/cache',
+      '@ds-frontend/api': 'ds-frontend/packages/api',
+      '@ds-frontend/i18n': 'ds-frontend/packages/i18n',
+      '@ds-frontend/queryParams': 'ds-frontend/packages/queryParams',
+      '@ds-frontend/redux-helpers': 'ds-frontend/packages/redux-helpers',
+      '@ds-frontend/resource': 'ds-frontend/packages/resource',
     },
     extensions: ['.js', '.jsx', '.json', '.css', '.sass', '.scss'],
   }),

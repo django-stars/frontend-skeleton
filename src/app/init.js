@@ -1,12 +1,11 @@
 import 'polyfills' // should be first
 import '../styles/index.scss'
 import API from './api'
-import { resourcesReducer } from 'ds-resource'
-import { cacheMiddleware, persistReducer } from 'ds-cache'
-import { promisableActionMiddleware, composeReducers, combineReducers } from 'ds-redux-helpers'
+import { resourcesReducer } from '@ds-frontend/resource'
+import { cacheMiddleware, persistReducer } from '@ds-frontend/cache'
+import { promisableActionMiddleware, composeReducers, combineReducers } from '@ds-frontend/redux-helpers'
 import { createBrowserHistory } from 'history'
 import { createStore, applyMiddleware } from 'redux'
-import { reducer as form } from 'redux-form'
 import { reducers } from 'store'
 import * as Sentry from '@sentry/browser'
 import createSentryMiddleware from 'redux-sentry-middleware'
@@ -28,10 +27,7 @@ const compose = composeWithDevTools({
 const store = createStore(
   composeReducers(
     {},
-    combineReducers({
-      form,
-      ...reducers,
-    }),
+    combineReducers(reducers),
     persistReducer(JSON.parse(process.env.CACHE_STATE_PERSIST_KEYS)),
     resourcesReducer,
   ),

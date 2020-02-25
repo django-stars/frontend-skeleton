@@ -3,7 +3,6 @@ import AppLayout from 'layouts/AppLayout'
 
 import { routes as auth } from 'pages/auth'
 import { routes as dashboard } from 'pages/dashboard'
-import { routes as test } from 'pages/test'
 
 import { access } from 'common/session'
 
@@ -30,12 +29,6 @@ const appRoutes = [
         access: access.F_PROTECTED,
         accessRedirectTo: '/auth',
         name: 'dashboard',
-      },
-      {
-        path: '/test',
-        routes: test,
-        access: access.F_PUBLIC,
-        name: 'test',
       },
       {
         component: NotFound,

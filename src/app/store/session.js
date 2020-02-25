@@ -1,4 +1,4 @@
-import { reset } from 'ds-cache'
+import { reset } from '@ds-frontend/cache'
 
 export const LOGOUT_ACTION = 'LOGOUT_ACTION'
 

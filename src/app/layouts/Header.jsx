@@ -6,7 +6,6 @@ export default class Header extends Component {
     return (
       <header>
         <Link to="root">Logo</Link>
-        <Link to="test">test</Link>
       </header>
     )
   }

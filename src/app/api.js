@@ -1,5 +1,5 @@
-import API, { QueryParams } from 'ds-api'
-
+import { API } from '@ds-frontend/api'
+import { QueryParams } from '@ds-frontend/queryParams'
 
 export const QS = new QueryParams()
 
