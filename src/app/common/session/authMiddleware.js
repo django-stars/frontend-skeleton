@@ -1,6 +1,5 @@
 import api from 'api'
 import get from 'lodash/get'
-import isEmpty from 'lodash/isEmpty'
 import { logout, LOGOUT_ACTION } from 'store/session'
 
 export default function authMiddleware(store) {
@@ -10,10 +9,7 @@ export default function authMiddleware(store) {
         store.dispatch(logout())
         throw new Error(response.statusText)
       }
-      if(!isEmpty(data)) {
-        throw data
-      }
-      return Promise.reject({ error: get(data, 'message', response.statusText) })
+      return { data, response }
     },
   })
 
