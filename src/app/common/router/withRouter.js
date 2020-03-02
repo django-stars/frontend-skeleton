@@ -2,8 +2,7 @@ import { useContext, useMemo } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import findKey from 'lodash/findKey'
-import matches from 'lodash/matches'
-import { compile } from 'path-to-regexp'
+import { compile, match } from 'path-to-regexp'
 import { __RouterContext as RouterContext } from 'react-router'
 import { RouterConfigContext } from './RouterConfig'
 import { QS } from 'api'
@@ -17,7 +16,7 @@ export default function withNamedRouter(ChildComponent) {
       ...routerValue.location,
       state: {
         ...(get(routerValue.location, 'state', {})),
-        name: findKey(namedRoutes, matches(routerValue.location.pathname)),
+        name: findKey(namedRoutes, key => match(key)(routerValue.location.pathname)),
       },
     }
     const history = useMemo(() => namedHistory(routerValue.history, namedRoutes), [routerValue])
