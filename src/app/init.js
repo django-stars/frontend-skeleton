@@ -21,7 +21,7 @@ if(process.env.SENTRY_DSN) {
 
 // support for redux dev tools
 const compose = composeWithDevTools({
-  name: 'ds-app',
+  name: process.env.APP_NAME,
 })
 
 const store = createStore(
