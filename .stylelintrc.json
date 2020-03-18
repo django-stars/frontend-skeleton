@@ -24,6 +24,8 @@
     "string-quotes": "double",
     "no-duplicate-selectors": true,
     "color-named": "never",
+    "color-hex-length": "long",
+    "color-hex-case": "lower",
     "selector-attribute-quotes": "always",
     "declaration-block-trailing-semicolon": "always",
     "declaration-colon-space-before": "never",
