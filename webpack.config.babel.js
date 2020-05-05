@@ -1,7 +1,7 @@
 import './init-env' // SHOULD BE FIRST
 
 import path from 'path'
-import CleanWebpackPlugin from 'clean-webpack-plugin'
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import WriteFilePlugin from 'write-file-webpack-plugin'
 // import ReloadPlugin from 'reload-html-webpack-plugin'
 
@@ -77,11 +77,7 @@ module.exports = createConfig([
 
   addPlugins([
     // clean distribution folder before compile
-    new CleanWebpackPlugin([process.env.OUTPUT_PATH], {
-      root: __dirname,
-      // can't use `true` here (see: https://github.com/johnagan/clean-webpack-plugin/issues/92)
-      beforeEmit: process.env.NODE_ENV !== 'development',
-    }),
+    new CleanWebpackPlugin(),
   ]),
 
   customConfig({
@@ -109,17 +105,11 @@ module.exports = createConfig([
       clientLogLevel: 'info', // FIXME move to VERBOSE mode (add loglevel/verbose option)
       stats: 'minimal',
       host: process.env.DEV_SERVER_HOST,
-
-      /*
-      setup: function(app) {
-        app.use(morgan('dev'))
-      },
-      */
-
       allowedHosts: [
         '.localhost',
         `.${process.env.MAIN_HOST}`,
       ],
+      hot: true,
     }),
     sourceMaps('eval-source-map'),
 
