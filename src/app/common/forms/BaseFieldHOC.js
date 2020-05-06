@@ -7,8 +7,14 @@ export default function BaseFieldHOC(Component) {
       <Field
         component={BaseFieldLayout}
         inputComponent={Component}
+        parse={identity}
         {...props}
       />
     )
   }
+}
+
+// https://github.com/final-form/react-final-form/issues/130
+function identity(value) {
+  return value
 }
