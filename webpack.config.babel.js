@@ -30,6 +30,7 @@ import {
   proxy,
   sentry,
   babel,
+  i18n,
 } from './presets'
 
 module.exports = createConfig([
@@ -128,6 +129,7 @@ module.exports = createConfig([
   react(),
   sentry(),
   // sass(),
+  i18n(),
   styles(),
   // postcss(),
   assets(),

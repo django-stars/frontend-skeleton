@@ -50,5 +50,12 @@
     "react/prop-types": ["error"],
     "react/require-default-props": ["error"],
     "react/display-name": ["off", { "ignoreTranspilerName": true }]
+  },
+  "globals": {
+    "gettext": "readonly",
+    "pgettext": "readonly",
+    "ngettext": "readonly",
+    "npgettext": "readonly",
+    "interpolate": "readonly"
   }
 }
