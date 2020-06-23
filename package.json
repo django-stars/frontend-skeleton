@@ -35,6 +35,7 @@
   "dependencies": {
     "@sentry/browser": "^5.9.0",
     "abortcontroller-polyfill": "^1.3.0",
+    "antd": "^4.3.0",
     "bootstrap": "^4.0.0",
     "core-decorators": "^0.20.0",
     "ds-frontend": "https://github.com/django-stars/ds-frontend.git#9dbaa21",
