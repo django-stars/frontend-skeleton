@@ -37,6 +37,7 @@ export default function BaseFieldLayout({
       return meta.error
     }
   }, [meta.error, meta.touched, meta.dirtySinceLastSubmit, meta.submitError])
+  const formattedError = useMemo(() => Array.isArray(error) ? error[0] : error, [error])
 
   return (
     <div className='form-group'>
@@ -54,7 +55,7 @@ export default function BaseFieldLayout({
             {...rest}
             {...input}
           />
-          <p>{error}</p>
+          <p>{formattedError}</p>
         </div>
       </div>
     </div>
