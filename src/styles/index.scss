@@ -1,9 +1,18 @@
+/* stylelint-disable selector-pseudo-class-no-unknown  */
 @import "bootstrap";
-@import "./layout";
+@import "./variables.scss";
 
-html,
-body,
-#root {
-  height: 100%;
-  display: block;
+:global {
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    display: block;
+    margin: 0;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    color: $gray-800;
+  }
 }
