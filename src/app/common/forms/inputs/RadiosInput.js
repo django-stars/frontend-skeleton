@@ -16,7 +16,7 @@ RadiosInput.defaultProps = {
   labelKey: 'label',
 }
 
-function RadiosInput({
+export default function RadiosInput({
   onChange,
   inputClassName,
   value,
