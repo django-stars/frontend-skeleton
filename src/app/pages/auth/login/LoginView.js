@@ -20,7 +20,7 @@ export default function LoginView({ handleSubmit, submitting, valid }) {
       <h2>Login</h2>
       <TextField name="email" label="Email" type="email" />
       <TextField name="password" label="Password" type="password" />
-      <button disabled={submitting || !valid }>Login</button>
+      <button className={classNames.loginButton} disabled={submitting || !valid }><i className={classNames.keyIcon} />Login</button>
     </form>
   )
 }
