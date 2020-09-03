@@ -46,6 +46,19 @@ function makeProxyContext(paths, targetUrl) {
     target: urlData.protocol + '//' + urlData.host,
     router: makeRouter(urlData),
     context: paths,
+    cookieDomainRewrite: urlData.host,
+    onProxyRes: cookieRewrite,
+  }
+}
+
+function cookieRewrite(response, req) {
+  if(req.protocol === 'http') {
+    if(response.headers['set-cookie']) {
+      const cookies = response.headers['set-cookie'].map(cookie =>
+        cookie.replace(/; secure/gi, '')
+      )
+      response.headers['set-cookie'] = cookies
+    }
   }
 }
 
