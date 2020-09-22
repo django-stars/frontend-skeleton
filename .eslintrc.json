@@ -49,6 +49,7 @@
     "react/jsx-uses-vars": ["error"],
     "react/prop-types": ["error"],
     "react/require-default-props": ["error"],
-    "react/display-name": ["off", { "ignoreTranspilerName": true }]
+    "react/display-name": ["off", { "ignoreTranspilerName": true }],
+    "jsx-quotes": ["error", "prefer-double"]
   }
 }
