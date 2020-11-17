@@ -1,16 +1,30 @@
-import { Router } from 'react-router'
+import { StaticRouter, BrowserRouter } from 'react-router-dom'
+import { createLocation } from 'history'
 import PropTypes from 'prop-types'
 import RouteRecursive from './RouteRecursive'
 import RouterConfig from './RouterConfig'
 
+
 AppRouter.propTypes = {
   routes: PropTypes.array.isRequired,
-  history: PropTypes.object.isRequired,
+  routerContext: PropTypes.object,
+  origin: PropTypes.string,
+  staticUrl: PropTypes.string,
 }
 
-export default function AppRouter({ routes, history }) {
+AppRouter.defaultProps = {
+  routerContext: {},
+  origin: undefined,
+  staticUrl: undefined,
+}
+
+export default function AppRouter({ routes, routerContext, origin, staticUrl }) {
+  const Router = process.env.SSR ? StaticRouter : BrowserRouter
+  const location = createLocation(staticUrl)
+  location.origin = origin
+
   return (
-    <Router history={history}>
+    <Router location={location} context={routerContext}>
       <RouterConfig routes={routes}>
         <RouteRecursive routes={routes} />
       </RouterConfig>
