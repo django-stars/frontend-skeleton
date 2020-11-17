@@ -17,7 +17,7 @@ function configureProxy() {
     makeProxyContext(JSON.parse(process.env.PROXY), process.env.PROXY_URL),
   ]
 
-  if(process.env.SSR) {
+  if(!process.env.SPA) {
     // proxy templates
     ret.push(
       makeProxyContext([

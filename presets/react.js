@@ -1,7 +1,7 @@
 import { group, babel } from 'webpack-blocks'
 
 
-export default function(config) {
+export default function({ ssr = false } = {}) {
   return group([
     babel({
       presets: [
@@ -11,9 +11,7 @@ export default function(config) {
 
       plugins: [
         'babel-plugin-react-require',
-        // need for react HMR
-        // 'extract-hoc/babel',
-        'react-hot-loader/babel',
+        ...(ssr ? [] : ['react-hot-loader/babel']),
       ],
     }),
 

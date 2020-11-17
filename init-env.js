@@ -22,5 +22,10 @@ const configDefault = dotenv.config({
 dotenvExpand(config)
 dotenvExpand(configDefault)
 
+if(!Boolean(process.env.SPA) && Boolean(process.env.SSR)) {
+  console.warn('!!! SSR is disabled for non SPA applications !!!')
+  // set APP_NAME from package.json
+  process.env.SSR = ''
+}
 
 export default process.env

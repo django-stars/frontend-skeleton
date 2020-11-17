@@ -34,7 +34,8 @@
     "keyword-spacing": ["error", { "overrides": {
       "if": { "after": false },
       "for": { "after": false },
-      "while": { "after": false }
+      "while": { "after": false },
+      "catch": { "after": false }
     }}],
     "spaced-comment": ["error", "always", {
       "line": { "exceptions": ["/"], "markers": ["/"] },

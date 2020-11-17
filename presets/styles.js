@@ -16,13 +16,15 @@ export default function(config) {
     // path.resolve will provide incorrect string, so we need to use RegExp here
     // more documentation here: https://webpack.js.org/configuration/module/#condition
     match(['*.css', '*.sass', '*.scss'], { exclude: /node_modules/ }, [
-      process.env.SSR ? css() : css.modules({ camelCase: true }),
+      css.modules({ localsConvention: 'camelCaseOnly' }),
       sass({
-        includePaths: [
-          path.resolve('./src/styles'),
-          path.resolve('./node_modules/bootstrap/scss'),
-          path.resolve('./node_modules'),
-        ],
+        sassOptions: {
+          includePaths: [
+            path.resolve('./src/styles'),
+            path.resolve('./node_modules/bootstrap/scss'),
+            path.resolve('./node_modules'),
+          ],
+        }
       }),
       postcss(),
       env('production', [

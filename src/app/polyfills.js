@@ -1,9 +1,6 @@
-import smoothScroll from 'smoothscroll-polyfill'
-smoothScroll.polyfill()
-
 // should be after React import for IE11
 // 'require' used because inside condition
-if(!!window.MSInputMethodContext && !!document.documentMode) { // IE11 check
+if(typeof window !== 'undefined' && !!window.MSInputMethodContext && !!document.documentMode) { // IE11 check
   require('whatwg-fetch')
   require('abortcontroller-polyfill/dist/polyfill-patch-fetch')
 

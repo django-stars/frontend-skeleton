@@ -1,10 +1,13 @@
 import 'react-hot-loader'
-import { render } from 'react-dom'
-import { store, history } from './init'
+import { render, hydrate } from 'react-dom'
+import { store } from './init'
 import App from './App'
 
 
-render(
-  <App store={store} history={history} />,
+let needHydrate = Boolean(document.getElementById('root').dataset.initialState)
+let renderDOM = needHydrate ? hydrate : render
+
+renderDOM(
+  <App store={store} />,
   document.getElementById('root'),
 )

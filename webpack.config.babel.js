@@ -2,8 +2,6 @@ import './init-env' // SHOULD BE FIRST
 
 import path from 'path'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
-import WriteFilePlugin from 'write-file-webpack-plugin'
-// import ReloadPlugin from 'reload-html-webpack-plugin'
 
 import {
   addPlugins,
@@ -17,7 +15,6 @@ import {
   sourceMaps,
   when,
   customConfig,
-
 } from 'webpack-blocks'
 
 import {
@@ -30,25 +27,19 @@ import {
   proxy,
   sentry,
   babel,
+  ssr,
+  devServer as devServerPreset,
 } from './presets'
 
-module.exports = createConfig([
-
-  entryPoint({
-    bundle: 'index.js',
-    // styles: './src/sass/app.sass',
-    // you can add you own entries here (also check SplitChunksPlugin)
-    // code splitting guide: https://webpack.js.org/guides/code-splitting/
-    // SplitChunksPlugin: https://webpack.js.org/plugins/split-chunks-plugin/
-  }),
-
+const baseConfig = [
   resolve({
     modules: [
       path.resolve(`${process.env.SOURCES_PATH}/app`),
       'node_modules',
     ],
+
     alias: {
-      'react-dom': process.env.NODE_ENV !== 'development' ? 'react-dom' : '@hot-loader/react-dom',
+      // ds internal packages mapping
       '@ds-frontend/cache': 'ds-frontend/packages/cache',
       '@ds-frontend/api': 'ds-frontend/packages/api',
       '@ds-frontend/i18n': 'ds-frontend/packages/i18n',
@@ -56,16 +47,15 @@ module.exports = createConfig([
       '@ds-frontend/redux-helpers': 'ds-frontend/packages/redux-helpers',
       '@ds-frontend/resource': 'ds-frontend/packages/resource',
     },
+
     extensions: ['.js', '.jsx', '.json', '.css', '.sass', '.scss'],
   }),
 
   setOutput({
     path: path.resolve(`${process.env.OUTPUT_PATH}${process.env.PUBLIC_PATH}`),
     publicPath: process.env.PUBLIC_URL,
-    // NOTE: 'name' here is the name of entry point
+    // [name] is entry point name
     filename: '[name].js',
-    // TODO check are we need this (HMR?)
-    // chunkFilename: '[id].chunk.js',
     pathinfo: process.env.NODE_ENV === 'development',
   }),
 
@@ -75,12 +65,40 @@ module.exports = createConfig([
     'CACHE_STATE_KEYS', 'STORAGE_KEY', 'SENTRY_DSN', 'SENTRY_ENVIRONMENT', 'CACHE_STATE_PERSIST_KEYS', 'LIMIT',
   ]),
 
-  addPlugins([
-    // clean distribution folder before compile
-    new CleanWebpackPlugin(),
+  // TODO update CleanWebpackPlugin and enable it back for SSR. this needs a lot of testing
+  when(!process.env.SSR, [
+    addPlugins([
+      // clean distribution folder before compile
+      new CleanWebpackPlugin(),
+    ]),
   ]),
 
+
+  babel(),
+]
+
+const webConfig = createConfig([
+  ...baseConfig,
+
+  when(!process.env.NODE_ENV === 'development', [
+    resolve({
+      alias: {
+        // TODO replace with Fast Refresh
+        // https://github.com/facebook/react/issues/16604
+        'react-dom': '@hot-loader/react-dom',
+      }
+    })
+  ]),
+
+  entryPoint({
+    bundle: 'index.js',
+  }),
+
+  when(!process.env.SPA, [spa()]),
+
   customConfig({
+    name: 'web',
+
     optimization: {
       splitChunks: {
         cacheGroups: {
@@ -98,37 +116,57 @@ module.exports = createConfig([
   }),
 
   env('development', [
-    devServer({
-      contentBase: path.resolve(`${process.env.OUTPUT_PATH}`),
-      port: process.env.DEV_SERVER_PORT || 3000,
-      overlay: true,
-      clientLogLevel: 'info', // FIXME move to VERBOSE mode (add loglevel/verbose option)
-      stats: 'minimal',
-      host: process.env.DEV_SERVER_HOST,
-      allowedHosts: [
-        '.localhost',
-        `.${process.env.MAIN_HOST}`,
-      ],
-      hot: true,
-    }),
+    devServerPreset(),
     sourceMaps('eval-source-map'),
-
-    addPlugins([
-      // write generated files to filesystem (for debug)
-      // FIXME are we realy need this???
-      new WriteFilePlugin(),
-      // new ReloadPlugin(),
-    ]),
   ]),
 
-  when(!process.env.SSR, [spa()]),
   proxy(),
-
-  babel(),
-  react(),
-  sentry(),
-  // sass(),
   styles(),
-  // postcss(),
   assets(),
+  sentry(),
+
+  react(),
+  // sass(),
+  // postcss(),
 ])
+
+const ssrConfig = createConfig([
+  ...baseConfig,
+
+  entryPoint({
+    ssr: 'ssr.js',
+  }),
+
+  resolve({
+    alias: {
+      '@ds-frontend/api': path.resolve(`${process.env.SOURCES_PATH}/ssr/api.js`),
+    }
+  }),
+
+  setOutput({
+    path: path.resolve(`${process.env.OUTPUT_PATH}/ssr/`),
+    libraryTarget: 'commonjs2',
+  }),
+
+  setEnv([
+    'PROXY_URL',
+    'SSR',
+  ]),
+
+  customConfig({
+    name: 'ssr',
+    target: 'node',
+  }),
+
+  ssr(),
+
+  react({ ssr: true }),
+
+  assets({ ssr: true }),
+
+  customConfig({
+    optimization: { minimize: false },
+  }),
+])
+
+module.exports = process.env.SSR ? [ webConfig, ssrConfig ] : webConfig
