@@ -26,11 +26,11 @@ export default function authMiddleware(store) {
     if(nextToken !== token && nextToken) {
       removeRequestInterceptor && removeRequestInterceptor()
       removeRequestInterceptor = api.interceptors.request.use({
-        onSuccess: (consfigs) => {
-          const headers = new Headers(consfigs.headers)
+        onSuccess: (configs) => {
+          const headers = new Headers(configs.headers)
           headers.set('Authorization', `JWT ${nextToken}`)
           return {
-            ...consfigs,
+            ...configs,
             headers,
           }
         },

@@ -11,6 +11,8 @@ import * as Sentry from '@sentry/browser'
 import createSentryMiddleware from 'redux-sentry-middleware'
 import authMiddleware from 'common/session/authMiddleware'
 import omit from 'lodash/omit'
+// TODO migrate to the official dev tools
+// https://github.com/reduxjs/redux-devtools/tree/master/packages/redux-devtools
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 
