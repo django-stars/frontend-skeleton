@@ -50,6 +50,11 @@
     "react/prop-types": ["error"],
     "react/require-default-props": ["error"],
     "react/display-name": ["off", { "ignoreTranspilerName": true }],
-    "jsx-quotes": ["error", "prefer-double"]
+    "jsx-quotes": ["error", "prefer-double"],
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "block", "next": "*" },
+      { "blankLine": "always", "prev": "block-like", "next": "*" }
+    ]
   }
 }
