@@ -1,0 +1,11 @@
+@import 'variables';
+
+.wrapper {
+  height: 100%;
+  background-color: $gray-100;
+}
+
+.main {
+  height: calc(100% - #{$header-height} - #{$footer-height});
+  overflow: auto;
+}

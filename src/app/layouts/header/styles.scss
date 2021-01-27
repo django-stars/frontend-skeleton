@@ -1,0 +1,8 @@
+@import 'variables';
+
+.header {
+  height: $header-height;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-around;
+}
