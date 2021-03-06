@@ -1,15 +1,15 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 /* stylelint-disable number-leading-zero  */
-// Variables
-//
-// Variables should follow the `$component-state-property-size` formula for
-// consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
+/* Variables
+
+ Variables should follow the `$component-state-property-size` formula for
+ consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs. */
 
 $header-height: 76px;
 $footer-height: 48px;
 
-// Color system
+/* Color system */
 
 $white:    #fff !default;
 $gray-100: #f8f9fa !default;
