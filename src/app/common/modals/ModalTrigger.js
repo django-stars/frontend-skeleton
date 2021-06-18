@@ -37,7 +37,7 @@ export default class ModalTrigger extends Component {
       let child = cloneElement(Children.only(children), { onClick: this.open, key: 'modal-control' })
       return [
         child,
-        <ModalWrapper {...this.props} show={this.state.toggled} onHide={this.close} key='modal-dialog' />,
+        <ModalWrapper {...this.props} show={this.state.toggled} onHide={this.close} key="modal-dialog" />,
       ]
     }
 }

@@ -7,7 +7,7 @@ export default class Header extends Component {
   render() {
     return (
       <header className={styles.header}>
-        <Link to="root"><img src={logo} alt='logo'/></Link>
+        <Link to="root"><img src={logo} alt="logo"/></Link>
       </header>
     )
   }
