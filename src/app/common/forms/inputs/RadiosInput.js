@@ -32,14 +32,14 @@ export default function RadiosInput({
 }) {
   const handleChange = useCallback((e) => onChange(e.target.value), [onChange])
   return (
-    <div className='radio-wrapper'>
+    <div className="radio-wrapper">
       {
         options.map((option) => (
           <label
             className={inputClassName}
             key={option[valueKey]}>
             <input
-              type='radio'
+              type="radio"
               onChange={handleChange}
               checked={value === option[valueKey]}
               value={option[valueKey]}

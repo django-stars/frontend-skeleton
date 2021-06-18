@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import packageConfig from './package.json'
 import dotenvExpand from 'dotenv-expand'
 
-if(!Boolean(process.env.APP_NAME)) {
+if(!process.env.APP_NAME) {
   // set APP_NAME from package.json
   process.env.APP_NAME = packageConfig.name
 }

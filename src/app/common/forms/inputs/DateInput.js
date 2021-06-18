@@ -37,7 +37,7 @@ export default function DateInput({
 }) {
   const handleChange = useCallback((value) => onChange(dateToValue(value, dateFormat)), [onChange])
   return (
-    <div className='datepicker'>
+    <div className="datepicker">
       <DatePicker
         selected={valueToDate(value, dateFormat)}
         onChange={handleChange}

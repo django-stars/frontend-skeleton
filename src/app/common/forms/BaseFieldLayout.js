@@ -40,16 +40,16 @@ export default function BaseFieldLayout({
   const formattedError = useMemo(() => Array.isArray(error) ? error[0] : error, [error])
 
   return (
-    <div className='form-group'>
+    <div className="form-group">
       {label && (
-        <label className='control-label'>
+        <label className="control-label">
           {label}
-          {required && <span className='control-asterisk'>*</span>}
+          {required && <span className="control-asterisk">*</span>}
         </label>
       )}
-      <div className='control-field'>
-        <div className='control-element'>
-          {prefix && <div className='control-prefix'>{prefix}</div>}
+      <div className="control-field">
+        <div className="control-element">
+          {prefix && <div className="control-prefix">{prefix}</div>}
           <InputComponent
             required={required}
             {...rest}
