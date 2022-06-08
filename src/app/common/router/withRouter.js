@@ -16,7 +16,7 @@ export default function withNamedRouter(ChildComponent) {
       ...routerValue.location,
       state: {
         ...(get(routerValue.location, 'state', {})),
-        name: findKey(namedRoutes, key => match(key)(routerValue.location.pathname)),
+        name: findKey(namedRoutes, key => match(key && key.replace(/\/$/, ''))(routerValue.location.pathname)),
       },
     }
     const history = useMemo(() => namedHistory(routerValue.history, namedRoutes), [routerValue])
