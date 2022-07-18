@@ -28,8 +28,8 @@
     "lint:fix": "yarn run eslint:fix && yarn run stylelint:fix",
     "eslint": "node linter --verbose | snazzy",
     "eslint:fix": "node linter --fix --verbose | snazzy",
-    "stylelint": "stylelint 'src/**/*.scss' --syntax scss",
-    "stylelint:fix": "stylelint 'src/**/*.scss' --syntax scss --fix",
+    "stylelint": "stylelint src/**/*.scss --syntax scss",
+    "stylelint:fix": "stylelint src/**/*.scss --syntax scss --fix",
     "test": "jest --config jest.conf.json -u"
   },
   "dependencies": {
