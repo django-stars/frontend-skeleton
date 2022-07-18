@@ -20,7 +20,23 @@
     "no-descending-specificity": true,
     "declaration-block-no-duplicate-properties": true,
     "declaration-colon-space-after": "always-single-line",
-    "at-rule-whitelist": ["include", "import", "keyframes", "mixin", "extend"],
+    "at-rule-whitelist": [
+      "include",
+      "import",
+      "mixin",
+      "extend",
+      "function",
+      "at-root",
+      "for",
+      "while",
+      "each",
+      "if",
+      "else",
+      "media",
+      "font-face",
+      "keyframes",
+      "supports"
+    ],
     "string-quotes": "double",
     "no-duplicate-selectors": true,
     "color-named": "never",
@@ -40,7 +56,13 @@
     "max-empty-lines": 2,
     "property-no-unknown": [true, {
       "ignoreProperties": ["composes"]
-    }]
+    }],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global", "local"]
+      }
+    ]
   },
   "syntax": "scss"
 }
