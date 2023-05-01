@@ -16,7 +16,7 @@ import omit from 'lodash/omit'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 
-if(process.env.SENTRY_DSN) {
+if(process.env.NODE_ENV === 'production' && process.env.SENTRY_DSN) {
   Sentry.init({ dsn: process.env.SENTRY_DSN, environment: process.env.SENTRY_ENVIRONMENT })
 }
 
