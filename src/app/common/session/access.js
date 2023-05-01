@@ -1,4 +1,5 @@
 import isEmpty from 'lodash/isEmpty'
+import get from 'lodash/get'
 import { createSelector } from 'reselect'
 
 export const F_PUBLIC = 2 ** 0
@@ -12,7 +13,7 @@ export const F_UNAUTHORISED = 2 ** 2
 
 export const userLevelSelector = createSelector(
   // base permissions
-  (state) => isEmpty(state.resource.session) ? F_UNAUTHORISED : F_PROTECTED,
+  (state) => isEmpty(get(state, 'session.data.token')) ? F_UNAUTHORISED : F_PROTECTED,
 
   // collect all user permissions
   (...args) => args.reduce((level, flag) => level | flag, F_PUBLIC)

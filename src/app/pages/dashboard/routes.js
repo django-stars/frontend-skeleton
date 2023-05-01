@@ -1,9 +1,9 @@
-import DashboardContainer from './DashboardContainer'
+import Dashboard from './Dashboard'
 
 const routes = [
   {
     path: '/',
-    component: DashboardContainer,
+    component: Dashboard,
     name: 'dashboard',
   },
 ]

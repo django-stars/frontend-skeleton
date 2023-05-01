@@ -1,29 +1,37 @@
 import { useContext, useMemo } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
-import pathToRegexp from 'path-to-regexp'
+import findKey from 'lodash/findKey'
+import { compile, match } from 'path-to-regexp'
 import { __RouterContext as RouterContext } from 'react-router'
 import { RouterConfigContext } from './RouterConfig'
-import { buildQueryParams } from 'common/utils/queryParams'
+import { QS } from 'api'
 
 
 export default function withNamedRouter(ChildComponent) {
   return function NamedRouter(props) {
     const routerValue = useContext(RouterContext)
     const namedRoutes = useContext(RouterConfigContext)
+    const location = {
+      ...routerValue.location,
+      state: {
+        ...(get(routerValue.location, 'state', {})),
+        name: findKey(namedRoutes, key => match(key && key.replace(/\/$/, ''))(routerValue.location.pathname)),
+      },
+    }
     const history = useMemo(() => namedHistory(routerValue.history, namedRoutes), [routerValue])
     return (
       <ChildComponent
         {...props}
         history={history}
-        location={routerValue.location}
+        location={location}
         match={routerValue.match}
       />
     )
   }
 }
 
-function namedHistory(location, namedRoutes) {
+function namedHistory(location = {}, namedRoutes) {
   return {
     ...location,
     push: (path, state) => location.push(customNavigation(makePath(path, namedRoutes), state), state),
@@ -32,11 +40,11 @@ function namedHistory(location, namedRoutes) {
 }
 
 function customNavigation(path, state) {
-  if(path.pathname && path.pathname.includes(':')) {
-    path.pathname = pathToRegexp.compile(path.pathname)(state)
+  if(path.pathname.search(/\/:/) > -1) {
+    path.pathname = compile(path.pathname)(state)
   }
-  if(!!path.search && typeof path.search === 'object') {
-    path.search = buildQueryParams(path.search)
+  if(path.search && typeof path.search === 'object') {
+    path.search = QS.buildQueryParams(path.search)
   }
   return path
 }

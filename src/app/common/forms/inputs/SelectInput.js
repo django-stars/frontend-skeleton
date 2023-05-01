@@ -16,43 +16,34 @@ SelectInput.propTypes = {
   isClearable: PropTypes.bool,
   isMulti: PropTypes.bool,
   isSearchable: PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
 }
 SelectInput.defaultProps = {
   inputClassName: 'select-custom',
+  name: undefined,
   isClearable: false,
   isMulti: false,
   isSearchable: false,
+  placeholder: '',
+  options: [],
+  required: false,
+  value: '',
+  isDisabled: false,
 }
 
 export default function SelectInput({
   inputClassName,
   onChange,
-  placeholder,
-  name,
-  options,
-  required,
   value,
-  isDisabled,
-  isClearable,
-  isMulti,
-  isSearchable,
-  ...restProps
+  ...props
 }) {
   const handleChange = useCallback((e) => onChange(e[value]), [onChange, value])
   return (
     <Select
-      name={name}
+      {...props}
       className={inputClassName}
-      placeholder={placeholder}
       value={value || ''}
       onChange={handleChange}
-      options={options}
-      required={required}
-      isDisabled={isDisabled}
-      isClearable={isClearable}
-      isMulti={isMulti}
-      isSearchable={isSearchable}
-      {...restProps}
     />
   )
 }

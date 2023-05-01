@@ -13,33 +13,29 @@ CurrencyInput.propTypes = {
     PropTypes.string,
   ]),
   thousandSeparator: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
 }
 CurrencyInput.defaultProps = {
   inputClassName: 'input-custom',
   thousandSeparator: "'",
+  placeholder: '',
+  required: false,
+  disabled: false,
+  value: '',
+  name: undefined,
 }
 
 export default function CurrencyInput({
   onChange,
   inputClassName,
-  placeholder,
-  required,
-  disabled,
-  name,
-  value,
-  thousandSeparator,
+  ...props
 }) {
   const handleChange = useCallback((e) => onChange(e.target.value), [onChange])
   return (
     <NumberFormat
+      {...props}
       className={inputClassName}
-      placeholder={placeholder}
       onChange={handleChange}
-      required={required}
-      disabled={disabled}
-      name={name}
-      value={value}
-      thousandSeparator={thousandSeparator}
     />
   )
 }

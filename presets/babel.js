@@ -1,15 +1,9 @@
-import { group, babel } from 'webpack-blocks'
+import { babel, match } from 'webpack-blocks'
 
 
 export default function(config) {
-  return group([
+  return match([/\.(js|jsx)$/], { exclude: /node_modules\/(?!ds-)/ }, [
     babel({
-      presets: [
-        // webpack need modules:false for proper tree-shaking
-        // it seems this no more need (https://github.com/babel/babel-loader/issues/521)
-        // ['@babel/preset-env', { 'modules': false }],
-      ],
     }),
-
   ])
 }

@@ -1,6 +1,8 @@
+import 'react-hot-loader'
 import { render } from 'react-dom'
-import App from './App'
 import { store, history } from './init'
+import App from './App'
+
 
 render(
   <App store={store} history={history} />,

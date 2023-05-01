@@ -24,6 +24,8 @@
     "string-quotes": "double",
     "no-duplicate-selectors": true,
     "color-named": "never",
+    "color-hex-length": "long",
+    "color-hex-case": "lower",
     "selector-attribute-quotes": "always",
     "declaration-block-trailing-semicolon": "always",
     "declaration-colon-space-before": "never",
@@ -35,7 +37,10 @@
     "at-rule-no-vendor-prefix": true,
     "selector-no-vendor-prefix": true,
     "media-feature-name-no-vendor-prefix": true,
-    "max-empty-lines": 2
+    "max-empty-lines": 2,
+    "property-no-unknown": [true, {
+      "ignoreProperties": ["composes"]
+    }]
   },
   "syntax": "scss"
 }

@@ -1,8 +1,13 @@
 import PropTypes from 'prop-types'
 
-const propTypes = {
+Wizard.propTypes = {
   steps: PropTypes.array,
   activeStepIndex: PropTypes.number,
+}
+
+Wizard.defaultProps = {
+  steps: [],
+  activeStepIndex: 0,
 }
 
 export default function Wizard(props) {
@@ -26,5 +31,3 @@ export default function Wizard(props) {
     </nav>
   )
 }
-
-Wizard.propTypes = propTypes

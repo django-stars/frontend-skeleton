@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types'
 import { Panel } from 'react-bootstrap'
 
-const propTypes = {
+FormPanel.propTypes = {
   panelTitle: PropTypes.string,
   isCollapsible: PropTypes.bool,
   isExpanded: PropTypes.bool,
 }
 
-const defaultProps = {
+FormPanel.defaultProps = {
   isCollapsible: false,
   isExpanded: true,
+  panelTitle: '',
 }
 
 export default function FormPanel(props) {
@@ -24,6 +25,3 @@ export default function FormPanel(props) {
     </Panel>
   )
 }
-
-FormPanel.propTypes = propTypes
-FormPanel.defaultProps = defaultProps

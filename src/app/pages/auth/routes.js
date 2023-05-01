@@ -1,4 +1,4 @@
-import LoginFormContainer from './LoginFormContainer'
+import LoginForm from './login'
 
 const routes = [
   {
@@ -11,7 +11,7 @@ const routes = [
       },
       {
         path: '/login',
-        component: LoginFormContainer,
+        component: LoginForm,
         name: 'login',
       },
     ],

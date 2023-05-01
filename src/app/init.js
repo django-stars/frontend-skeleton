@@ -1,16 +1,20 @@
 import 'polyfills' // should be first
 import '../styles/index.scss'
-import { createStore, applyMiddleware, combineReducers, compose as reduxCompose } from 'redux'
-import { reducer as form } from 'redux-form'
-import { createEpicMiddleware, combineEpics } from 'redux-observable'
+import API from './api'
+import { resourcesReducer } from '@ds-frontend/resource'
+import { cacheMiddleware, persistReducer } from '@ds-frontend/cache'
+import { promisableActionMiddleware, composeReducers, combineReducers } from '@ds-frontend/redux-helpers'
 import { createBrowserHistory } from 'history'
-import omit from 'lodash/omit'
-import { middleware as cacheMiddleware, state as initialState } from './cache'
-import { reducers, epics } from 'store'
-import { reducer as resource, epic as resourceEpic } from 'common/utils/resource'
-import API, { configure as configureAPI } from 'api'
+import { createStore, applyMiddleware } from 'redux'
+import { reducers } from 'store'
 import * as Sentry from '@sentry/browser'
 import createSentryMiddleware from 'redux-sentry-middleware'
+import authMiddleware from 'common/session/authMiddleware'
+import omit from 'lodash/omit'
+// TODO migrate to the official dev tools
+// https://github.com/reduxjs/redux-devtools/tree/master/packages/redux-devtools
+import { composeWithDevTools } from 'redux-devtools-extension'
+
 
 if(process.env.NODE_ENV === 'production' && process.env.SENTRY_DSN) {
   Sentry.init({ dsn: process.env.SENTRY_DSN, environment: process.env.SENTRY_ENVIRONMENT })
@@ -18,28 +22,35 @@ if(process.env.NODE_ENV === 'production' && process.env.SENTRY_DSN) {
 
 
 // support for redux dev tools
-const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose
+const compose = composeWithDevTools({
+  name: process.env.APP_NAME,
+})
 
 const store = createStore(
-  combineReducers({
-    form,
-    resource,
-    ...reducers,
-  }),
-  initialState,
+  composeReducers(
+    {},
+    combineReducers(reducers),
+    persistReducer(JSON.parse(process.env.CACHE_STATE_PERSIST_KEYS)),
+    resourcesReducer,
+  ),
+  {},
   compose(
     applyMiddleware(...[
-      createEpicMiddleware(combineEpics(...epics, resourceEpic), { dependencies: { API } }),
-      cacheMiddleware,
+      authMiddleware,
+      promisableActionMiddleware({ API }),
+      cacheMiddleware({
+        storeKey: process.env.STORAGE_KEY,
+        cacheKeys: JSON.parse(process.env.CACHE_STATE_KEYS),
+        storage: localStorage,
+      }),
       process.env.SENTRY_DSN && createSentryMiddleware(Sentry, {
         stateTransformer: (state) => { return omit(state, 'session') },
       }),
+
     ].filter(Boolean))
   )
 )
 
-// FIXME API should not need store
-configureAPI(store)
 const history = createBrowserHistory()
 
 export {

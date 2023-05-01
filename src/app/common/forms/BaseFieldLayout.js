@@ -1,25 +1,46 @@
+import { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 BaseFieldLayout.propTypes = {
-  icon: PropTypes.node,
-  label: PropTypes.string,
-  prefix: PropTypes.string,
+  label: PropTypes.node,
   required: PropTypes.bool,
-  InputComponent: PropTypes.element,
+  inputComponent: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.elementType,
+    PropTypes.func,
+  ]).isRequired,
+  meta: PropTypes.object.isRequired,
+  input: PropTypes.object.isRequired,
+  prefix: PropTypes.node,
 }
 
-export default function BaseFieldLayout(props) {
-  const {
-    icon,
-    label,
-    prefix,
-    required,
-    inputComponent: InputComponent,
-  } = props
+BaseFieldLayout.defaultProps = {
+  label: undefined,
+  required: false,
+  prefix: undefined,
+}
+
+export default function BaseFieldLayout({
+  label,
+  prefix,
+  required,
+  inputComponent: InputComponent,
+  meta,
+  input,
+  ...rest
+}) {
+  const error = useMemo(() => {
+    if(meta.submitError && !meta.dirtySinceLastSubmit) {
+      return meta.submitError
+    }
+    if(meta.error && meta.touched) {
+      return meta.error
+    }
+  }, [meta.error, meta.touched, meta.dirtySinceLastSubmit, meta.submitError])
+  const formattedError = useMemo(() => Array.isArray(error) ? error[0] : error, [error])
 
   return (
     <div className='form-group'>
-      {icon}
       {label && (
         <label className='control-label'>
           {label}
@@ -30,10 +51,11 @@ export default function BaseFieldLayout(props) {
         <div className='control-element'>
           {prefix && <div className='control-prefix'>{prefix}</div>}
           <InputComponent
-            {...props}
-            {...props.input}
+            required={required}
+            {...rest}
+            {...input}
           />
-          {props.meta.error}
+          <p>{formattedError}</p>
         </div>
       </div>
     </div>

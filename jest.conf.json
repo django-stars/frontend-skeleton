@@ -9,5 +9,19 @@
   ],
   "modulePaths": [
     "src/app"
+  ],
+  "moduleNameMapper": {
+    "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js",
+    "\\.(css|scss)$": "identity-obj-proxy",
+    "^@ds-frontend/cache": "ds-frontend/packages/cache",
+    "^@ds-frontend/api": "ds-frontend/packages/api",
+    "^@ds-frontend/i18n": "ds-frontend/packages/i18n",
+    "^@ds-frontend/queryParams": "ds-frontend/packages/queryParams",
+    "^@ds-frontend/redux-helpers": "ds-frontend/packages/redux-helpers",
+    "^@ds-frontend/resource": "ds-frontend/packages/resource"
+  },
+  "modulePathIgnorePatterns": ["<rootDir>/.*/__mocks__"],
+  "transformIgnorePatterns": [
+    "node_modules/(?!(ds-frontend)/)"
   ]
 }

@@ -7,13 +7,20 @@ CheckboxInput.propTypes = {
     PropTypes.bool,
     PropTypes.string,
   ]),
-  label: PropTypes.string,
   disabled: PropTypes.bool,
   required: PropTypes.bool,
+  checkboxLabel: PropTypes.node,
+  onChange: PropTypes.func.isRequired,
+  name: PropTypes.string,
 }
 
 CheckboxInput.defaultProps = {
   inputClassName: 'custom-checkbox',
+  value: false,
+  disabled: false,
+  required: false,
+  checkboxLabel: undefined,
+  name: undefined,
 }
 
 export default function CheckboxInput({
@@ -23,6 +30,7 @@ export default function CheckboxInput({
   disabled,
   required,
   onChange,
+  name,
 }) {
   const handleChange = useCallback((e) => onChange(e.target.checked), [onChange])
   return (
@@ -30,6 +38,7 @@ export default function CheckboxInput({
       {
         <label className={inputClassName}>
           <input
+            name={name}
             type='checkbox'
             checked={value === true}
             value={value}

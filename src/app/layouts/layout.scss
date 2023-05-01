@@ -1,3 +1,5 @@
+@import "variables";
+
 .wrapper {
   height: 100%;
   background-color: $gray-100;
@@ -8,15 +10,17 @@
   overflow: auto;
 }
 
-header {
+.header {
   height: $header-height;
   background-color: #fff;
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 
-footer {
+.footer {
   height: $footer-height;
   background-color: $primary;
+  text-align: center;
   color: #fff;
 }

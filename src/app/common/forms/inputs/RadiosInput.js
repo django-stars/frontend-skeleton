@@ -6,17 +6,21 @@ RadiosInput.propTypes = {
   value: PropTypes.string,
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
-  options: PropTypes.array,
+  options: PropTypes.array.isRequired,
   disabled: PropTypes.bool,
   name: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
 }
 RadiosInput.defaultProps = {
   inputClassName: 'radio-custom',
   valueKey: 'value',
   labelKey: 'label',
+  value: '',
+  disabled: false,
+  name: undefined,
 }
 
-function RadiosInput({
+export default function RadiosInput({
   onChange,
   inputClassName,
   value,
@@ -36,11 +40,11 @@ function RadiosInput({
             key={option[valueKey]}>
             <input
               type='radio'
-              name={name}
               onChange={handleChange}
               checked={value === option[valueKey]}
               value={option[valueKey]}
               disabled={disabled}
+              name={name}
             />
             <i></i> {/* empty tag for applying custom styles */}
             { option[labelKey] }

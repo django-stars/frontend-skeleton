@@ -5,6 +5,7 @@ smoothScroll.polyfill()
 // 'require' used because inside condition
 if(!!window.MSInputMethodContext && !!document.documentMode) { // IE11 check
   require('whatwg-fetch')
+  require('abortcontroller-polyfill/dist/polyfill-patch-fetch')
 
   // classList.toggle polyfill for IE
   DOMTokenList.prototype.toggle = function(token, force) {
