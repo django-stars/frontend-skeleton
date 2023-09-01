@@ -23,16 +23,16 @@
 @import "badge";
 @import "jumbotron";
 @import "alert";
-// SMELL
-//
-//     (   )
-//  (   ) (
-//   ) _   )
-//    ( \_
-//  _(_\ \)__
-// (____\___))
-//
-// https://github.com/webpack-contrib/sass-loader/issues/556
+/* SMELL
+
+     (   )
+  (   ) (
+   ) _   )
+    ( \_
+  _(_\ \)__
+ (____\___))
+
+ https://github.com/webpack-contrib/sass-loader/issues/556 */
 @import "progress.scss";
 @import "media";
 @import "list-group";
