@@ -8,6 +8,7 @@ import assets from './assets'
 import proxy from './proxy'
 import sentry from './sentry'
 import i18n from './i18n'
+import devServer from './devServer'
 
 export {
   babel,
@@ -20,4 +21,5 @@ export {
   proxy,
   sentry,
   i18n,
+  devServer,
 }

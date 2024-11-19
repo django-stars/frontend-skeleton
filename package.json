@@ -22,7 +22,7 @@
   "license": "MIT",
   "repository": "github:django-stars/frontend-skeleton",
   "scripts": {
-    "start": "NODE_ENV=development webpack-dev-server --progress --colors --mode development",
+    "start": "NODE_ENV=development webpack-dev-server --progress --mode development",
     "build": "NODE_ENV=production webpack --mode production",
     "lint": "yarn run eslint && yarn run stylelint",
     "lint:fix": "yarn run eslint:fix && yarn run stylelint:fix",
@@ -107,8 +107,8 @@
     "stylelint-scss": "^3.9.0",
     "webpack": "^4.47",
     "webpack-blocks": "^2.1.0",
-    "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.2.1",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.15.2",
     "write-file-webpack-plugin": "^4.5.0"
   }
 }

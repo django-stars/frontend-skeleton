@@ -1,4 +1,5 @@
-import { devServer, env, group } from 'webpack-blocks'
+import {env, group } from 'webpack-blocks'
+import devServer from './devServer'
 
 
 export default function(config) {

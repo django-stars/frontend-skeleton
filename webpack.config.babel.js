@@ -8,7 +8,6 @@ import WriteFilePlugin from 'write-file-webpack-plugin'
 import {
   addPlugins,
   createConfig,
-  devServer,
   env,
   entryPoint,
   resolve,
@@ -30,6 +29,7 @@ import {
   proxy,
   sentry,
   babel,
+  devServer,
 } from './presets'
 
 module.exports = createConfig([
@@ -99,12 +99,11 @@ module.exports = createConfig([
 
   env('development', [
     devServer({
-      contentBase: path.resolve(`${process.env.OUTPUT_PATH}`),
+      static: {
+        directory: path.resolve(`${process.env.OUTPUT_PATH}`),
+      },
       port: process.env.DEV_SERVER_PORT || 3000,
-      overlay: true,
-      clientLogLevel: 'info', // FIXME move to VERBOSE mode (add loglevel/verbose option)
-      stats: 'minimal',
-      host: process.env.DEV_SERVER_HOST,
+      host: process.env.DEV_SERVER_HOST || 'local-ip',
       allowedHosts: [
         '.localhost',
         `.${process.env.MAIN_HOST}`,
