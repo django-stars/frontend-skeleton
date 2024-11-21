@@ -47,8 +47,8 @@ const store = createStore(
         stateTransformer: (state) => { return omit(state, 'session') },
       }),
 
-    ].filter(Boolean))
-  )
+    ].filter(Boolean)),
+  ),
 )
 
 const history = createBrowserHistory()

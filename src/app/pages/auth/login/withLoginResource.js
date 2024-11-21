@@ -12,5 +12,5 @@ export default withFinalForm(
   },
   {
     prefetch: false,
-  }
+  },
 )

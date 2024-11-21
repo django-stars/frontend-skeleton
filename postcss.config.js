@@ -1,5 +1,5 @@
-var autoprefixer = require('autoprefixer')
-var inlineSVG = require('postcss-inline-svg')
+const autoprefixer = require('autoprefixer')
+const inlineSVG = require('postcss-inline-svg')
 
 module.exports = {
   sourceMap: true,

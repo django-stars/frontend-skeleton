@@ -5,9 +5,11 @@ export default function mainValidation(fields, validate) {
     if(!Array.isArray(fields)) {
       fields = [fields]
     }
+
     if(isEmpty(fields)) {
       throw new Error('fields should be defined')
     }
+
     return fields.reduce(function(res, key) {
       const errorMessage = validate(values[key])
       if(errorMessage) {
@@ -16,6 +18,7 @@ export default function mainValidation(fields, validate) {
           [key]: errorMessage,
         }
       }
+
       return res
     }, {})
   }

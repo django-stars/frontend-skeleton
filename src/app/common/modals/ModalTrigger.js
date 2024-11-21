@@ -14,16 +14,16 @@ const defaultProps = {
 
 
 export default class ModalTrigger extends Component {
-    state = {
-      toggled: false,
-    }
+  state = {
+    toggled: false,
+  }
 
     @autobind
-    open(e) {
-      e.stopPropagation()
-      e.preventDefault()
-      this.setState({ toggled: true })
-    }
+  open(e) {
+    e.stopPropagation()
+    e.preventDefault()
+    this.setState({ toggled: true })
+  }
 
     @autobind
     close() {
@@ -34,10 +34,10 @@ export default class ModalTrigger extends Component {
       const { children } = this.props
 
       // ensure that we have only one child (control element)
-      let child = cloneElement(Children.only(children), { onClick: this.open, key: 'modal-control' })
+      const child = cloneElement(Children.only(children), { onClick: this.open, key: 'modal-control' })
       return [
         child,
-        <ModalWrapper {...this.props} show={this.state.toggled} onHide={this.close} key='modal-dialog' />,
+        <ModalWrapper {...this.props} show={this.state.toggled} onHide={this.close} key="modal-dialog" />,
       ]
     }
 }

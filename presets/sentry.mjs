@@ -1,5 +1,7 @@
-import { addPlugins, group, env } from 'webpack-blocks'
+import webpackBlocks from 'webpack-blocks'
 import SentryWebpackPlugin from '@sentry/webpack-plugin'
+
+const { addPlugins, group, env } = webpackBlocks
 
 const isSentryConfigured = process.env.SENTRY_ORG &&
   process.env.SENTRY_PROJECT &&

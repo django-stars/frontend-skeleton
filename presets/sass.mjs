@@ -1,19 +1,22 @@
-import { css, env, extractText, group, match, sass } from 'webpack-blocks'
+import webpackBlocks from 'webpack-blocks'
 import path from 'path'
+import extractCss from './extract-css.mjs'
+
+const { css, env, group, match, sass } = webpackBlocks
 
 export default function(config) {
   return group([
     match(['*.css', '*.sass', '*.scss'], { exclude: path.resolve('node_modules') }, [
       css(),
       sass({
-        includePaths: [
+        loadPaths: [
           path.resolve('./src/styles'),
           path.resolve('./node_modules/bootstrap/scss'),
           path.resolve('./node_modules'),
         ],
       }),
       env('production', [
-        extractText('bundle.css'),
+        extractCss('bundle.css'),
       ]),
     ]),
   ])

@@ -34,7 +34,7 @@ export default function NumberInput({
   return (
     <input
       {...props}
-      type='number'
+      type="number"
       className={inputClassName}
       onChange={handleChange}
     />

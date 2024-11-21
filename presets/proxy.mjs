@@ -1,5 +1,7 @@
-import { devServer, env, group } from 'webpack-blocks'
+import webpackBlocks from 'webpack-blocks'
+import devServer from './devServer.mjs'
 
+const { env, group } = webpackBlocks
 
 export default function(config) {
   return group([
@@ -12,7 +14,7 @@ export default function(config) {
 }
 
 function configureProxy() {
-  let ret = [
+  const ret = [
     // proxy API and other paths from env.PROXY
     makeProxyContext(JSON.parse(process.env.PROXY), process.env.PROXY_URL),
   ]
@@ -23,7 +25,7 @@ function configureProxy() {
       makeProxyContext([
         '/**',
         `!${process.env.PUBLIC_PATH}`,
-      ], process.env.BACKEND_URL)
+      ], process.env.BACKEND_URL),
     )
   }
 

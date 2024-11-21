@@ -14,6 +14,6 @@ export default compose(
       level: userLevelSelector({
         ...state,
       }),
-    })
+    }),
   ),
 )(CheckAccess)

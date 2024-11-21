@@ -1,5 +1,8 @@
-import { css, env, extractText, group, match, sass, postcss } from 'webpack-blocks'
+import webpackBlocks from 'webpack-blocks'
 import path from 'path'
+import extractCss from './extract-css.mjs'
+
+const { css, env, group, match, sass, postcss } = webpackBlocks
 
 export default function(config) {
   return group([
@@ -16,12 +19,14 @@ export default function(config) {
     // path.resolve will provide incorrect string, so we need to use RegExp here
     // more documentation here: https://webpack.js.org/configuration/module/#condition
     match(['*.css', '*.sass', '*.scss'], { exclude: /node_modules/ }, [
-      process.env.SSR ? css() : css.modules({
-        localsConvention: 'camelCase',
-      }),
+      process.env.SSR
+        ? css()
+        : css.modules({
+          localsConvention: 'camelCase',
+        }),
       sass({
         sassOptions: {
-          includePaths: [
+          loadPaths: [
             path.resolve('./src/styles'),
             path.resolve('./node_modules/bootstrap/scss'),
             path.resolve('./node_modules'),
@@ -30,7 +35,7 @@ export default function(config) {
       }),
       postcss(),
       env('production', [
-        extractText('bundle.css'),
+        extractCss('bundle.css'),
       ]),
     ]),
   ])

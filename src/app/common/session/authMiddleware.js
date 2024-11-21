@@ -9,6 +9,7 @@ export default function authMiddleware(store) {
         store.dispatch(logout())
         throw new Error(response.statusText)
       }
+
       return { data, response }
     },
   })
@@ -36,6 +37,7 @@ export default function authMiddleware(store) {
         },
       })
     }
+
     return next(action)
   }
 }

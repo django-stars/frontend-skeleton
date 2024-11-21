@@ -1,7 +1,8 @@
-import { addPlugins, group } from 'webpack-blocks'
+import webpackBlocks from 'webpack-blocks'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
 
+const { addPlugins, group } = webpackBlocks
 
 export default function(config) {
   return group([

@@ -16,5 +16,5 @@ export const userLevelSelector = createSelector(
   (state) => isEmpty(get(state, 'session.data.token')) ? F_UNAUTHORISED : F_PROTECTED,
 
   // collect all user permissions
-  (...args) => args.reduce((level, flag) => level | flag, F_PUBLIC)
+  (...args) => args.reduce((level, flag) => level | flag, F_PUBLIC),
 )
