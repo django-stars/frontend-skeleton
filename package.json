@@ -39,7 +39,7 @@
     "core-decorators": "^0.20.0",
     "ds-frontend": "https://github.com/django-stars/ds-frontend.git#9dbaa21",
     "lodash": "^4.17.15",
-    "path-to-regexp": "^6.1.0",
+    "path-to-regexp": "^6.3.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
