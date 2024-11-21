@@ -1,4 +1,5 @@
 module.exports = {
+  'sourceType': 'module',
   'compact': false,
   'presets': [[
     '@babel/preset-env',

@@ -1,6 +1,8 @@
-import { css, env, extractText, group, match, postcss } from 'webpack-blocks'
+import webpackBlocks from 'webpack-blocks'
 import path from 'path'
+import extractCss from './extract-css.mjs'
 
+const { css, env, group, match, postcss } = webpackBlocks;
 
 export default function(config) {
   return group([
@@ -8,7 +10,7 @@ export default function(config) {
       css(),
       postcss(),
       env('production', [
-        extractText('bundle.css'),
+        extractCss('bundle.css'),
       ]),
     ]),
   ])

@@ -1,5 +1,8 @@
-import { css, env, extractText, group, match, sass, postcss } from 'webpack-blocks'
+import webpackBlocks from 'webpack-blocks'
 import path from 'path'
+import extractCss from './extract-css.mjs'
+
+const { css, env, group, match, sass, postcss } = webpackBlocks
 
 export default function(config) {
   return group([
@@ -21,7 +24,7 @@ export default function(config) {
       }),
       sass({
         sassOptions: {
-          includePaths: [
+          loadPaths: [
             path.resolve('./src/styles'),
             path.resolve('./node_modules/bootstrap/scss'),
             path.resolve('./node_modules'),
@@ -30,7 +33,7 @@ export default function(config) {
       }),
       postcss(),
       env('production', [
-        extractText('bundle.css'),
+        extractCss('bundle.css'),
       ]),
     ]),
   ])

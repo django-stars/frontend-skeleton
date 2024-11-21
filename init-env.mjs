@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-import packageConfig from './package.json'
+import packageConfig from './package.json' assert { type: 'json' }
 import dotenvExpand from 'dotenv-expand'
 
 if(!Boolean(process.env.APP_NAME)) {

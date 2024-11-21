@@ -1,11 +1,11 @@
-import './init-env' // SHOULD BE FIRST
+import './init-env.mjs' // SHOULD BE FIRST
 
 import path from 'path'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import WriteFilePlugin from 'write-file-webpack-plugin'
-// import ReloadPlugin from 'reload-html-webpack-plugin'
 
-import {
+import webpackBlocks from 'webpack-blocks'
+const {
   addPlugins,
   createConfig,
   env,
@@ -16,8 +16,7 @@ import {
   sourceMaps,
   when,
   customConfig,
-
-} from 'webpack-blocks'
+} = webpackBlocks
 
 import {
   // postcss,
@@ -30,9 +29,9 @@ import {
   sentry,
   babel,
   devServer,
-} from './presets'
+} from './presets/index.mjs'
 
-module.exports = createConfig([
+export default createConfig([
 
   entryPoint({
     bundle: 'index.js',
@@ -73,6 +72,7 @@ module.exports = createConfig([
     // pass env values to compile environment
     'API_URL', 'AUTH_HEADER', 'MAIN_HOST',
     'CACHE_STATE_KEYS', 'STORAGE_KEY', 'SENTRY_DSN', 'SENTRY_ENVIRONMENT', 'CACHE_STATE_PERSIST_KEYS', 'LIMIT',
+    'NODE_ENV', 'APP_NAME',
   ]),
 
   addPlugins([
@@ -81,13 +81,14 @@ module.exports = createConfig([
   ]),
 
   customConfig({
+    mode: process.env.NODE_ENV ?? 'development',
     optimization: {
       splitChunks: {
         cacheGroups: {
           // move all modules defined outside of application directory to vendor bundle
-          vendors: {
-            test: function(module, chunk) {
-              return module.resource && module.resource.indexOf(path.resolve(__dirname, 'src')) === -1
+          defaultVendors: {
+            test: function(module) {
+              return module.resource && module.resource.indexOf(path.resolve('src')) === -1
             },
             name: 'vundle',
             chunks: 'all',
@@ -109,6 +110,9 @@ module.exports = createConfig([
         `.${process.env.MAIN_HOST}`,
       ],
       hot: true,
+      client: {
+        overlay: false,
+      }
     }),
     sourceMaps('eval-source-map'),
 
@@ -116,7 +120,6 @@ module.exports = createConfig([
       // write generated files to filesystem (for debug)
       // FIXME are we realy need this???
       new WriteFilePlugin(),
-      // new ReloadPlugin(),
     ]),
   ]),
 

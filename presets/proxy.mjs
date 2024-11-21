@@ -1,6 +1,7 @@
-import {env, group } from 'webpack-blocks'
-import devServer from './devServer'
+import webpackBlocks from 'webpack-blocks'
+import devServer from './devServer.mjs'
 
+const { env, group } = webpackBlocks
 
 export default function(config) {
   return group([

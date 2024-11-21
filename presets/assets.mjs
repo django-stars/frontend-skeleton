@@ -1,4 +1,5 @@
-import { file, group, match } from 'webpack-blocks'
+import webpackBlocks from 'webpack-blocks'
+const { file, group, match } = webpackBlocks
 
 export default function(config) {
   return group([

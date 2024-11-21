@@ -1,4 +1,5 @@
-import { group, babel } from 'webpack-blocks'
+import webpackBlocks from 'webpack-blocks'
+const { group, babel } = webpackBlocks
 
 
 export default function(config) {
