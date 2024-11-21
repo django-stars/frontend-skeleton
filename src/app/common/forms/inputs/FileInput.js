@@ -3,24 +3,15 @@ import PropTypes from 'prop-types'
 
 
 FileInput.propTypes = {
-  inputClassName: PropTypes.string,
-  placeholder: PropTypes.string,
-  pattern: PropTypes.string,
-  required: PropTypes.bool,
-  disabled: PropTypes.bool,
-  readOnly: PropTypes.bool,
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
-FileInput.defaultProps = {
-  inputClassName: 'input-custom',
-  readOnly: false,
-}
-
-export default function FileInput({ inputComponent, onChange, inputClassName, input, meta, label, ...props }) {
+export default function FileInput({ name, onChange }) {
   const handleChange = useCallback((e) => onChange(e.target.files[0]), [onChange])
   return (
     <input
+      name={name}
       type="file"
       onChange={handleChange}
     />

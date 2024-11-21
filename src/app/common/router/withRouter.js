@@ -43,9 +43,11 @@ function customNavigation(path, state) {
   if(path.pathname.search(/\/:/) > -1) {
     path.pathname = compile(path.pathname)(state)
   }
+
   if(path.search && typeof path.search === 'object') {
     path.search = QS.buildQueryParams(path.search)
   }
+
   return path
 }
 
@@ -53,6 +55,7 @@ function makePath(to, namedRoutes) {
   if(typeof to === 'string') {
     return { pathname: getNamedRouteName(to, namedRoutes) }
   }
+
   return {
     ...to,
     pathname: getNamedRouteName(to.pathname, namedRoutes),
@@ -63,9 +66,11 @@ function getNamedRouteName(to, namedRoutes) {
   if(to.startsWith('/')) {
     return to
   }
+
   const pathname = get(namedRoutes, to, '')
   if(!pathname && !isEmpty(namedRoutes)) {
     throw new Error('no route with name: ' + to)
   }
+
   return pathname
 }

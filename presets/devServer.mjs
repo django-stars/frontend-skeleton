@@ -10,12 +10,12 @@
  * @return {Function}
  */
 export default function devServer(options = {}, entry = []) {
-  if (options && (typeof options === 'string' || Array.isArray(options))) {
+  if(options && (typeof options === 'string' || Array.isArray(options))) {
     entry = options
     options = {}
   }
 
-  if (!Array.isArray(entry)) {
+  if(!Array.isArray(entry)) {
     entry = entry ? [entry] : []
   }
 
@@ -38,18 +38,11 @@ function postConfig(context, util) {
       devServer: Object.assign(
         {
           hot: true,
-          //hotOnly: true,
           historyApiFallback: true,
-          //inline: true,
-          // Disable verbose logging in browser’s console, only print errors
-          //clientLogLevel: 'error',
-          // Do not print chunks list on every compilation, only print errors
-          //stats: 'errors-only'
         },
-        context.devServer.options
+        context.devServer.options,
       ),
       entry: addDevEntryToAll(prevConfig.entry || {}, entryPointsToAdd),
-      //plugins: [new context.webpack.HotModuleReplacementPlugin()]
     })(prevConfig)
   }
 }

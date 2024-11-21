@@ -18,8 +18,8 @@ export default function FormPanel(props) {
   return (
     <Panel defaultExpanded={isExpanded}>
       <Panel.Heading>
-        <Panel.Title componentClass='h3' toggle={isCollapsible}>{panelTitle}</Panel.Title>
-        { isCollapsible && (<Panel.Toggle componentClass='i' className='collapse-icon'></Panel.Toggle>) }
+        <Panel.Title componentClass="h3" toggle={isCollapsible}>{panelTitle}</Panel.Title>
+        { isCollapsible && (<Panel.Toggle componentClass="i" className="collapse-icon"></Panel.Toggle>) }
       </Panel.Heading>
       <Panel.Body collapsible={isCollapsible} {...restProps} />
     </Panel>

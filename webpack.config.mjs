@@ -3,21 +3,7 @@ import './init-env.mjs' // SHOULD BE FIRST
 import path from 'path'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import WriteFilePlugin from 'write-file-webpack-plugin'
-
 import webpackBlocks from 'webpack-blocks'
-const {
-  addPlugins,
-  createConfig,
-  env,
-  entryPoint,
-  resolve,
-  setEnv,
-  setOutput,
-  sourceMaps,
-  when,
-  customConfig,
-} = webpackBlocks
-
 import {
   // postcss,
   react,
@@ -30,6 +16,19 @@ import {
   babel,
   devServer,
 } from './presets/index.mjs'
+
+const {
+  addPlugins,
+  createConfig,
+  env,
+  entryPoint,
+  resolve,
+  setEnv,
+  setOutput,
+  sourceMaps,
+  when,
+  customConfig,
+} = webpackBlocks
 
 export default createConfig([
 
@@ -112,7 +111,7 @@ export default createConfig([
       hot: true,
       client: {
         overlay: false,
-      }
+      },
     }),
     sourceMaps('eval-source-map'),
 

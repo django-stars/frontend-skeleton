@@ -52,6 +52,7 @@ export default function RouteRecursive({ access, layout: Layout, component: Comp
       } else {
         newPath = redirectTo
       }
+
       return <Redirect to={newPath} />
     }
   }

@@ -34,12 +34,12 @@ export default function CheckboxInput({
 }) {
   const handleChange = useCallback((e) => onChange(e.target.checked), [onChange])
   return (
-    <div className='input-wrapper'>
+    <div className="input-wrapper">
       {
         <label className={inputClassName}>
           <input
             name={name}
-            type='checkbox'
+            type="checkbox"
             checked={value === true}
             value={value}
             onChange={handleChange}

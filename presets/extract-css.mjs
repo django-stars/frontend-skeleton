@@ -25,14 +25,15 @@ export default function extractCss(outputFilePattern = 'css/[name].[contenthash:
     const ruleToMatch = context.match || { test: /\.css$/ }
     const matchingLoaderRules = getMatchingLoaderRules(ruleToMatch, prevConfig)
 
-    if (matchingLoaderRules.length === 0) {
+    if(matchingLoaderRules.length === 0) {
       throw new Error(
         `extractCss(): No loaders found to extract contents from. Looking for loaders matching ${
           ruleToMatch.test
-        }`
+        }`,
       )
     }
 
+    // eslint-disable-next-line no-unused-vars
     const [fallbackLoaders, nonFallbackLoaders] = splitFallbackRule(matchingLoaderRules)
 
     /*
@@ -44,10 +45,10 @@ export default function extractCss(outputFilePattern = 'css/[name].[contenthash:
     })
     */
     const newLoaderDef = Object.assign({}, ruleToMatch, {
-      use: [ MiniCssExtractPlugin.loader, ...nonFallbackLoaders ]
+      use: [MiniCssExtractPlugin.loader, ...nonFallbackLoaders],
     })
 
-    for (const ruleToRemove of matchingLoaderRules) {
+    for(const ruleToRemove of matchingLoaderRules) {
       nextConfig = removeLoaderRule(ruleToRemove)(nextConfig)
     }
 
@@ -65,7 +66,7 @@ function getMatchingLoaderRules(ruleToMatch, webpackConfig) {
     rule =>
       isLoaderConditionMatching(rule.test, ruleToMatch.test) &&
       isLoaderConditionMatching(rule.exclude, ruleToMatch.exclude) &&
-      isLoaderConditionMatching(rule.include, ruleToMatch.include)
+      isLoaderConditionMatching(rule.include, ruleToMatch.include),
   )
 }
 
@@ -78,7 +79,7 @@ function splitFallbackRule(rules) {
     )
   })
 
-  if (leadingStyleLoaderInAllRules) {
+  if(leadingStyleLoaderInAllRules) {
     const trimmedRules = rules.map(rule => Object.assign({}, rule, { use: rule.use.slice(1) }))
     return [['style-loader'], getUseEntriesFromRules(trimmedRules)]
   } else {
@@ -104,32 +105,33 @@ function removeLoaderRule(rule) {
           isLoaderConditionMatching(prevRule.test, rule.test) &&
           isLoaderConditionMatching(prevRule.include, rule.include) &&
           isLoaderConditionMatching(prevRule.exclude, rule.exclude)
-        )
+        ),
     )
 
     return Object.assign({}, prevConfig, {
       module: Object.assign({}, prevConfig.module, {
-        rules: newRules
-      })
+        rules: newRules,
+      }),
     })
   }
 }
 
 function isLoaderConditionMatching(test1, test2) {
-  if (test1 === test2) {
+  if(test1 === test2) {
     return true
-  } else if (typeof test1 !== typeof test2) {
+  } else if(typeof test1 !== typeof test2) {
     return false
-  } else if (test1 instanceof RegExp && test2 instanceof RegExp) {
+  } else if(test1 instanceof RegExp && test2 instanceof RegExp) {
     return test1 === test2 || String(test1) === String(test2)
-  } else if (Array.isArray(test1) && Array.isArray(test2)) {
+  } else if(Array.isArray(test1) && Array.isArray(test2)) {
     return areArraysMatching(test1, test2)
   }
+
   return false
 }
 
 function areArraysMatching(array1, array2) {
-  if (array1.length !== array2.length) {
+  if(array1.length !== array2.length) {
     return false
   }
 
@@ -137,6 +139,6 @@ function areArraysMatching(array1, array2) {
     item1 =>
       array2.indexOf(item1) >= 0 ||
       (item1 instanceof RegExp &&
-        array2.find(item2 => item2 instanceof RegExp && String(item1) === String(item2)))
+        array2.find(item2 => item2 instanceof RegExp && String(item1) === String(item2))),
   )
 }

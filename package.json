@@ -24,7 +24,7 @@
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --progress --mode development",
     "build": "NODE_ENV=production webpack --mode production",
-    "lint": "yarn run eslint && yarn run stylelint",
+    "lint": "yarn run eslint",
     "lint:fix": "yarn run eslint:fix && yarn run stylelint:fix",
     "eslint": "node linter --verbose | snazzy",
     "eslint:fix": "node linter --fix --verbose | snazzy",

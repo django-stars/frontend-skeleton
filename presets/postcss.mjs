@@ -2,7 +2,7 @@ import webpackBlocks from 'webpack-blocks'
 import path from 'path'
 import extractCss from './extract-css.mjs'
 
-const { css, env, group, match, postcss } = webpackBlocks;
+const { css, env, group, match, postcss } = webpackBlocks
 
 export default function(config) {
   return group([

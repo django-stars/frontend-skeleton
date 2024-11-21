@@ -48,6 +48,7 @@ function routesMap(routes, basePath = '/') {
         ...(routesMap(routes, path)),
       }
     }
+
     return acc
   }, {})
 }

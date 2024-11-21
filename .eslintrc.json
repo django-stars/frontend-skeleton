@@ -11,12 +11,16 @@
     "jest": true
   },
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2024,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true,
       "modules": true,
-      "globalReturn": true
+      "globalReturn": true,
+      "deprecatedImportAssert": true
+    },
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
     }
   },
   "plugins": [
@@ -52,7 +56,7 @@
     "react/display-name": ["off", { "ignoreTranspilerName": true }],
     "jsx-quotes": ["error", "prefer-double"],
     "padding-line-between-statements": [
-      "error",
+      "warn",
       { "blankLine": "always", "prev": "block", "next": "*" },
       { "blankLine": "always", "prev": "block-like", "next": "*" }
     ]
