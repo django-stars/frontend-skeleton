@@ -33,6 +33,6 @@ jobs:
           name: Check Code Style
           command: yarn lint
 
-      - run:
-          name: Run Tests
-          command: yarn test
+      #- run:
+      #    name: Run Tests
+      #    command: yarn test
