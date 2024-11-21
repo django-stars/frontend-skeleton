@@ -1,6 +1,15 @@
 import { createContext, Component } from 'react'
+import PropTypes from 'prop-types'
+const RouterConfigContext = createContext({})
 
-const RouterConfigContext = React.createContext({})
+const propTypes = {
+  routes: PropTypes.array.isRequired,
+  children: PropTypes.node,
+}
+
+const defaultProps = {
+  children: undefined,
+}
 
 export default class RouterConfig extends Component {
   render() {
@@ -11,6 +20,9 @@ export default class RouterConfig extends Component {
     )
   }
 }
+
+RouterConfig.propTypes = propTypes
+RouterConfig.defaultProps = defaultProps
 
 export { RouterConfigContext }
 

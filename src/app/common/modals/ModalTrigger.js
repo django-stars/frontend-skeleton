@@ -8,6 +8,11 @@ const propTypes = {
   children: PropTypes.object,
 }
 
+const defaultProps = {
+  children: undefined,
+}
+
+
 export default class ModalTrigger extends Component {
     state = {
       toggled: false,
@@ -38,3 +43,4 @@ export default class ModalTrigger extends Component {
 }
 
 ModalTrigger.propTypes = propTypes
+ModalTrigger.defaultProps = defaultProps

@@ -1,0 +1,8 @@
+{
+  "src/**/*.{jsx,js}": [
+    "eslint"
+  ],
+  "src/**/*.scss": [
+    "stylelint --syntax scss"
+  ]
+}

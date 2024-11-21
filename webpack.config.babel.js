@@ -1,7 +1,7 @@
 import './init-env' // SHOULD BE FIRST
 
 import path from 'path'
-import CleanWebpackPlugin from 'clean-webpack-plugin'
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import WriteFilePlugin from 'write-file-webpack-plugin'
 // import ReloadPlugin from 'reload-html-webpack-plugin'
 
@@ -17,7 +17,7 @@ import {
   sourceMaps,
   when,
   customConfig,
-  babel,
+
 } from 'webpack-blocks'
 
 import {
@@ -29,6 +29,7 @@ import {
   assets,
   proxy,
   sentry,
+  babel,
 } from './presets'
 
 module.exports = createConfig([
@@ -46,6 +47,15 @@ module.exports = createConfig([
       path.resolve(`${process.env.SOURCES_PATH}/app`),
       'node_modules',
     ],
+    alias: {
+      'react-dom': process.env.NODE_ENV !== 'development' ? 'react-dom' : '@hot-loader/react-dom',
+      '@ds-frontend/cache': 'ds-frontend/packages/cache',
+      '@ds-frontend/api': 'ds-frontend/packages/api',
+      '@ds-frontend/i18n': 'ds-frontend/packages/i18n',
+      '@ds-frontend/queryParams': 'ds-frontend/packages/queryParams',
+      '@ds-frontend/redux-helpers': 'ds-frontend/packages/redux-helpers',
+      '@ds-frontend/resource': 'ds-frontend/packages/resource',
+    },
     extensions: ['.js', '.jsx', '.json', '.css', '.sass', '.scss'],
   }),
 
@@ -62,16 +72,12 @@ module.exports = createConfig([
   setEnv([
     // pass env values to compile environment
     'API_URL', 'AUTH_HEADER', 'MAIN_HOST',
-    'CACHE_STATE_KEYS', 'STORAGE_KEY', 'SENTRY_DSN', 'SENTRY_ENVIRONMENT',
+    'CACHE_STATE_KEYS', 'STORAGE_KEY', 'SENTRY_DSN', 'SENTRY_ENVIRONMENT', 'CACHE_STATE_PERSIST_KEYS', 'LIMIT',
   ]),
 
   addPlugins([
     // clean distribution folder before compile
-    new CleanWebpackPlugin([process.env.OUTPUT_PATH], {
-      root: __dirname,
-      // can't use `true` here (see: https://github.com/johnagan/clean-webpack-plugin/issues/92)
-      beforeEmit: process.env.NODE_ENV !== 'development',
-    }),
+    new CleanWebpackPlugin(),
   ]),
 
   customConfig({
@@ -99,17 +105,11 @@ module.exports = createConfig([
       clientLogLevel: 'info', // FIXME move to VERBOSE mode (add loglevel/verbose option)
       stats: 'minimal',
       host: process.env.DEV_SERVER_HOST,
-
-      /*
-      setup: function(app) {
-        app.use(morgan('dev'))
-      },
-      */
-
       allowedHosts: [
         '.localhost',
         `.${process.env.MAIN_HOST}`,
       ],
+      hot: true,
     }),
     sourceMaps('eval-source-map'),
 

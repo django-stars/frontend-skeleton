@@ -1,8 +1,30 @@
 import { Route, Redirect, Switch } from 'react-router-dom'
-import set from 'lodash/set'
 import isEmpty from 'lodash/isEmpty'
 import { CheckAccess } from 'common/session'
+import PropTypes from 'prop-types'
 
+RouteRecursive.propTypes = {
+  access: PropTypes.number,
+  layout: PropTypes.elementType,
+  component: PropTypes.elementType,
+  routes: PropTypes.array,
+  redirectTo: PropTypes.string,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    state: PropTypes.object,
+  }),
+  match: PropTypes.object,
+}
+
+RouteRecursive.defaultProps = {
+  access: undefined,
+  layout: undefined,
+  component: undefined,
+  routes: undefined,
+  redirectTo: undefined,
+  match: undefined,
+  location: undefined,
+}
 
 export default function RouteRecursive({ access, layout: Layout, component: Component, routes, redirectTo, ...route }) {
   let renderRoute = null
@@ -32,10 +54,6 @@ export default function RouteRecursive({ access, layout: Layout, component: Comp
       }
       return <Redirect to={newPath} />
     }
-  }
-
-  if(route.name) {
-    set(route, 'location.state.name', route.name)
   }
 
   let rendered = (

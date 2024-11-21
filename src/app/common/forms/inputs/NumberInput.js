@@ -12,33 +12,31 @@ NumberInput.propTypes = {
     PropTypes.number,
     PropTypes.string,
   ]),
+  onChange: PropTypes.func.isRequired,
 }
+
 NumberInput.defaultProps = {
   inputClassName: 'input-custom',
+  placeholder: '',
+  pattern: '###',
+  required: false,
+  disabled: false,
+  value: '',
+  name: undefined,
 }
 
 export default function NumberInput({
   onChange,
   inputClassName,
-  placeholder,
-  pattern,
-  required,
-  disabled,
-  name,
-  value,
+  ...props
 }) {
   const handleChange = useCallback((e) => onChange(e.target.value), [onChange])
   return (
     <input
+      {...props}
       type='number'
-      name={name}
       className={inputClassName}
-      placeholder={placeholder}
-      pattern={pattern}
       onChange={handleChange}
-      required={required}
-      disabled={disabled}
-      value={value}
     />
   )
 }

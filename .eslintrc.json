@@ -41,12 +41,20 @@
       "block": { "exceptions": ["*"], "markers": ["/"], "balanced": true }
     }],
     "space-before-function-paren": ["error", { "anonymous": "never", "named": "never", "asyncArrow": "always" }],
+    "prefer-promise-reject-errors": ["off"],
     "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 0, "maxBOF": 0 }],
     "no-unused-vars": ["error", {"args": "none"}],
     "object-curly-spacing": ["error", "always"],
     "react/react-in-jsx-scope": "off",
-    "react/prop-types": ["off"],
     "react/jsx-uses-vars": ["error"],
-    "react/display-name": ["off", { "ignoreTranspilerName": true }]
+    "react/prop-types": ["error"],
+    "react/require-default-props": ["error"],
+    "react/display-name": ["off", { "ignoreTranspilerName": true }],
+    "jsx-quotes": ["error", "prefer-double"],
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "block", "next": "*" },
+      { "blankLine": "always", "prev": "block-like", "next": "*" }
+    ]
   }
 }

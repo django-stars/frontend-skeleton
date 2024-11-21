@@ -40,7 +40,7 @@ function makeProxyContext(paths, targetUrl) {
 
     // http -> httpS proxy settings
     changeOrigin: true,
-    // headers: { host: urlData.host },
+    headers: { host: urlData.host, referer: urlData.origin },
 
     auth: urlData.auth,
     target: urlData.protocol + '//' + urlData.host,
