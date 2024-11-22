@@ -9,7 +9,7 @@ export default function(config) {
     match(['*node_modules*.css'], [
       css({
         styleLoader: {
-          insertAt: 'top',
+          insert: insertAtTop,
         },
       }),
     ]),
@@ -39,4 +39,19 @@ export default function(config) {
       ]),
     ]),
   ])
+}
+
+function insertAtTop(element) {
+  const parent = document.querySelector('head')
+  const lastInsertedElement = window._lastElementInsertedByStyleLoader
+
+  if(!lastInsertedElement) {
+    parent.insertBefore(element, parent.firstChild)
+  } else if(lastInsertedElement.nextSibling) {
+    parent.insertBefore(element, lastInsertedElement.nextSibling)
+  } else {
+    parent.appendChild(element)
+  }
+
+  window._lastElementInsertedByStyleLoader = element
 }
